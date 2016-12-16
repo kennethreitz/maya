@@ -7,7 +7,9 @@ with different locales on different systems. This library exists to make the sim
 The Usage
 ---------
 
-Just playing with an API here::
+Just playing with an API here:
+
+.. code-block:: pycon
 
     >>> now = maya.now()
     <MayaDT epoch=1481850660.9>
