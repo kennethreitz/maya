@@ -24,10 +24,15 @@ Just playing with an API here::
     >>> tomorrow.datetime()
     datetime.datetime(2016, 12, 16, 15, 11, 30, 263350, tzinfo=<UTC>)
 
-    >>> tomorrow.year
-    2016
+    >>> rand_day = maya.when('2011-02-07', timezone='US/Eastern')
+    <MayaDT epoch=1297036800.0>
 
-    >>> tomorrow.microseconds
-    263350
+    # Note how this is the 6th, not the 7th.
+    >>> rand_day.day
+    6
+
+    # Always.
+    >>> rand_day.timezone
+    <UTC>
 
 Timezones fit in here somewhere...

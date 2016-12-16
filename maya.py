@@ -66,7 +66,6 @@ class MayaDT(object):
     def timezone(self):
         return pytz.timezone(self._timezone)
 
-
     def iso8601(self):
         return '{}Z'.format(self.datetime().isoformat())
 
@@ -94,8 +93,8 @@ def now():
     epoch = time.time()
     return MayaDT(epoch=epoch)
 
-def when(string):
-    dt = dateparser.parse(string)
+def when(string, timezone='UTC'):
+    dt = dateparser.parse(string, settings={'TIMEZONE': timezone})
     if dt is None:
         raise ValueError('invalid datetime input specified.')
     epoch = (dt - Datetime(*__epoch_start)).total_seconds()
