@@ -25,6 +25,14 @@ class SimpleTest(unittest.TestCase):
         d2 = maya.now().datetime(to_timezone='US/Eastern')
         assert d1.hour - d2.hour == 5
 
+    def test_dt_tz_naive(self):
+        d1 = maya.now().datetime(naive=True)
+        assert d1.tzinfo is None
+
+        d2 = maya.now().datetime(to_timezone='US/Eastern')
+        assert d2.tzinfo == maya.now().timezone
+        assert d1.hour - d2.hour == 5
+
 
 
 
