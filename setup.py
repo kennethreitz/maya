@@ -7,12 +7,17 @@ import sys
 from setuptools import setup
 
 
-
 if sys.argv[-1] == "publish":
     os.system("python setup.py sdist bdist_wheel upload")
     sys.exit()
 
-required = []
+required = [
+    'humanize',
+    'pytz',
+    'dateparser',
+    'iso8601',
+    'dateutil.parser'
+]
 
 setup(
     name='maya',
@@ -22,7 +27,7 @@ setup(
     author='Kenneth Reitz',
     author_email='me@kennethreitz.com',
     url='https://github.com/kennethreitz/maya',
-    my_modules= ['maya'],
+    my_modules=['maya'],
     install_requires=required,
     license='MIT',
     classifiers=(
