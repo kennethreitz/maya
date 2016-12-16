@@ -2,10 +2,12 @@ Maya: Datetime for Humans™
 ==========================
 
 Datetimes are very frustrating to work with in Python, especially when dealing
-with different locales on different systems. This library exists to
+with different locales on different systems. This library exists to make the simple things easier, while admitting that time (especially timezones) are an illusion, and should be interacted with via an API for humans (not machines).
 
+The Usage
+---------
 
-Note that outputs are fuzzy and made up, just playing with an API here::
+Just playing with an API here::
 
     >>> now = maya.now()
     <MayaDT epoch=1481850660.9>
@@ -22,4 +24,4 @@ Note that outputs are fuzzy and made up, just playing with an API here::
     >>> tomorrow.datetime()
     datetime.datetime(2016, 12, 16, 15, 11, 30, 263350)
 
-Timezones fit in here somewhere.
+Timezones fit in here somewhere...
