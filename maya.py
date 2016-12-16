@@ -16,6 +16,7 @@ from datetime import datetime as Datetime
 import pytz
 import humanize
 import dateparser
+import iso8601
 
 __epoch_start = (1970, 1, 1)
 
@@ -29,12 +30,23 @@ class MayaDT(object):
     def __repr__(self):
         return '<MayaDT epoch={}>'.format(self._epoch)
 
+    @staticmethod
+    def __dt_to_epoch(dt):
+        epoch_start = Datetime(*__epoch_start, tzinfo=pytz.timezone('UTC'))
+        return (dt - epoch_start).total_seconds()
+
+    @classmethod
+    def from_datetime(klass, dt):
+        return klass(klass.__dt_to_epoch(dt))
+
     def datetime(self, to_timezone=None):
+        """Returns a timezone-aware datetime...
+        Defaulting to UTC (as it should).
 
-        # self.timezone.localize(dt)
-
+        Keyword Arguments:
+            to_timezone {string} -- timezone to convert to (default: {None/UTC})
+        """
         if to_timezone:
-
             return self.datetime().astimezone(pytz.timezone(to_timezone))
 
         dt = Datetime.utcfromtimestamp(self._epoch)
@@ -102,7 +114,8 @@ def when(string, timezone='UTC'):
     if dt is None:
         raise ValueError('invalid datetime input specified.')
 
-    epoch_start = Datetime(*__epoch_start, tzinfo=pytz.timezone('UTC'))
-    epoch = (dt - epoch_start).total_seconds()
+    return MayaDT.from_datetime(dt)
 
-    return MayaDT(epoch)
+def from_iso8601(string):
+    dt = iso8601.parse_date(string)
+    return MayaDT.from_datetime(dt)
