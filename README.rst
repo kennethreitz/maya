@@ -22,6 +22,6 @@ Just playing with an API here::
     'Fri, 16 Dec 2016 20:11:30 -0000'
 
     >>> tomorrow.datetime()
-    datetime.datetime(2016, 12, 16, 15, 11, 30, 263350)
+    datetime.datetime(2016, 12, 16, 15, 11, 30, 263350, tzinfo=<UTC>)
 
 Timezones fit in here somewhere...
