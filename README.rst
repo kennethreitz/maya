@@ -35,4 +35,11 @@ Just playing with an API here::
     >>> rand_day.timezone
     <UTC>
 
-Timezones fit in here somewhere...
+Timezones fit more in here somewhere...
+
+
+Notes
+-----
+
+- This library is based around epoch time, so dates before Jan 1 1970 are not supported. You'll live.
+- Don't panic, and always carry a towel.
