@@ -24,4 +24,10 @@ Just playing with an API here::
     >>> tomorrow.datetime()
     datetime.datetime(2016, 12, 16, 15, 11, 30, 263350, tzinfo=<UTC>)
 
+    >>> tomorrow.year
+    2016
+
+    >>> tomorrow.microseconds
+    263350
+
 Timezones fit in here somewhere...
