@@ -29,6 +29,9 @@ class MayaDT(object):
     def iso8601(self):
         return '{}Z'.format(self.datetime().isoformat())
 
+    def epoch(self):
+        return self._epoch
+
     def rfc2822(self):
         tt = self.datetime().timetuple()
         ts = time.mktime(tt)
@@ -44,7 +47,9 @@ def now():
     epoch = time.time()
     return MayaDT(epoch=epoch)
 
-def parse(string):
+def when(string):
     dt = dateparser.parse(string)
+    if dt is None:
+        raise ValueError('invalid datetime input specified.')
     epoch = (dt - Datetime(1970, 1, 1)).total_seconds()
     return MayaDT(epoch)
