@@ -105,9 +105,7 @@ class MayaDT(object):
         return humanize.naturaldate(self.datetime())
 
     def rfc2822(self):
-        tt = self.datetime().timetuple()
-        ts = email.utils.mktime_tz(tt, pytz.utc)
-        return email.utils.formatdate(ts)
+        return email.utils.formatdate(self.epoch(), usegmt=True)
 
 
 def now():
@@ -130,8 +128,6 @@ def from_iso8601(string):
 
 def from_rfc2822(string):
     # dt = Datetime.fromtimestamp(email.utils.mktime_tz(email.utils.parsedate_tz(string)), pytz.utc)
-    print string
     from dateutil.parser import parse
     dt = parse(string)
-    dt = pytz.utc.localize(dt)
     return MayaDT.from_datetime(dt)
