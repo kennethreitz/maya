@@ -22,49 +22,56 @@ __epoch_start = (1970, 1, 1)
 class MayaDT(object):
     """The Maya Datetime object."""
 
-    def __init__(self, epoch, timezone='UTC'):
+    def __init__(self, epoch):
         super(MayaDT, self).__init__()
-        self._timezone = timezone
         self._epoch = epoch
 
     def __repr__(self):
         return '<MayaDT epoch={}>'.format(self._epoch)
 
-    def datetime(self):
-        dt = Datetime.fromtimestamp(self._epoch)
+    def datetime(self, to_timezone=None):
+
+        # self.timezone.localize(dt)
+
+        if to_timezone:
+
+            return self.datetime().astimezone(pytz.timezone(to_timezone))
+
+        dt = Datetime.utcfromtimestamp(self._epoch)
         return dt.replace(tzinfo=self.timezone)
+
 
     @property
     def year(self):
-        self.datetime().year
+        return self.datetime().year
 
     @property
     def month(self):
-        self.datetime().month
+        return self.datetime().month
 
     @property
     def day(self):
-        self.datetime().day
+        return self.datetime().day
 
     @property
     def hour(self):
-        self.datetime().hour
+        return self.datetime().hour
 
     @property
     def minute(self):
-        self.datetime().minute
+        return self.datetime().minute
 
     @property
     def second(self):
-        self.datetime().second
+        return self.datetime().second
 
     @property
     def microsecond(self):
-        self.datetime().microsecond
+        return self.datetime().microsecond
 
     @property
     def timezone(self):
-        return pytz.timezone(self._timezone)
+        return pytz.timezone('UTC')
 
     def iso8601(self):
         return '{}Z'.format(self.datetime().isoformat())
@@ -84,18 +91,18 @@ class MayaDT(object):
         return email.utils.formatdate(ts)
 
 
-    def adjust(adjustment, positive=True):
-        pass
-
-
 def now():
     """Returns MayaDT for right now."""
-    epoch = time.time()
+    epoch = time.time() + time.timezone
     return MayaDT(epoch=epoch)
 
 def when(string, timezone='UTC'):
-    dt = dateparser.parse(string, settings={'TIMEZONE': timezone})
+    dt = dateparser.parse(string, settings={'TIMEZONE': timezone, 'RETURN_AS_TIMEZONE_AWARE': True, 'TO_TIMEZONE': 'UTC'})
+
     if dt is None:
         raise ValueError('invalid datetime input specified.')
-    epoch = (dt - Datetime(*__epoch_start)).total_seconds()
+
+    epoch_start = Datetime(*__epoch_start, tzinfo=pytz.timezone('UTC'))
+    epoch = (dt - epoch_start).total_seconds()
+
     return MayaDT(epoch)
