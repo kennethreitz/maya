@@ -29,11 +29,17 @@ class SimpleTest(unittest.TestCase):
         d1 = maya.now().datetime(naive=True)
         assert d1.tzinfo is None
 
-        d2 = maya.now().datetime(to_timezone='US/Eastern')
-        assert d2.tzinfo == maya.now().timezone
+        d2 = maya.now().datetime(to_timezone='US/Eastern', naive=True)
+        assert d2.tzinfo is None
         assert d1.hour - d2.hour == 5
 
+    def test_random_date(self):
+        d = maya.when('11-17-11')
+        assert d.year == 2011
+        assert d.month == 11
+        assert d.day == 17
 
+# rand_day = maya.when('2011-02-07', timezone='US/Eastern')
 
 
 if __name__ == "__main__":
