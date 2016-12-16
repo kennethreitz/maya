@@ -37,6 +37,11 @@ Just playing with an API here:
     >>> rand_day.timezone
     <UTC>
 
+    # Automatically parse datetime strings and generate naive datetimes.
+    >>> scraped = '2016-12-16 18:23:45.423992+00:00'
+    >>> maya.parse(scraped).datetime(to_timezone='US/Eastern', naive=True)
+    datetime.datetime(2016, 12, 16, 13, 23, 45, 423992)
+
 Timezones fit more in here somewhere...
 
 

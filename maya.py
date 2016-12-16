@@ -40,6 +40,16 @@ class MayaDT(object):
     def from_datetime(klass, dt):
         return klass(klass.__dt_to_epoch(dt))
 
+    @classmethod
+    def from_iso8601(klass, string):
+    # import from dateutil.parser import parse
+        dt = iso8601.parse_date(string)
+        return klass.from_datetime(dt)
+
+    @staticmethod
+    def from_rfc2822(string):
+        return parse(string)
+
     def datetime(self, to_timezone=None, naive=False):
         """Returns a timezone-aware datetime...
         Defaulting to UTC (as it should).
@@ -48,9 +58,9 @@ class MayaDT(object):
             to_timezone {string} -- timezone to convert to (default: {None/UTC})
         """
         if to_timezone:
-            return self.datetime().astimezone(pytz.timezone(to_timezone))
-
-        dt = Datetime.utcfromtimestamp(self._epoch)
+            dt = self.datetime().astimezone(pytz.timezone(to_timezone))
+        else:
+            dt = Datetime.utcfromtimestamp(self._epoch)
 
         # Strip the timezone info if requested to do so.
         if naive:
@@ -121,14 +131,6 @@ def when(string, timezone='UTC'):
         raise ValueError('invalid datetime input specified.')
 
     return MayaDT.from_datetime(dt)
-
-def from_iso8601(string):
-    # import from dateutil.parser import parse
-    dt = iso8601.parse_date(string)
-    return MayaDT.from_datetime(dt)
-
-def from_rfc2822(string):
-    return parse(string)
 
 def parse(string):
     dt = dateutil.parser.parse(string)
