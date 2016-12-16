@@ -19,7 +19,7 @@ Note that outputs are fuzzy and made up, just playing with an API here::
     >>> tomorrrow.rfc2822()
     'Fri, 16 Dec 2016 20:11:30 -0000'
 
-    >>> tomorrow.datetime
+    >>> tomorrow.datetime()
     datetime.datetime(2016, 12, 16, 15, 11, 30, 263350)
 
 Timezones fit in here somewhere.
