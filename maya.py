@@ -106,7 +106,7 @@ class MayaDT(object):
 
     def rfc2822(self):
         tt = self.datetime().timetuple()
-        ts = time.mktime(tt)
+        ts = email.utils.mktime_tz(tt, pytz.utc)
         return email.utils.formatdate(ts)
 
 
@@ -126,4 +126,12 @@ def when(string, timezone='UTC'):
 def from_iso8601(string):
     # import from dateutil.parser import parse
     dt = iso8601.parse_date(string)
+    return MayaDT.from_datetime(dt)
+
+def from_rfc2822(string):
+    # dt = Datetime.fromtimestamp(email.utils.mktime_tz(email.utils.parsedate_tz(string)), pytz.utc)
+    print string
+    from dateutil.parser import parse
+    dt = parse(string)
+    dt = pytz.utc.localize(dt)
     return MayaDT.from_datetime(dt)
