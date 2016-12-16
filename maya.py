@@ -93,7 +93,7 @@ class MayaDT(object):
 
 def now():
     """Returns MayaDT for right now."""
-    epoch = time.time() + time.timezone
+    epoch = time.time()
     return MayaDT(epoch=epoch)
 
 def when(string, timezone='UTC'):
