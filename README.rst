@@ -2,7 +2,7 @@ Maya: Datetime for Humans™
 ==========================
 
 Datetimes are very frustrating to work with in Python, especially when dealing
-with different locales on different systems. This library exists to make the simple things easier, while admitting that time (especially timezones) are an illusion, and should be interacted with via an API for humans (not machines).
+with different locales on different systems. This library exists to make the simple things easier, while admitting that time is an illusion (timezones doubly so), and should be interacted with via an API for humans (not machines).
 
 The Usage
 ---------
