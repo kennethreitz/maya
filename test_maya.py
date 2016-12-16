@@ -20,6 +20,13 @@ class SimpleTest(unittest.TestCase):
 
         assert r2.day - r1.day == 1
 
+    def test_dt_tz_translation(self):
+        d1 = maya.now().datetime()
+        d2 = maya.now().datetime(to_timezone='US/Eastern')
+        assert d1.hour - d2.hour == 5
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
