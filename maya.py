@@ -79,10 +79,10 @@ class MayaDT(object):
     def epoch(self):
         return self._epoch
 
-    def human_date(self):
+    def slang_date(self):
         return humanize.naturaldate(self.datetime())
 
-    def human_time(self):
+    def slang_time(self):
         return humanize.naturaldate(self.datetime())
 
     def rfc2822(self):
