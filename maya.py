@@ -17,6 +17,7 @@ import pytz
 import humanize
 import dateparser
 import iso8601
+import dateutil.parser
 
 EPOCH_START = (1970, 1, 1)
 
@@ -127,7 +128,8 @@ def from_iso8601(string):
     return MayaDT.from_datetime(dt)
 
 def from_rfc2822(string):
-    # dt = Datetime.fromtimestamp(email.utils.mktime_tz(email.utils.parsedate_tz(string)), pytz.utc)
-    from dateutil.parser import parse
-    dt = parse(string)
+    return parse(string)
+
+def parse(string):
+    dt = dateutil.parser.parse(string)
     return MayaDT.from_datetime(dt)
