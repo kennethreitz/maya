@@ -16,7 +16,7 @@ required = [
     'pytz',
     'dateparser',
     'iso8601',
-    'dateutil.parser'
+    'python-dateutil'
 ]
 
 setup(
