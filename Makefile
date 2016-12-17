@@ -1,2 +1,2 @@
 tests:
-	pytest
+	pytest test_maya.py
