@@ -75,4 +75,4 @@ Maya hasn't been released yet, but will be very soon!
 ☤ Like it?
 ----------
 
-`Say Thanks!<https://saythanks.io/to/kennethreitz>`_
+`Say Thanks<https://saythanks.io/to/kennethreitz>`_!
