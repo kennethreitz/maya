@@ -8,6 +8,9 @@ simple things **much** easier, while admitting that time is an illusion
 
 Datetimes should be interacted with via an API written for humans.
 
+Maya is mostly built around the headaches and use-cases around parsing datetime data from websites.
+
+
 ☤ Basic Usage of Maya
 ---------------------
 
@@ -51,8 +54,6 @@ Behold, datetimes for humans!
     # Always.
     >>> rand_day.timezone
     UTC
-
-
 
 ☤ Why is this useful?
 ---------------------
