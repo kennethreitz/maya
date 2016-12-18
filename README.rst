@@ -70,7 +70,7 @@ Behold, datetimes for humans!
 ☤ What about Delorean, Arrow, & Pendulum?
 -----------------------------------------
 
-Arrow, for example, is a fantastic library, but isn't what I wanted in a datetime library. In many ways, it's better than Maya for certian things, in some ways, in my opinion, it's not.
+Arrow, for example, is a fantastic library, but isn't what I wanted in a datetime library. In many ways, it's better than Maya for certian things. In some ways, in my opinion, it's not.
 
 I simply desire a sane API for datetimes that made sense to me for all the things I'd ever want to do—especially when dealing with timezone algebra. Arrow doesn't do all of the things I need (but it does a lot more!). Maya does do exactly what I need.
 
