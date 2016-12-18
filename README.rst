@@ -8,10 +8,10 @@ simple things **much** easier, while admitting that time is an illusion
 
 Datetimes should be interacted with via an API written for humans.
 
-The Usage
----------
+Basic Usage of Maya
+-------------------
 
-Just playing with an API here:
+Behold, datetimes for humans!
 
 .. code-block:: pycon
 
@@ -50,12 +50,12 @@ Just playing with an API here:
 
     # Always.
     >>> rand_day.timezone
-    <UTC>
+    UTC
 
 
 
-Why is this useful?
--------------------
+☤ Why is this useful?
+---------------------
 
 - All timezone algebra will behave identically on all machines, regardless of system locale. 
 - Complete symmetric import and export of both ISO 8601 and RFC 2822 datetime stamps.
