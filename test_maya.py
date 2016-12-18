@@ -41,4 +41,14 @@ def test_random_date():
     assert d.month == 11
     assert d.day == 17
 
+
+def test_slang_date():
+    d = maya.when('tomorrow')
+    assert d.slang_date() == 'tomorrow'
+
+
+def test_slang_time():
+    d = maya.when('one hour ago')
+    assert d.slang_time() == 'an hour ago'
+
 # rand_day = maya.when('2011-02-07', timezone='US/Eastern')
