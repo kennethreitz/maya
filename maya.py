@@ -18,6 +18,7 @@ import humanize
 import dateparser
 import iso8601
 import dateutil.parser
+from tzlocal import get_localzone
 
 EPOCH_START = (1970, 1, 1)
 
@@ -34,6 +35,14 @@ class MayaDT(object):
     def __format__(self, *args, **kwargs):
         """Return's the datetime's format"""
         return self.datetime(*args, **kwargs)
+
+    @property
+    def local_timezone(self):
+        return self._local_tz.zone
+
+    @property
+    def _local_tz(self):
+        return get_localzone()
 
     @staticmethod
     def __dt_to_epoch(dt):
@@ -73,7 +82,7 @@ class MayaDT(object):
         if naive:
             return dt.replace(tzinfo=None)
 
-        return dt.replace(tzinfo=self.timezone)
+        return dt.replace(tzinfo=self._tz)
 
 
     @property
@@ -105,9 +114,13 @@ class MayaDT(object):
         return self.datetime().microsecond
 
     @property
+    def _tz(self):
+        return pytz.timezone(self.timezone)
+
+    @property
     def timezone(self):
         """Timezone. Always UTC."""
-        return pytz.timezone('UTC')
+        return 'UTC'
 
     def iso8601(self):
         # Get a timezone-naive datetime.
@@ -121,7 +134,8 @@ class MayaDT(object):
         return humanize.naturaldate(self.datetime())
 
     def slang_time(self):
-        return humanize.naturaldate(self.datetime())
+        dt = self.datetime(naive=True, to_timezone=self.local_timezone)
+        return humanize.naturaltime(dt)
 
     def rfc2822(self):
         return email.utils.formatdate(self.epoch(), usegmt=True)
