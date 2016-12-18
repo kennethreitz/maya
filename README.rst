@@ -68,7 +68,9 @@ Behold, datetimes for humans!
 ☤ Installing Maya
 -----------------
 
-Maya hasn't been released yet, but will be very soon!
+.. code-block:: bash
+
+    pip install maya
 
 ✨🍰✨
 
