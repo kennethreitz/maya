@@ -20,6 +20,9 @@ Just playing with an API here:
     >>> tomorrow.slang_date()
     'tomorrow'
 
+    >>> tomorrow.slang_time()
+    '23 hours from now'
+
     >>> tomorrow.iso8601()
     '2016-12-16T15:11:30.263350Z'
 
