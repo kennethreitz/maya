@@ -17,6 +17,9 @@ Just playing with an API here:
     >>> tomorrow = maya.when('tomorrow')
     <MayaDT epoch=1481919067.23>
 
+    >>> tomorrow.slang_date()
+    'tomorrow'
+
     >>> tomorrow.iso8601()
     '2016-12-16T15:11:30.263350Z'
 
