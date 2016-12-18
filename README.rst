@@ -30,7 +30,7 @@ Behold, datetimes for humans!
     >>> tomorrow.iso8601()
     '2016-12-16T15:11:30.263350Z'
 
-    >>> tomorrrow.rfc2822()
+    >>> tomorrow.rfc2822()
     'Fri, 16 Dec 2016 20:11:30 -0000'
 
     >>> tomorrow.datetime()
