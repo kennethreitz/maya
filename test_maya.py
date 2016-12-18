@@ -58,4 +58,9 @@ def test_slang_time():
     d = maya.when('one hour ago')
     assert d.slang_time() == 'an hour ago'
 
+
+def test_format():
+    d = maya.parse('February 21, 1994')
+    assert format(d) == format(d.datetime())
+
 # rand_day = maya.when('2011-02-07', timezone='US/Eastern')
