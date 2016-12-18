@@ -36,12 +36,27 @@ class MayaDT(object):
         """Return's the datetime's format"""
         return self.datetime(*args, **kwargs)
 
+    # Timezone Crap
+    # -------------
+
+    @property
+    def timezone(self):
+        """Returns the UTC tzinfo name. It's always UTC. Always."""
+        return 'UTC'
+
+    @property
+    def _tz(self):
+        """Returns the UTC tzinfo object."""
+        return pytz.timezone(self.timezone)
+
     @property
     def local_timezone(self):
+        """Returns the name of the local timezone, for informational purposes."""
         return self._local_tz.zone
 
     @property
     def _local_tz(self):
+        """Returns the local timezone."""
         return get_localzone()
 
     @staticmethod
@@ -49,6 +64,9 @@ class MayaDT(object):
         """Converts a datetime into an epoch."""
         epoch_start = Datetime(*EPOCH_START, tzinfo=pytz.timezone('UTC'))
         return (dt - epoch_start).total_seconds()
+
+    # Importers
+    # ---------
 
     @classmethod
     def from_datetime(klass, dt):
@@ -66,12 +84,16 @@ class MayaDT(object):
         """Returns MayaDT instance from rfc2822 string."""
         return parse(string)
 
+    # Exporters
+    # ---------
+
     def datetime(self, to_timezone=None, naive=False):
         """Returns a timezone-aware datetime...
         Defaulting to UTC (as it should).
 
         Keyword Arguments:
-            to_timezone {string} -- timezone to convert to (default: {None/UTC})
+            to_timezone {string} -- timezone to convert to (default: None/UTC)
+            naive {boolean} -- if True, the tzinfo is simply dropped (default: False)
         """
         if to_timezone:
             dt = self.datetime().astimezone(pytz.timezone(to_timezone))
@@ -84,6 +106,18 @@ class MayaDT(object):
 
         return dt.replace(tzinfo=self._tz)
 
+    def iso8601(self):
+        """Returns an ISO 8601 representation of the MayaDT."""
+        # Get a timezone-naive datetime.
+        dt = self.datetime(naive=True)
+        return '{}Z'.format(dt.isoformat())
+
+    def rfc2822(self):
+        """Returns an RFC 2822 representation of the MayaDT."""
+        return email.utils.formatdate(self.epoch, usegmt=True)
+
+    # Properties
+    # ----------
 
     @property
     def year(self):
@@ -114,39 +148,42 @@ class MayaDT(object):
         return self.datetime().microsecond
 
     @property
-    def _tz(self):
-        return pytz.timezone(self.timezone)
-
-    @property
-    def timezone(self):
-        """Timezone. Always UTC."""
-        return 'UTC'
-
-    def iso8601(self):
-        # Get a timezone-naive datetime.
-        dt = self.datetime(naive=True)
-        return '{}Z'.format(dt.isoformat())
-
     def epoch(self):
         return self._epoch
 
+    # Human Slang Extras
+    # ------------------
+
     def slang_date(self):
+        """"Returns human slang representation of date."""
         return humanize.naturaldate(self.datetime())
 
     def slang_time(self):
+        """"Returns human slang representation of time."""
         dt = self.datetime(naive=True, to_timezone=self.local_timezone)
         return humanize.naturaltime(dt)
 
-    def rfc2822(self):
-        return email.utils.formatdate(self.epoch(), usegmt=True)
+
 
 
 def now():
-    """Returns MayaDT for right now."""
+    """Returns a MayaDT instance for this exact moment."""
     epoch = time.time()
     return MayaDT(epoch=epoch)
 
 def when(string, timezone='UTC'):
+    """"Returns a MayaDT instance for the human moment specified.
+
+    Powered by dateparser. Useful for scraping websites.
+
+    Examples:
+        'next week', 'now', 'tomorrow', '300 years ago', 'August 14, 2015'
+
+    Keyword Arguments:
+        string -- string to be parsed
+        timezone -- timezone referenced from (default: 'UTC')
+
+    """
     dt = dateparser.parse(string, settings={'TIMEZONE': timezone, 'RETURN_AS_TIMEZONE_AWARE': True, 'TO_TIMEZONE': 'UTC'})
 
     if dt is None:
@@ -155,5 +192,12 @@ def when(string, timezone='UTC'):
     return MayaDT.from_datetime(dt)
 
 def parse(string):
+    """"Returns a MayaDT instance for the machine-produced moment specified.
+
+    Powered by dateutil. Accepts most known formats. Useful for working with data.
+
+    Keyword Arguments:
+        string -- string to be parsed
+    """
     dt = dateutil.parser.parse(string)
     return MayaDT.from_datetime(dt)
