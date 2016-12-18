@@ -50,5 +50,5 @@ Timezones fit more in here somewhere...
 Notes
 -----
 
-- This library is based around epoch time, so dates before Jan 1 1970 are not supported. You'll live.
+- This library is based around epoch time, but dates before Jan 1 1970 are indeed supported, via negative integers.
 - Don't panic, and always carry a towel.
