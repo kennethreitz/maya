@@ -21,7 +21,7 @@ required = [
 
 setup(
     name='maya',
-    version='0.1.0',
+    version='0.1.1',
     description='Datetimes for Humans.',
     long_description=open('README.rst').read(),
     author='Kenneth Reitz',

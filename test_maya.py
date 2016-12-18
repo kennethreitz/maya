@@ -63,8 +63,6 @@ def test_print_date(capsys):
     out, err = capsys.readouterr()
     assert out == '<MayaDT epoch=1321488000.0>\n'
 
-    assert type(d.__format__()) is datetime
-
 
 def test_invalid_date():
     with pytest.raises(ValueError):
@@ -83,6 +81,6 @@ def test_slang_time():
 
 def test_format():
     d = maya.parse('February 21, 1994')
-    assert format(d) == format(d.datetime())
+    assert format(d) == '1994-02-21 00:00:00+00:00'
 
 # rand_day = maya.when('2011-02-07', timezone='US/Eastern')

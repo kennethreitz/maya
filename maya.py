@@ -34,7 +34,7 @@ class MayaDT(object):
 
     def __format__(self, *args, **kwargs):
         """Return's the datetime's format"""
-        return format(self.datetime(*args, **kwargs))
+        return format(self.datetime(), *args, **kwargs)
 
     # Timezone Crap
     # -------------
