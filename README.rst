@@ -30,7 +30,7 @@ Behold, datetimes for humans!
     >>> tomorrow.iso8601()
     '2016-12-16T15:11:30.263350Z'
 
-    >>> tomorrrow.rfc2822()
+    >>> tomorrow.rfc2822()
     'Fri, 16 Dec 2016 20:11:30 -0000'
 
     >>> tomorrow.datetime()
@@ -60,10 +60,10 @@ Behold, datetimes for humans!
 - All timezone algebra will behave identically on all machines, regardless of system locale.
 - Complete symmetric import and export of both ISO 8601 and RFC 2822 datetime stamps.
 - Fantastic parsing of both dates written for/by humans and machines (``maya.when()`` vs ``maya.parse()``).
-- Support for human slang, both import and export (e.g. `an hour ago`).
-- Datetimes can very easily be generated, with our without tzinfo attached.
+- Support for human slang, both import and export (e.g. `an hour ago`). 
+- Datetimes can very easily be generated, with or without tzinfo attached.
 - This library is based around epoch time, but dates before Jan 1 1970 are indeed supported, via negative integers.
-- Maya never panics, and always carrys a towel.
+- Maya never panics, and always carries a towel.
 
 ☤ Installing Maya
 -----------------
@@ -73,3 +73,8 @@ Installation is easy, with pip::
     $ pip install maya
 
 ✨🍰✨
+
+☤ Like it?
+----------
+
+`Say Thanks <https://saythanks.io/to/kennethreitz>`_!

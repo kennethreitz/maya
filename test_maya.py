@@ -1,3 +1,6 @@
+import pytest
+from datetime import datetime
+
 import maya
 
 
@@ -43,10 +46,29 @@ def test_dt_tz_naive():
 
 
 def test_random_date():
-    d = maya.when('11-17-11')
+    d = maya.when('11-17-11 08:09:10')
     assert d.year == 2011
     assert d.month == 11
     assert d.day == 17
+    assert d.hour == 8
+    assert d.minute == 9
+    assert d.second == 10
+    assert d.microsecond == 0
+
+
+def test_print_date(capsys):
+    d = maya.when('11-17-11')
+
+    print(d)
+    out, err = capsys.readouterr()
+    assert out == '<MayaDT epoch=1321488000.0>\n'
+
+    assert type(d.__format__()) is datetime
+
+
+def test_invalid_date():
+    with pytest.raises(ValueError):
+        d = maya.when('another day')
 
 
 def test_slang_date():
@@ -57,5 +79,10 @@ def test_slang_date():
 def test_slang_time():
     d = maya.when('one hour ago')
     assert d.slang_time() == 'an hour ago'
+
+
+def test_format():
+    d = maya.parse('February 21, 1994')
+    assert format(d) == format(d.datetime())
 
 # rand_day = maya.when('2011-02-07', timezone='US/Eastern')
