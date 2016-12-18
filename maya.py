@@ -31,23 +31,30 @@ class MayaDT(object):
     def __repr__(self):
         return '<MayaDT epoch={}>'.format(self._epoch)
 
+    def __format__(self, *args, **kwargs):
+        """Return's the datetime's format"""
+        return self.datetime(*args, **kwargs)
+
     @staticmethod
     def __dt_to_epoch(dt):
+        """Converts a datetime into an epoch."""
         epoch_start = Datetime(*EPOCH_START, tzinfo=pytz.timezone('UTC'))
         return (dt - epoch_start).total_seconds()
 
     @classmethod
     def from_datetime(klass, dt):
+        """Returns MayaDT instance from datetime."""
         return klass(klass.__dt_to_epoch(dt))
 
     @classmethod
     def from_iso8601(klass, string):
-    # import from dateutil.parser import parse
+        """Returns MayaDT instance from iso8601 string."""
         dt = iso8601.parse_date(string)
         return klass.from_datetime(dt)
 
     @staticmethod
     def from_rfc2822(string):
+        """Returns MayaDT instance from rfc2822 string."""
         return parse(string)
 
     def datetime(self, to_timezone=None, naive=False):
@@ -99,6 +106,7 @@ class MayaDT(object):
 
     @property
     def timezone(self):
+        """Timezone. Always UTC."""
         return pytz.timezone('UTC')
 
     def iso8601(self):
