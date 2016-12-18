@@ -2,9 +2,9 @@ Maya: Datetime for Humans™
 ==========================
 
 Datetimes are very frustrating to work with in Python, especially when dealing
-with different locales on different systems. This library exists to make the 
-simple things **much** easier, while admitting that time is an illusion 
-(timezones doubly so). 
+with different locales on different systems. This library exists to make the
+simple things **much** easier, while admitting that time is an illusion
+(timezones doubly so).
 
 Datetimes should be interacted with via an API written for humans.
 
@@ -57,10 +57,10 @@ Behold, datetimes for humans!
 ☤ Why is this useful?
 ---------------------
 
-- All timezone algebra will behave identically on all machines, regardless of system locale. 
+- All timezone algebra will behave identically on all machines, regardless of system locale.
 - Complete symmetric import and export of both ISO 8601 and RFC 2822 datetime stamps.
 - Fantastic parsing of both dates written for/by humans and machines (``maya.when()`` vs ``maya.parse()``).
-- Support for human slang, both import and export (e.g. `an hour ago`). 
+- Support for human slang, both import and export (e.g. `an hour ago`).
 - Datetimes can very easily be generated, with our without tzinfo attached.
 - This library is based around epoch time, but dates before Jan 1 1970 are indeed supported, via negative integers.
 - Maya never panics, and always carrys a towel.
@@ -68,6 +68,8 @@ Behold, datetimes for humans!
 ☤ Installing Maya
 -----------------
 
-Maya hasn't been released yet, but will be very soon!
+Installation is easy, with pip::
+
+    $ pip install maya
 
 ✨🍰✨
