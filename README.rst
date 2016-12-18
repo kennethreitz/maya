@@ -66,6 +66,17 @@ Behold, datetimes for humans!
 - This library is based around epoch time, but dates before Jan 1 1970 are indeed supported, via negative integers.
 - Maya never panics, and always carries a towel.
 
+
+☤ What about Delorean, Arrow, & Pendulum?
+-----------------------------------------
+
+Arrow, for example, is a fantastic library, but isn't what I wanted in a datetime library. In many ways, it's better than Maya for certian things, in some ways, in my opinion, it's not.
+
+I simply desire a sane API for datetimes that made sense to me for all the things I'd ever want to do. Arrow doesn't do all of those things. Maya does.
+
+I think these projects compliment each-other, personally. Maya is great for parsing websites, for example. Arrow supports floors and ceilings and spans of dates, which Maya does not at all.
+
+
 ☤ Installing Maya
 -----------------
 
