@@ -19,6 +19,13 @@ def test_human_when():
 
     assert r2.day - r1.day == 1
 
+def test_machine_parse():
+    r1 = maya.parse('August 14, 2015')
+    assert r1.day == 14
+
+    r2 = maya.parse('August 15, 2015')
+    assert r2.day == 15
+
 
 def test_dt_tz_translation():
     d1 = maya.now().datetime()

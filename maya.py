@@ -62,6 +62,11 @@ class MayaDT(object):
     @staticmethod
     def __dt_to_epoch(dt):
         """Converts a datetime into an epoch."""
+
+        # Assume UTC if no datetime is provided.
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=pytz.utc)
+
         epoch_start = Datetime(*EPOCH_START, tzinfo=pytz.timezone('UTC'))
         return (dt - epoch_start).total_seconds()
 
