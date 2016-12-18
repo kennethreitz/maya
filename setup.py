@@ -21,7 +21,7 @@ required = [
 
 setup(
     name='maya',
-    version='0.0.0',
+    version='0.1.0',
     description='Datetimes for Humans.',
     long_description=open('README.rst').read(),
     author='Kenneth Reitz',
@@ -31,5 +31,6 @@ setup(
     install_requires=required,
     license='MIT',
     classifiers=(
+
     ),
 )
