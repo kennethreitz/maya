@@ -8,8 +8,8 @@ simple things **much** easier, while admitting that time is an illusion
 
 Datetimes should be interacted with via an API written for humans.
 
-Basic Usage of Maya
--------------------
+☤ Basic Usage of Maya
+---------------------
 
 Behold, datetimes for humans!
 
