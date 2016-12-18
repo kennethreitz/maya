@@ -54,12 +54,13 @@ Just playing with an API here:
 
 
 
-Notes
------
+Why is this useful?
+-------------------
 
 - All timezone algebra will behave identically on all machines, regardless of system locale. 
 - Complete symmetric import and export of both ISO 8601 and RFC 2822 datetime stamps.
 - Fantastic parsing of both dates written for/by humans and machines (``maya.when()`` vs ``maya.parse()``).
 - Support for human slang, both import and export (e.g. `an hour ago`). 
+- Datetimes can very easily be generated, with our without tzinfo attached.
 - This library is based around epoch time, but dates before Jan 1 1970 are indeed supported, via negative integers.
 - Don't panic, and always carry a towel.
