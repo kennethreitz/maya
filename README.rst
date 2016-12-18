@@ -65,4 +65,8 @@ Behold, datetimes for humans!
 - This library is based around epoch time, but dates before Jan 1 1970 are indeed supported, via negative integers.
 - Don't panic, and always carry a towel.
 
+☤ Installing Maya
+-----------------
+
+Maya hasn't been released yet, but will be very soon!
 ✨🍰✨
