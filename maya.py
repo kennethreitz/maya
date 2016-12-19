@@ -196,14 +196,14 @@ def when(string, timezone='UTC'):
 
     return MayaDT.from_datetime(dt)
 
-def parse(string, dayfirst=False):
+def parse(string, day_first=False):
     """"Returns a MayaDT instance for the machine-produced moment specified.
 
     Powered by dateutil. Accepts most known formats. Useful for working with data.
 
     Keyword Arguments:
         string -- string to be parsed
-        dayfirst -- if true, the first value in date string (e.g. 01/05/2016) is parsed as day; otherwise it is parsed as month (default: False)    
+        day_first -- if true, the first value (e.g. 01/05/2016) is parsed as day (default: False)
     """
-    dt = dateutil.parser.parse(string, dayfirst=dayfirst)
+    dt = dateutil.parser.parse(string, dayfirst=day_first)
     return MayaDT.from_datetime(dt)
