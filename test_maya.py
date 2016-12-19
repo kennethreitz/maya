@@ -83,4 +83,10 @@ def test_format():
     d = maya.parse('February 21, 1994')
     assert format(d) == '1994-02-21 00:00:00+00:00'
 
+    d = maya.parse('01/05/2016')
+    assert format(d) == '2016-01-05 00:00:00+00:00'
+
+    d = maya.parse('01/05/2016', dayfirst=True)
+    assert format(d) == '2016-05-01 00:00:00+00:00'
+
 # rand_day = maya.when('2011-02-07', timezone='US/Eastern')
