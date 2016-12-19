@@ -17,6 +17,7 @@ required = [
     'dateparser',
     'iso8601',
     'python-dateutil'
+    'ruamel.yaml'
 ]
 
 setup(
