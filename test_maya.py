@@ -89,4 +89,8 @@ def test_format():
     d = maya.parse('01/05/2016', day_first=True)
     assert format(d) == '2016-05-01 00:00:00+00:00'
 
+def test_datetime_to_timezone():
+    dt = maya.when('2016-01-01').datetime(to_timezone='US/Eastern')
+    assert dt.tzinfo.zone == 'US/Eastern'
+
 # rand_day = maya.when('2011-02-07', timezone='US/Eastern')
