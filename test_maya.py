@@ -79,7 +79,7 @@ def test_slang_time():
     assert d.slang_time() == 'an hour ago'
 
 
-def test_format():
+def test_parse():
     d = maya.parse('February 21, 1994')
     assert format(d) == '1994-02-21 00:00:00+00:00'
 
