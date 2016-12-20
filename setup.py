@@ -7,8 +7,14 @@ import codecs
 
 from setuptools import setup
 
+try:
+    # Python 3
+    from os import dirname
+except ImportError:
+    # Python 2
+    from os.path import dirname
 
-here = os.path.abspath(os.dirname(__file__))
+here = os.path.abspath(dirname(__file__))
 
 def read(*parts):
     return codecs.open(os.path.join(here, *parts), 'r').read()
