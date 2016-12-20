@@ -5,7 +5,7 @@ Maya: Datetime for Humans™
     :target: https://pypi.python.org/pypi/maya
 
 .. image:: https://travis-ci.org/kennethreitz/maya.svg?branch=master
-    :target: https://travis-ci.org/kennethreitz/requests
+    :target: https://travis-ci.org/kennethreitz/maya
 
 .. image:: https://img.shields.io/badge/SayThanks.io-☼-1EAEDB.svg
     :target: https://saythanks.io/to/kennethreitz
