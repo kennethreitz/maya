@@ -16,7 +16,7 @@ required = [
     'pytz',
     'dateparser',
     'iso8601',
-    'python-dateutil'
+    'python-dateutil',
     'ruamel.yaml'
 ]
 
