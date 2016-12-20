@@ -104,12 +104,16 @@ class MayaDT(object):
             dt = self.datetime().astimezone(pytz.timezone(to_timezone))
         else:
             dt = Datetime.utcfromtimestamp(self._epoch)
+            dt.replace(tzinfo=self._tz)
 
         # Strip the timezone info if requested to do so.
         if naive:
             return dt.replace(tzinfo=None)
+        else:
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=self._tz)
 
-        return dt.replace(tzinfo=self._tz)
+        return dt
 
     def iso8601(self):
         """Returns an ISO 8601 representation of the MayaDT."""
