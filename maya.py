@@ -20,7 +20,7 @@ import iso8601
 import dateutil.parser
 from tzlocal import get_localzone
 
-EPOCH_START = (1970, 1, 1)
+_EPOCH_START = (1970, 1, 1)
 
 class MayaDT(object):
     """The Maya Datetime object."""
@@ -67,7 +67,7 @@ class MayaDT(object):
         if dt.tzinfo is None:
             dt = dt.replace(tzinfo=pytz.utc)
 
-        epoch_start = Datetime(*EPOCH_START, tzinfo=pytz.timezone('UTC'))
+        epoch_start = Datetime(*_EPOCH_START, tzinfo=pytz.timezone('UTC'))
         return (dt - epoch_start).total_seconds()
 
     # Importers
