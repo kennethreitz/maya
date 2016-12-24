@@ -1,5 +1,6 @@
 import pytest
 from datetime import datetime
+import copy
 
 import maya
 
@@ -93,4 +94,28 @@ def test_parse():
 def test_datetime_to_timezone():
     dt = maya.when('2016-01-01').datetime(to_timezone='US/Eastern')
     assert dt.tzinfo.zone == 'US/Eastern'
+
+
+def test_comparison_operations():
+    now = maya.now()
+    now_copy = copy.deepcopy(now)
+    tomorrow = maya.when('tomorrow')
+
+    assert (now == now_copy) is True
+    assert (now == tomorrow) is False
+
+    assert (now != now_copy) is False
+    assert (now != tomorrow) is True
+
+    assert (now < now_copy) is False
+    assert (now < tomorrow) is True
+
+    assert (now <= now_copy) is True
+    assert (now <= tomorrow) is True
+
+    assert (now > now_copy) is False
+    assert (now > tomorrow) is False
+
+    assert (now >= now_copy) is True
+    assert (now >= tomorrow) is False
 
