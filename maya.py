@@ -141,6 +141,15 @@ class MayaDT(object):
         return self.datetime().day
 
     @property
+    def week(self):
+        return self.datetime().isocalendar()[1]
+
+    @property
+    def weekday(self):
+        """Return the day of the week as an integer. Monday is 1 and Sunday is 7"""
+        return self.datetime().isoweekday()
+
+    @property
     def hour(self):
         return self.datetime().hour
 
