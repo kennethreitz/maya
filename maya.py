@@ -22,6 +22,20 @@ from tzlocal import get_localzone
 
 _EPOCH_START = (1970, 1, 1)
 
+
+def validate_type_mayadt(func):
+    """
+    Decorator to validate all the arguments to function
+    are of type `MayaDT`
+    """
+    def inner(*args, **kwargs):
+        for arg in args + tuple(kwargs.values()):
+            if not isinstance(arg, MayaDT):
+                raise ValueError("Operation allowed only on object of type '{}'".format(MayaDT.__name__))
+        return func(*args, **kwargs)
+    return inner
+
+
 class MayaDT(object):
     """The Maya Datetime object."""
 
@@ -35,6 +49,35 @@ class MayaDT(object):
     def __format__(self, *args, **kwargs):
         """Return's the datetime's format"""
         return format(self.datetime(), *args, **kwargs)
+
+    @validate_type_mayadt
+    def __sub__(self, maya_dt):
+        return MayaDT(self._epoch - maya_dt._epoch)
+
+    @validate_type_mayadt
+    def __eq__(self, maya_dt):
+        return self._epoch == maya_dt._epoch
+
+    @validate_type_mayadt
+    def __ne__(self, maya_dt):
+        return not self.__eq__(maya_dt)
+
+    @validate_type_mayadt
+    def __lt__(self, maya_dt):
+        return self._epoch < maya_dt._epoch
+
+    @validate_type_mayadt
+    def __le__(self, maya_dt):
+        return self.__lt__(maya_dt) or self.__eq__(maya_dt)
+
+    @validate_type_mayadt
+    def __gt__(self, maya_dt):
+        return self._epoch > maya_dt._epoch
+
+    @validate_type_mayadt
+    def __ge__(self, maya_dt):
+        return self.__gt__(maya_dt) or self.__eq__(maya_dt)
+
 
     # Timezone Crap
     # -------------
