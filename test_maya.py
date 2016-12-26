@@ -6,14 +6,16 @@ import maya
 
 
 def test_rfc2822():
-    r = maya.now().rfc2822()
+    r = maya.parse('February 21, 1994').rfc2822()
     d = maya.MayaDT.from_rfc2822(r)
+    assert r == 'Mon, 21 Feb 1994 00:00:00 GMT'
     assert r == d.rfc2822()
 
 
 def test_iso8601():
-    r = maya.now().iso8601()
+    r = maya.parse('February 21, 1994').iso8601()
     d = maya.MayaDT.from_iso8601(r)
+    assert r == '1994-02-21T00:00:00Z'
     assert r == d.iso8601()
 
 
