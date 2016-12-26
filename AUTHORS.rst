@@ -1,12 +1,14 @@
+Contributions to the maya project
+=================================
 
-# Contributions to the maya project
-
-## Creator & Maintainer
+Creator & Maintainer
+--------------------
 
 - Kenneth Reitz <me@kennethreitz.org> `@kennethreitz <https://github.com/kennethreitz>`_
 
 
-## Contributors
+Contributors
+------------
 
 In chronological order:
 
