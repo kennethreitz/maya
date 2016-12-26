@@ -1,5 +1,4 @@
 import pytest
-from datetime import datetime
 import copy
 
 import maya
@@ -22,6 +21,7 @@ def test_human_when():
     r2 = maya.when('today')
 
     assert r2.day - r1.day == 1
+
 
 def test_machine_parse():
     r1 = maya.parse('August 14, 2015')
@@ -119,3 +119,18 @@ def test_comparison_operations():
     assert (now >= now_copy) is True
     assert (now >= tomorrow) is False
 
+
+def test_weekday():
+    dt = maya.parse('February 21, 1994')
+    assert dt.weekday == 1  # was a Monday
+
+    dt = maya.parse('February 29, 1992')
+    assert dt.weekday == 6  # was a Saturday
+
+
+def test_week():
+    dt = maya.parse('February 21, 1994')
+    assert dt.week == 8
+
+    dt = maya.parse('May 29, 1992')
+    assert dt.week == 22
