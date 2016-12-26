@@ -213,7 +213,8 @@ class MayaDT(object):
 
     def slang_date(self):
         """"Returns human slang representation of date."""
-        return humanize.naturaldate(self.datetime())
+        dt = self.datetime(naive=True, to_timezone=self.local_timezone)
+        return humanize.naturaldate(dt)
 
     def slang_time(self):
         """"Returns human slang representation of time."""
