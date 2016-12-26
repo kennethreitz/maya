@@ -23,19 +23,6 @@ from tzlocal import get_localzone
 _EPOCH_START = (1970, 1, 1)
 
 
-def validate_type_mayadt(func):
-    """
-    Decorator to validate all the arguments to function
-    are of type `MayaDT`
-    """
-    def inner(*args, **kwargs):
-        for arg in args + tuple(kwargs.values()):
-            if not isinstance(arg, MayaDT):
-                raise ValueError("Operation allowed only on object of type '{}'".format(MayaDT.__name__))
-        return func(*args, **kwargs)
-    return inner
-
-
 class MayaDT(object):
     """The Maya Datetime object."""
 
@@ -50,29 +37,47 @@ class MayaDT(object):
         """Return's the datetime's format"""
         return format(self.datetime(), *args, **kwargs)
 
-    @validate_type_mayadt
     def __eq__(self, maya_dt):
-        return self._epoch == maya_dt._epoch
+        try:
+            return self._epoch == maya_dt._epoch
+        except AttributeError:
+            raise TypeError('unorderable types: {}() == {}()'.format(
+                type(self).__name__, type(maya_dt).__name__))
 
-    @validate_type_mayadt
     def __ne__(self, maya_dt):
-        return not self.__eq__(maya_dt)
+        try:
+            return self._epoch != maya_dt._epoch
+        except AttributeError:
+            raise TypeError('unorderable types: {}() != {}()'.format(
+                type(self).__name__, type(maya_dt).__name__))
 
-    @validate_type_mayadt
     def __lt__(self, maya_dt):
-        return self._epoch < maya_dt._epoch
+        try:
+            return self._epoch < maya_dt._epoch
+        except AttributeError:
+            raise TypeError('unorderable types: {}() < {}()'.format(
+                type(self).__name__, type(maya_dt).__name__))
 
-    @validate_type_mayadt
     def __le__(self, maya_dt):
-        return self.__lt__(maya_dt) or self.__eq__(maya_dt)
+        try:
+            return self._epoch <= maya_dt._epoch
+        except AttributeError:
+            raise TypeError('unorderable types: {}() <= {}()'.format(
+                type(self).__name__, type(maya_dt).__name__))
 
-    @validate_type_mayadt
     def __gt__(self, maya_dt):
-        return self._epoch > maya_dt._epoch
+        try:
+            return self._epoch > maya_dt._epoch
+        except AttributeError:
+            raise TypeError('unorderable types: {}() > {}()'.format(
+                type(self).__name__, type(maya_dt).__name__))
 
-    @validate_type_mayadt
     def __ge__(self, maya_dt):
-        return self.__gt__(maya_dt) or self.__eq__(maya_dt)
+        try:
+            return self._epoch >= maya_dt._epoch
+        except AttributeError:
+            raise TypeError('unorderable types: {}() >= {}()'.format(
+                type(self).__name__, type(maya_dt).__name__))
 
 
     # Timezone Crap
