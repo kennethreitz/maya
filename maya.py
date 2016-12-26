@@ -51,10 +51,6 @@ class MayaDT(object):
         return format(self.datetime(), *args, **kwargs)
 
     @validate_type_mayadt
-    def __sub__(self, maya_dt):
-        return MayaDT(self._epoch - maya_dt._epoch)
-
-    @validate_type_mayadt
     def __eq__(self, maya_dt):
         return self._epoch == maya_dt._epoch
 
