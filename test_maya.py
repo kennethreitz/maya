@@ -36,7 +36,7 @@ def test_machine_parse():
 def test_dt_tz_translation():
     d1 = maya.now().datetime()
     d2 = maya.now().datetime(to_timezone='US/Eastern')
-    assert d1.hour - d2.hour == 5
+    assert (d1.hour - d2.hour) % 24 == 5
 
 
 def test_dt_tz_naive():
@@ -45,7 +45,7 @@ def test_dt_tz_naive():
 
     d2 = maya.now().datetime(to_timezone='US/Eastern', naive=True)
     assert d2.tzinfo is None
-    assert d1.hour - d2.hour == 5
+    assert (d1.hour - d2.hour) % 24 == 5
 
 
 def test_random_date():
