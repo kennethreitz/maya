@@ -39,9 +39,12 @@ def validate_type_mayadt(func):
 class MayaDT(object):
     """The Maya Datetime object."""
 
+    __slots__ = ('_epoch', '_datetime')
+
     def __init__(self, epoch):
         super(MayaDT, self).__init__()
         self._epoch = epoch
+        self._datetime = Datetime.utcfromtimestamp(self._epoch).replace(tzinfo=self._tz)
 
     def __repr__(self):
         return '<MayaDT epoch={}>'.format(self._epoch)
@@ -51,7 +54,7 @@ class MayaDT(object):
 
     def __format__(self, *args, **kwargs):
         """Return's the datetime's format"""
-        return format(self.datetime(), *args, **kwargs)
+        return format(self._datetime, *args, **kwargs)
 
     @validate_type_mayadt
     def __eq__(self, maya_dt):
@@ -143,10 +146,9 @@ class MayaDT(object):
             naive {boolean} -- if True, the tzinfo is simply dropped (default: False)
         """
         if to_timezone:
-            dt = self.datetime().astimezone(pytz.timezone(to_timezone))
+            dt = self._datetime.astimezone(pytz.timezone(to_timezone))
         else:
-            dt = Datetime.utcfromtimestamp(self._epoch)
-            dt.replace(tzinfo=self._tz)
+            dt = self._datetime
 
         # Strip the timezone info if requested to do so.
         if naive:
@@ -172,40 +174,40 @@ class MayaDT(object):
 
     @property
     def year(self):
-        return self.datetime().year
+        return self._datetime.year
 
     @property
     def month(self):
-        return self.datetime().month
+        return self._datetime.month
 
     @property
     def day(self):
-        return self.datetime().day
+        return self._datetime.day
 
     @property
     def week(self):
-        return self.datetime().isocalendar()[1]
+        return self._datetime.isocalendar()[1]
 
     @property
     def weekday(self):
         """Return the day of the week as an integer. Monday is 1 and Sunday is 7"""
-        return self.datetime().isoweekday()
+        return self._datetime.isoweekday()
 
     @property
     def hour(self):
-        return self.datetime().hour
+        return self._datetime.hour
 
     @property
     def minute(self):
-        return self.datetime().minute
+        return self._datetime.minute
 
     @property
     def second(self):
-        return self.datetime().second
+        return self._datetime.second
 
     @property
     def microsecond(self):
-        return self.datetime().microsecond
+        return self._datetime.microsecond
 
     @property
     def epoch(self):
@@ -216,7 +218,7 @@ class MayaDT(object):
 
     def slang_date(self):
         """"Returns human slang representation of date."""
-        return humanize.naturaldate(self.datetime())
+        return humanize.naturaldate(self._datetime)
 
     def slang_time(self):
         """"Returns human slang representation of time."""
@@ -224,12 +226,11 @@ class MayaDT(object):
         return humanize.naturaltime(dt)
 
 
-
-
 def now():
     """Returns a MayaDT instance for this exact moment."""
     epoch = time.time()
     return MayaDT(epoch=epoch)
+
 
 def when(string, timezone='UTC'):
     """"Returns a MayaDT instance for the human moment specified.
@@ -250,6 +251,7 @@ def when(string, timezone='UTC'):
         raise ValueError('invalid datetime input specified.')
 
     return MayaDT.from_datetime(dt)
+
 
 def parse(string, day_first=False):
     """"Returns a MayaDT instance for the machine-produced moment specified.
