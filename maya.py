@@ -46,6 +46,9 @@ class MayaDT(object):
     def __repr__(self):
         return '<MayaDT epoch={}>'.format(self._epoch)
 
+    def __str__(self):
+        return self.rfc2822()
+
     def __format__(self, *args, **kwargs):
         """Return's the datetime's format"""
         return format(self.datetime(), *args, **kwargs)

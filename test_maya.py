@@ -80,7 +80,9 @@ def test_print_date(capsys):
 
     print(d)
     out, err = capsys.readouterr()
-    assert out == '<MayaDT epoch=1321488000.0>\n'
+
+    assert out == 'Thu, 17 Nov 2011 00:00:00 GMT\n'
+    assert repr(d) == '<MayaDT epoch=1321488000.0>'
 
 
 def test_invalid_date():
