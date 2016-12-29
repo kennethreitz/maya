@@ -36,7 +36,7 @@ def test_machine_parse():
 def test_dt_tz_translation():
     d1 = maya.now().datetime()
     d2 = maya.now().datetime(to_timezone='US/Eastern')
-    assert d1.hour - d2.hour == 5
+    assert (d1.hour - d2.hour) % 24 == 5
 
 
 def test_dt_tz_naive():
@@ -45,18 +45,34 @@ def test_dt_tz_naive():
 
     d2 = maya.now().datetime(to_timezone='US/Eastern', naive=True)
     assert d2.tzinfo is None
-    assert d1.hour - d2.hour == 5
+    assert (d1.hour - d2.hour) % 24 == 5
 
 
 def test_random_date():
-    d = maya.when('11-17-11 08:09:10')
-    assert d.year == 2011
-    assert d.month == 11
-    assert d.day == 17
-    assert d.hour == 8
-    assert d.minute == 9
-    assert d.second == 10
-    assert d.microsecond == 0
+
+    # Test properties for maya.when()
+    d1 = maya.when('11-17-11 08:09:10')
+    assert d1.year == 2011
+    assert d1.month == 11
+    assert d1.day == 17
+    assert d1.week == 46
+    assert d1.weekday == 4
+    assert d1.hour == 8
+    assert d1.minute == 9
+    assert d1.second == 10
+    assert d1.microsecond == 0
+
+    # Test properties for maya.parse()
+    d2 = maya.parse('February 29, 1992 13:12:34')
+    assert d2.year == 1992
+    assert d2.month == 2
+    assert d2.day == 29
+    assert d2.week == 9
+    assert d2.weekday == 6
+    assert d2.hour == 13
+    assert d2.minute == 12
+    assert d2.second == 34
+    assert d2.microsecond == 0
 
 
 def test_print_date(capsys):
@@ -64,7 +80,9 @@ def test_print_date(capsys):
 
     print(d)
     out, err = capsys.readouterr()
-    assert out == '<MayaDT epoch=1321488000.0>\n'
+
+    assert out == 'Thu, 17 Nov 2011 00:00:00 GMT\n'
+    assert repr(d) == '<MayaDT epoch=1321488000.0>'
 
 
 def test_invalid_date():
@@ -120,19 +138,3 @@ def test_comparison_operations():
 
     assert (now >= now_copy) is True
     assert (now >= tomorrow) is False
-
-
-def test_weekday():
-    dt = maya.parse('February 21, 1994')
-    assert dt.weekday == 1  # was a Monday
-
-    dt = maya.parse('February 29, 1992')
-    assert dt.weekday == 6  # was a Saturday
-
-
-def test_week():
-    dt = maya.parse('February 21, 1994')
-    assert dt.week == 8
-
-    dt = maya.parse('May 29, 1992')
-    assert dt.week == 22

@@ -16,8 +16,9 @@ except ImportError:
 
 here = os.path.abspath(dirname(__file__))
 
-def read(*parts):
-    return codecs.open(os.path.join(here, *parts), 'r').read()
+with codecs.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = '\n' + f.read()
+
 
 if sys.argv[-1] == "publish":
     os.system("python setup.py sdist bdist_wheel upload")
@@ -37,7 +38,7 @@ setup(
     name='maya',
     version='0.1.4',
     description='Datetimes for Humans.',
-    long_description= '\n' + read('README.rst'),
+    long_description=long_description,
     author='Kenneth Reitz',
     author_email='me@kennethreitz.com',
     url='https://github.com/kennethreitz/maya',
