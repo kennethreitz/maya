@@ -138,3 +138,17 @@ def test_comparison_operations():
 
     assert (now >= now_copy) is True
     assert (now >= tomorrow) is False
+
+    # Check Exceptions
+    with pytest.raises(TypeError):
+        now == 1
+    with pytest.raises(TypeError):
+        now != 1
+    with pytest.raises(TypeError):
+        now < 1
+    with pytest.raises(TypeError):
+        now <= 1
+    with pytest.raises(TypeError):
+        now > 1
+    with pytest.raises(TypeError):
+        now >= 1
