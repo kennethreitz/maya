@@ -19,3 +19,4 @@ In chronological order:
 - Tzu-ping Chung <uranusjr@gmail.com> (`@uranusjr <https://github.com/uranusjr>`_)
 - aaronjeline (`@aaronjeline <https://github.com/aaronjeline>`_)
 - jerry2yu (`@jerry2yu <https://github.com/jerry2yu>`_)
+- Joshua Li <joshua.r.li.98@gmail.com> (`@JoshuaRLi <https://github.com/JoshuaRLi>`_)
