@@ -22,7 +22,7 @@ def test_human_when():
     r1 = maya.when('yesterday')
     r2 = maya.when('today')
 
-    assert r2.day - r1.day == 1
+    assert (r2.day - r1.day) in (1, -30, -29, -28, -27)
 
 
 def test_machine_parse():
