@@ -7,7 +7,7 @@ Maya: Datetime for Humans™
 .. image:: https://travis-ci.org/kennethreitz/maya.svg?branch=master
     :target: https://travis-ci.org/kennethreitz/maya
 
-.. image:: https://img.shields.io/badge/SayThanks.io-☼-1EAEDB.svg
+.. image:: https://img.shields.io/badge/SayThanks!-🦉-1EAEDB.svg
     :target: https://saythanks.io/to/kennethreitz
 
 
