@@ -40,11 +40,17 @@ Behold, datetimes for humans!
     >>> tomorrow.slang_time()
     '23 hours from now'
 
+    # Also: MayaDT.from_iso8601(...)
     >>> tomorrow.iso8601()
-    '2016-12-16T15:11:30.263350Z'
+    '2017-02-10T22:17:01.445418Z'
 
+    # Also: MayaDT.from_rfc2822(...)
     >>> tomorrow.rfc2822()
-    'Fri, 16 Dec 2016 20:11:30 -0000'
+    'Fri, 10 Feb 2017 22:17:01 GMT'
+    
+    # Also: MayaDT.from_rfc3339(...)
+    >>> tomorrow.rfc3339()
+    '2017-02-10T22:17:01.44Z'
 
     >>> tomorrow.datetime()
     datetime.datetime(2016, 12, 16, 15, 11, 30, 263350, tzinfo=<UTC>)
