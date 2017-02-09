@@ -139,6 +139,11 @@ class MayaDT(object):
         """Returns MayaDT instance from rfc2822 string."""
         return parse(string)
 
+    @staticmethod
+    def from_rfc3339(string):
+        """Returns MayaDT instance from rfc3339 string."""
+        return parse(string)
+
     # Exporters
     # ---------
 
@@ -174,6 +179,10 @@ class MayaDT(object):
     def rfc2822(self):
         """Returns an RFC 2822 representation of the MayaDT."""
         return email.utils.formatdate(self.epoch, usegmt=True)
+
+    def rfc3339(self):
+        """Returns an RFC 3339 representation of the MayaDT."""
+        return self.datetime().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-4]+"Z"
 
     # Properties
     # ----------

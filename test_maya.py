@@ -115,6 +115,12 @@ def test_datetime_to_timezone():
     dt = maya.when('2016-01-01').datetime(to_timezone='US/Eastern')
     assert dt.tzinfo.zone == 'US/Eastern'
 
+def test_rfc3339():
+    mdt =  maya.when('2016-01-01')
+    out = mdt.rfc3339()
+    mdt2 = maya.MayaDT.from_rfc3339(out)
+    assert mdt.epoch == mdt2.epoch
+
 
 def test_comparison_operations():
     now = maya.now()
