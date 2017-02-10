@@ -47,7 +47,7 @@ Behold, datetimes for humans!
     # Also: MayaDT.from_rfc2822(...)
     >>> tomorrow.rfc2822()
     'Fri, 10 Feb 2017 22:17:01 GMT'
-    
+
     # Also: MayaDT.from_rfc3339(...)
     >>> tomorrow.rfc3339()
     '2017-02-10T22:17:01.44Z'
@@ -65,7 +65,10 @@ Behold, datetimes for humans!
 
     # Note how this is the 6th, not the 7th.
     >>> rand_day.day
-    6
+    7
+
+    >>> rand_day.add(days=10).day
+    17
 
     # Always.
     >>> rand_day.timezone
