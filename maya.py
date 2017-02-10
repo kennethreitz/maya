@@ -86,11 +86,11 @@ class MayaDT(object):
 
     def add(self, **kwargs):
         """"Returns a new MayaDT object with the given offsets."""
-        self.from_datetime(pendulum.instance(self.datetime()).add(**kwargs))
+        return self.from_datetime(pendulum.instance(self.datetime()).add(**kwargs))
 
     def subtract(self, **kwargs):
         """"Returns a new MayaDT object with the given offsets."""
-        self.from_datetime(pendulum.instance(self.datetime()).subtract(**kwargs))
+        return self.from_datetime(pendulum.instance(self.datetime()).subtract(**kwargs))
 
     # Timezone Crap
     # -------------
