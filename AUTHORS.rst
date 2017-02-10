@@ -20,3 +20,4 @@ In chronological order:
 - aaronjeline (`@aaronjeline <https://github.com/aaronjeline>`_)
 - jerry2yu (`@jerry2yu <https://github.com/jerry2yu>`_)
 - Joshua Li <joshua.r.li.98@gmail.com> (`@JoshuaRLi <https://github.com/JoshuaRLi>`_)
+- Sébastien Eustace <sebastien@eustace.io> (`@sdispater <https://github.com/sdispater>`_)
