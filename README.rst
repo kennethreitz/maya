@@ -63,7 +63,6 @@ Behold, datetimes for humans!
     >>> rand_day = maya.when('2011-02-07', timezone='US/Eastern')
     <MayaDT epoch=1297036800.0>
 
-    # Note how this is the 6th, not the 7th.
     >>> rand_day.day
     7
 
