@@ -16,8 +16,7 @@ from datetime import datetime as Datetime
 import pytz
 import humanize
 import dateparser
-import iso8601
-import dateutil.parser
+import pendulum
 from tzlocal import get_localzone
 
 _EPOCH_START = (1970, 1, 1)
@@ -131,8 +130,7 @@ class MayaDT(object):
     @classmethod
     def from_iso8601(klass, string):
         """Returns MayaDT instance from iso8601 string."""
-        dt = iso8601.parse_date(string)
-        return klass.from_datetime(dt)
+        return parse(string)
 
     @staticmethod
     def from_rfc2822(string):
@@ -272,11 +270,11 @@ def when(string, timezone='UTC'):
 def parse(string, day_first=False):
     """"Returns a MayaDT instance for the machine-produced moment specified.
 
-    Powered by dateutil. Accepts most known formats. Useful for working with data.
+    Powered by pendulum. Accepts most known formats. Useful for working with data.
 
     Keyword Arguments:
         string -- string to be parsed
         day_first -- if true, the first value (e.g. 01/05/2016) is parsed as day (default: False)
     """
-    dt = dateutil.parser.parse(string, dayfirst=day_first)
+    dt = pendulum.parse(string, day_first=day_first)
     return MayaDT.from_datetime(dt)

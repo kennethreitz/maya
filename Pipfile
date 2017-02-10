@@ -2,10 +2,9 @@
 humanize = "*"
 pytz = "*"
 dateparser = "*"
-iso8601 = "*"
-python-dateutil = "*"
 "ruamel.yaml" = "*"
 tzlocal = "*"
+pendulum = ">=1.0"
 
 [dev-packages]
 pytest = "*"

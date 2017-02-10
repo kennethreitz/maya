@@ -28,10 +28,9 @@ required = [
     'humanize',
     'pytz',
     'dateparser',
-    'iso8601',
-    'python-dateutil',
     'ruamel.yaml',
-    'tzlocal'
+    'tzlocal',
+    'pendulum'
 ]
 
 setup(
