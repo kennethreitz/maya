@@ -1,0 +1,102 @@
+{
+    "_meta": {
+        "sources": [
+            {
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ],
+        "requires": {},
+        "hash": {
+            "sha256": "5617ff73ba51e60721267b24dc01e83f33d2a3692870b60e394b0f75ed2dc313"
+        }
+    },
+    "default": {
+        "convertdate": {
+            "hash": "sha256:9c5d8dc984e51789ffaa92e988939ba8734c56ed718a3943998e7832fffa66ed",
+            "version": "==2.1.0"
+        },
+        "dateparser": {
+            "hash": "sha256:bbdb38e35dcf42653bbc88dc8870d0ef7eb5679af64b4f2ffc43d43acd3b24ba",
+            "version": "==0.5.1"
+        },
+        "ephem": {
+            "hash": "sha256:7a4c82b1def2893e02aec0394f108d24adb17bd7b0ca6f4bc78eb7120c0212ac",
+            "version": "==3.7.6.0"
+        },
+        "humanize": {
+            "hash": "sha256:a43f57115831ac7c70de098e6ac46ac13be00d69abbf60bdcac251344785bb19",
+            "version": "==0.5.1"
+        },
+        "jdatetime": {
+            "hash": "sha256:b6bb0bbd822eb0d3f9a55c4e8bfda0ccace3dcfa6d16bdcb29c124ad2ce66335",
+            "version": "==1.8.1"
+        },
+        "pendulum": {
+            "hash": "sha256:2417888ceddbb9c3903317ad321e27b2217aacf4ddcc1993ac3ad4db96f3a701",
+            "version": "==1.0.2"
+        },
+        "python-dateutil": {
+            "hash": "sha256:537bf2a8f8ce6f6862ad705cd68f9e405c0b5db014aa40fa29eab4335d4b1716",
+            "version": "==2.6.0"
+        },
+        "pytz": {
+            "hash": "sha256:a1ea35e87a63c7825846d5b5c81d23d668e8a102d3b1b465ce95afe1b3a2e065",
+            "version": "==2016.10"
+        },
+        "pytzdata": {
+            "hash": "sha256:cf28a9bbb4e7f94ae21f4a3c64439aa44f81d5814fe9989e9ab7374658b6e596",
+            "version": "==2016.10"
+        },
+        "regex": {
+            "hash": "sha256:45b62acff46cb886246e40227a872089d8d4972dbf2f114ec1ae64e5893e87bf",
+            "version": "==2017.02.08"
+        },
+        "ruamel.yaml": {
+            "hash": "sha256:7cfd653648a1d4a635ce7ae254b4dc6ec7df931a5a653c79e627547be5dda71b",
+            "version": "==0.13.13"
+        },
+        "six": {
+            "hash": "sha256:0ff78c403d9bccf5a425a6d31a12aa6b47f1c21ca4dc2573a7e2f32a97335eb1",
+            "version": "==1.10.0"
+        },
+        "tzlocal": {
+            "hash": "sha256:d160c2ce4f8b1831dabfe766bd844cf9012f766539cf84139c2faac5201882ce",
+            "version": "==1.3"
+        },
+        "umalqurra": {
+            "hash": "sha256:719f6a36f908ada1c29dae0d934dd0f1e1f6e3305784edbec23ad719397de678",
+            "version": "==0.2"
+        }
+    },
+    "develop": {
+        "appdirs": {
+            "hash": "sha256:85e58578db8f29538f3109c11250c2a5514a2fcdc9890d9b2fe777eb55517736",
+            "version": "==1.4.0"
+        },
+        "packaging": {
+            "hash": "sha256:99276dc6e3a7851f32027a68f1095cd3f77c148091b092ea867a351811cfe388",
+            "version": "==16.8"
+        },
+        "py": {
+            "hash": "sha256:2d4bba2e25fff58140e6bdce1e485e89bb59776adbe01d490baa6b1f37a3dd6b",
+            "version": "==1.4.32"
+        },
+        "pyparsing": {
+            "hash": "sha256:67101d7acee692962f33dd30b5dce079ff532dd9aa99ff48d52a3dad51d2fe84",
+            "version": "==2.1.10"
+        },
+        "pytest": {
+            "hash": "sha256:da0ab50c7eec0683bc24f1c1137db1f4111752054ecdad63125e7ec71316b813",
+            "version": "==3.0.6"
+        },
+        "setuptools": {
+            "hash": "sha256:5f74aabe68c441b99dca68c22796d5cbf532cb38b0aeada17d1d3988809de6e6",
+            "version": "==34.1.1"
+        },
+        "six": {
+            "hash": "sha256:0ff78c403d9bccf5a425a6d31a12aa6b47f1c21ca4dc2573a7e2f32a97335eb1",
+            "version": "==1.10.0"
+        }
+    }
+}
