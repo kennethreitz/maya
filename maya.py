@@ -84,6 +84,13 @@ class MayaDT(object):
     def __ge__(self, maya_dt):
         return self._epoch >= maya_dt._epoch
 
+    def add(self, **kwargs):
+        """"Returns a new MayaDT object with the given offsets."""
+        self.from_datetime(pendulum.instance(self.datetime()).add(**kwargs))
+
+    def subtract(self, **kwargs):
+        """"Returns a new MayaDT object with the given offsets."""
+        self.from_datetime(pendulum.instance(self.datetime()).subtract(**kwargs))
 
     # Timezone Crap
     # -------------
