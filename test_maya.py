@@ -18,6 +18,50 @@ def test_iso8601():
     assert r == d.iso8601()
 
 
+def test_parse_iso8601():
+    string = '20161001T1430.4+05:30'
+    expected = '2016-10-01T09:00:00.400000Z'
+    d = maya.MayaDT.from_iso8601(string)
+
+    assert expected == d.iso8601()
+
+    string = '2016T14'
+    expected = '2016-01-01T14:00:00Z'
+    d = maya.MayaDT.from_iso8601(string)
+
+    assert expected == d.iso8601()
+
+    string = '2016-10T14'
+    expected = '2016-10-01T14:00:00Z'
+    d = maya.MayaDT.from_iso8601(string)
+
+    assert expected == d.iso8601()
+
+    string = '2012W05'
+    expected = '2012-01-30T00:00:00Z'
+    d = maya.MayaDT.from_iso8601(string)
+
+    assert expected == d.iso8601()
+
+    string = '2012W055'
+    expected = '2012-02-03T00:00:00Z'
+    d = maya.MayaDT.from_iso8601(string)
+
+    assert expected == d.iso8601()
+
+    string = '2012007'
+    expected = '2012-01-07T00:00:00Z'
+    d = maya.MayaDT.from_iso8601(string)
+
+    assert expected == d.iso8601()
+
+    string = '2016-W07T09'
+    expected = '2016-02-15T09:00:00Z'
+    d = maya.MayaDT.from_iso8601(string)
+
+    assert expected == d.iso8601()
+
+
 def test_human_when():
     r1 = maya.when('yesterday')
     r2 = maya.when('today')
