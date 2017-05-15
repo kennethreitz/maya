@@ -79,7 +79,7 @@ def test_machine_parse():
 
 def test_dt_tz_translation():
     d1 = maya.now().datetime()
-    d2 = maya.now().datetime(to_timezone='US/Eastern')
+    d2 = maya.now().datetime(to_timezone='EST')
     assert (d1.hour - d2.hour) % 24 == 5
 
 
@@ -87,7 +87,7 @@ def test_dt_tz_naive():
     d1 = maya.now().datetime(naive=True)
     assert d1.tzinfo is None
 
-    d2 = maya.now().datetime(to_timezone='US/Eastern', naive=True)
+    d2 = maya.now().datetime(to_timezone='EST', naive=True)
     assert d2.tzinfo is None
     assert (d1.hour - d2.hour) % 24 == 5
 
