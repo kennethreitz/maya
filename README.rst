@@ -96,7 +96,7 @@ Arrow, for example, is a fantastic library, but isn't what I wanted in a datetim
 
 I simply desire a sane API for datetimes that made sense to me for all the things I'd ever want to do—especially when dealing with timezone algebra. Arrow doesn't do all of the things I need (but it does a lot more!). Maya does do exactly what I need.
 
-I think these projects complement each-other, personally. Maya is great for parsing websites. For example- Arrow supports floors and ceilings and spans of dates, which Maya does not at all.
+I think these projects complement each-other, personally. Maya is great for parsing websites!
 
 
 ☤ Installing Maya
