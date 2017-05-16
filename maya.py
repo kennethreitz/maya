@@ -11,7 +11,7 @@ warnings.simplefilter('ignore', ruamel.yaml.error.UnsafeLoaderWarning)
 
 import email.utils
 import time
-from datetime import datetime as Datetime
+from datetime import timedelta, datetime as Datetime
 
 import pytz
 import humanize
@@ -285,3 +285,16 @@ def parse(string, day_first=False):
     """
     dt = pendulum.parse(string, day_first=day_first)
     return MayaDT.from_datetime(dt)
+
+def intervals(start, end, interval):
+    """Yields MayaDT objects between the start and end MayaDTs given, at a given interval (seconds or timedelta)."""
+
+    # Convert seconds into timedelta.
+    if isinstance(interval, int):
+        interval = timedelta(seconds=interval)
+
+    current_timestamp = start
+    while current_timestamp.epoch < end.epoch:
+        yield current_timestamp
+        current_timestamp = current_timestamp.add(seconds=interval.seconds)
+
