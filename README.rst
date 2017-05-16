@@ -73,6 +73,10 @@ Behold, datetimes for humans!
     >>> rand_day.timezone
     UTC
 
+    # Range of hours in a day:
+    >>> maya.interval(start=maya.now(), end=maya.now().add(days=1), interval=60*60)
+    <generator object intervals at 0x105ba5820>
+
 ☤ Why is this useful?
 ---------------------
 
