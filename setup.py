@@ -39,7 +39,7 @@ setup(
     description='Datetimes for Humans.',
     long_description=long_description,
     author='Kenneth Reitz',
-    author_email='me@kennethreitz.com',
+    author_email='me@kennethreitz.org',
     url='https://github.com/kennethreitz/maya',
     py_modules=['maya'],
     install_requires=required,
