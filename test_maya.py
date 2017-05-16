@@ -202,3 +202,9 @@ def test_comparison_operations():
         now > 1
     with pytest.raises(TypeError):
         now >= 1
+
+def test_intervals():
+    now = maya.now()
+    tomorrow = now.add(days=1)
+
+    assert len(list(maya.intervals(now, tomorrow, 60*60))) == 24
