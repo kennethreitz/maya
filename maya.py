@@ -314,7 +314,7 @@ class MayaInterval(object):
         self.end = end
 
     def __repr__(self):
-        return '<MayaInterval start={!r0} end={!r1}>'.format(self.start, self.end)
+        return '<MayaInterval start={0!r} end={1!r}>'.format(self.start, self.end)
 
     def iso8601(self):
         """Returns an ISO 8601 representation of the MayaInterval."""
