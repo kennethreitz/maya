@@ -82,7 +82,7 @@ Behold, datetimes for humans!
 
 In addition to timestamps, Maya also includes a wonderfuly powerful ``MayaInterval`` class, which represents a range of time (e.g. an event). With this class, you can perform a multitude of advanced calendar calculations with finese and ease. 
 
-For example::
+For example:
 
 .. code-block:: pycon
 
