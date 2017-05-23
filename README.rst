@@ -77,6 +77,26 @@ Behold, datetimes for humans!
     >>> maya.interval(start=maya.now(), end=maya.now().add(days=1), interval=60*60)
     <generator object intervals at 0x105ba5820>
 
+☤ Advanced Usage of Maya
+------------------------
+
+In addition to timestamps, Maya also includes a wonderfuly powerful ``MayaInterval`` class, which represents a range of time (e.g. an event). With this class, you can perform a multitude of advanced calendar calculations with finese and ease. 
+
+For example:
+
+.. code-block:: pycon
+
+    >>> from maya import MayaInterval
+
+    >>> event_start = maya.now()
+    >>> event_end = event_start.add(hours=1)
+    
+    >>> event = MayaInterval(start=event_start, end=event_end)
+    >>> event
+    
+    
+    
+
 ☤ Why is this useful?
 ---------------------
 
