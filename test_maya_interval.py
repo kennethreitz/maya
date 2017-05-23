@@ -187,7 +187,7 @@ def test_interval_contains(
     )
 
     assert interval1.contains(interval2) is expected
-    assert (interval1 in interval2) is expected
+    assert (interval2 in interval1) is expected
 
 
 @pytest.mark.parametrize('start_doy,end_doy,dt_doy,expected', (

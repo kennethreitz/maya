@@ -476,7 +476,7 @@ class MayaInterval(object):
         if isinstance(item, MayaDT):
             return self.contains_dt(item)
 
-        return item.contains(self)
+        return self.contains(item)
 
     def contains_dt(self, dt):
         return self.start <= dt < self.end
