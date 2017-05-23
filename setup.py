@@ -35,7 +35,7 @@ required = [
 
 setup(
     name='maya',
-    version='0.1.9',
+    version='0.3.0',
     description='Datetimes for Humans.',
     long_description=long_description,
     author='Kenneth Reitz',

@@ -1,5 +1,6 @@
 import pytest
 import copy
+from datetime import timedelta
 
 import maya
 
@@ -208,3 +209,21 @@ def test_intervals():
     tomorrow = now.add(days=1)
 
     assert len(list(maya.intervals(now, tomorrow, 60*60))) == 24
+
+
+def test_dunder_add():
+    now = maya.now()
+    assert now + 1 == now.add(seconds=1)
+    assert now + timedelta(seconds=1) == now.add(seconds=1)
+
+
+def test_dunder_radd():
+    now = maya.now()
+    assert now.add(seconds=1) == now + 1
+    assert now.add(seconds=1) == now + timedelta(seconds=1)
+
+
+def test_dunder_sub():
+    now = maya.now()
+    assert now - 1 == now.subtract(seconds=1)
+    assert now - timedelta(seconds=1) == now.subtract(seconds=1)
