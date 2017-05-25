@@ -88,11 +88,13 @@ For example:
 
     >>> from maya import MayaInterval
 
+    # Create an event that is one hour long, starting now. 
     >>> event_start = maya.now()
     >>> event_end = event_start.add(hours=1)
     
     >>> event = MayaInterval(start=event_start, end=event_end)
-    >>> event
+
+From here, therea a number of methods available to you, which you can use to compare this event to another event.
     
     
     
