@@ -6,16 +6,30 @@ maya.compat
 This module handles import compatibility issues between Python 2 and
 Python 3.
 """
+
 import sys
 
-if sys.version_info < (3, 0):
-    _PY3 = False
-else:
-    _PY3 = True
+# -------
+# Pythons
+# -------
 
-try:
+# Syntax sugar.
+_ver = sys.version_info
+
+#: Python 2.x?
+is_py2 = (_ver[0] == 2)
+
+#: Python 3.x?
+is_py3 = (_ver[0] == 3)
+
+# ---------
+# Specifics
+# ---------
+
+if is_py2:
     cmp = cmp
-except NameError:
+
+elif is_py3:
     def cmp(a, b):
         """
         Compare two objects.
@@ -38,7 +52,7 @@ def comparable(klass):
     relying on C{__cmp__} to implement their comparisons.
     """
     # On Python 2, __cmp__ will just work, so no need to add extra methods:
-    if not _PY3:
+    if not is_py3:
         return klass
 
     def __eq__(self, other):

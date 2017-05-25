@@ -12,6 +12,7 @@ import email.utils
 import time
 from datetime import timedelta, datetime as Datetime
 
+import functools
 import pytz
 import humanize
 import dateparser
@@ -506,7 +507,7 @@ class MayaInterval(object):
 
     @staticmethod
     def flatten(ii):
-        return reduce(lambda reduced, i: (
+        return functools.reduce(lambda reduced, i: (
             (reduced[:-1] + i.combine(reduced[-1]))
             if reduced else [i]
         ), sorted(ii), [])
