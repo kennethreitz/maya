@@ -1,5 +1,5 @@
-Maya: Timestamps for Humans™
-============================
+Maya: Datetimes for Humans™
+===========================
 
 .. image:: https://img.shields.io/pypi/v/maya.svg
     :target: https://pypi.python.org/pypi/maya
