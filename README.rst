@@ -112,11 +112,13 @@ For example:
 ☤ What about Delorean, Arrow, & Pendulum?
 -----------------------------------------
 
+All these project complement eachother, and are friends. Pendulum, for example, helps power Maya's parsing. 
+
 Arrow, for example, is a fantastic library, but isn't what I wanted in a datetime library. In many ways, it's better than Maya for certain things. In some ways, in my opinion, it's not.
 
 I simply desire a sane API for datetimes that made sense to me for all the things I'd ever want to do—especially when dealing with timezone algebra. Arrow doesn't do all of the things I need (but it does a lot more!). Maya does do exactly what I need.
 
-I think these projects complement each-other, personally. Maya is great for parsing websites!
+I think these projects complement each-other, personally. Maya is great for parsing websites, and dealing with calendar events!
 
 
 ☤ Installing Maya
