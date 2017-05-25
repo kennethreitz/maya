@@ -94,7 +94,7 @@ For example:
     
     >>> event = MayaInterval(start=event_start, end=event_end)
 
-From here, therea a number of methods available to you, which you can use to compare this event to another event.
+From here, there a a number of methods available to you, which you can use to compare this event to another event.
     
     
     
