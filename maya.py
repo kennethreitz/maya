@@ -465,7 +465,7 @@ class MayaInterval(object):
             self.start == i.start or
             start <= end
         )
-        if ((either_instant and instant_overlap) or (start < end)):
+        if (either_instant and instant_overlap) or (start < end):
             return MayaInterval(start, end)
 
     def contains(self, i):
