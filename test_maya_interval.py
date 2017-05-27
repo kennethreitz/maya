@@ -34,9 +34,9 @@ def test_interval_requires_2_of_start_end_duration():
 
 
 def test_interval_requires_end_time_after_or_on_start_time():
-    maya.MayaInterval(start=maya.now(), duration=0)
 
     with pytest.raises(ValueError):
+        maya.MayaInterval(start=maya.now(), duration=0)
         maya.MayaInterval(start=maya.now(), duration=-1)
 
 
@@ -464,11 +464,14 @@ def test_interval_flatten_non_overlapping():
 def test_interval_flatten_adjacent():
     step = 2
     max_hour = 20
-    base = maya.now()
-    intervals = [maya.MayaInterval(
-        start=base.add(hours=hour),
-        duration=timedelta(hours=step),
-    ) for hour in range(0, max_hour, step)]
+    base = maya.when('jan/1/2011')
+
+    intervals = [
+        maya.MayaInterval(
+            start=base.add(hours=hour),
+            duration=timedelta(hours=step),
+        ) for hour in range(0, max_hour, step)
+    ]
     random.shuffle(intervals)
 
     assert maya.MayaInterval.flatten(intervals) == [maya.MayaInterval(
