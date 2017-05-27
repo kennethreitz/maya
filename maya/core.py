@@ -66,23 +66,23 @@ class MayaDT(object):
 
     @validate_class_type_arguments('!=')
     def __ne__(self, maya_dt):
-        return self._epoch != maya_dt._epoch
+        return int(self._epoch) != int(maya_dt._epoch)
 
     @validate_class_type_arguments('<')
     def __lt__(self, maya_dt):
-        return self._epoch < maya_dt._epoch
+        return int(self._epoch) < int(maya_dt._epoch)
 
     @validate_class_type_arguments('<=')
     def __le__(self, maya_dt):
-        return self._epoch <= maya_dt._epoch
+        return int(self._epoch) <= int(maya_dt._epoch)
 
     @validate_class_type_arguments('>')
     def __gt__(self, maya_dt):
-        return self._epoch > maya_dt._epoch
+        return int(self._epoch) > int(maya_dt._epoch)
 
     @validate_class_type_arguments('>=')
     def __ge__(self, maya_dt):
-        return self._epoch >= maya_dt._epoch
+        return int(self._epoch) >= int(maya_dt._epoch)
 
     def __hash__(self):
         return hash(int(self.epoch))
@@ -244,7 +244,7 @@ class MayaDT(object):
 
     @property
     def epoch(self):
-        return self._epoch
+        return int(self._epoch)
 
     # Human Slang Extras
     # ------------------
