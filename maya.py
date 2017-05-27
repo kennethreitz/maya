@@ -62,7 +62,7 @@ class MayaDT(object):
 
     @validate_class_type_arguments('==')
     def __eq__(self, maya_dt):
-        return self._epoch == maya_dt._epoch
+        return int(self._epoch) == int(maya_dt._epoch)
 
     @validate_class_type_arguments('!=')
     def __ne__(self, maya_dt):
@@ -85,7 +85,7 @@ class MayaDT(object):
         return self._epoch >= maya_dt._epoch
 
     def __hash__(self):
-        return hash(self.epoch)
+        return hash(int(self.epoch))
 
     def __add__(self, item):
         return self.add(seconds=seconds_or_timedelta(item).total_seconds())
