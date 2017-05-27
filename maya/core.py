@@ -19,7 +19,7 @@ import dateparser
 import pendulum
 from tzlocal import get_localzone
 
-from compat import cmp, comparable
+from .compat import cmp, comparable
 
 _EPOCH_START = (1970, 1, 1)
 
