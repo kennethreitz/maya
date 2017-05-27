@@ -5,7 +5,7 @@ import pytest
 import pytz
 
 import maya
-from compat import cmp
+from maya.compat import cmp
 
 Los_Angeles = pytz.timezone('America/Los_Angeles')
 New_York = pytz.timezone('America/New_York')
