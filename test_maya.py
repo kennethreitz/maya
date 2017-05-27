@@ -211,6 +211,16 @@ def test_intervals():
     assert len(list(maya.intervals(now, tomorrow, 60*60))) == 24
 
 
+def test_zero_add_sub_preserve():
+    now = maya.now()
+    # may raise periodic error due to rounding of add, subtract calls
+    assert now._epoch == now.add(seconds=0)._epoch
+    assert now._epoch == now.subtract(seconds=0)._epoch
+    # 7 digit float that should raise error due to rounding
+    now._epoch = 1495903889.5345206
+    assert now._epoch == now.add(seconds=0)._epoch
+    assert now._epoch == now.subtract(seconds=0)._epoch
+
 def test_dunder_add():
     now = maya.now()
     assert now + 1 == now.add(seconds=1)
