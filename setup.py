@@ -41,7 +41,7 @@ setup(
     author='Kenneth Reitz',
     author_email='me@kennethreitz.org',
     url='https://github.com/kennethreitz/maya',
-    py_modules=['maya'],
+    packages=['maya'],
     install_requires=required,
     license='MIT',
     classifiers=(
