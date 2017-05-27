@@ -97,7 +97,6 @@ For example:
 From here, there a a number of methods available to you, which you can use to compare this event to another event.
     
     
-    
 
 ☤ Why is this useful?
 ---------------------
