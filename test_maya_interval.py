@@ -5,7 +5,7 @@ import pytest
 import pytz
 
 import maya
-
+from compat import cmp
 
 Los_Angeles = pytz.timezone('America/Los_Angeles')
 New_York = pytz.timezone('America/New_York')
@@ -65,32 +65,32 @@ def test_interval_init_end_duration():
 
 
 @pytest.mark.parametrize('start_doy1,end_doy1,start_doy2,end_doy2,intersection_doys', (
-    (0, 2, 1, 3, (1, 2)),
-    (0, 2, 3, 4, None),
-    (0, 2, 2, 3, None),
-    (0, 1, 0, 1, (0, 1)),
-    (1, 1, 1, 3, (1, 1)),
-    (1, 1, 1, 1, (1, 1)),
-    (1, 1, 2, 3, None),
-    (2, 2, 1, 3, (2, 2)),
-    (1, 3, 1, 1, (1, 1)),
-    (2, 3, 1, 1, None),
-    (1, 3, 2, 2, (2, 2)),
+        (0, 2, 1, 3, (1, 2)),
+        (0, 2, 3, 4, None),
+        (0, 2, 2, 3, None),
+        (0, 1, 0, 1, (0, 1)),
+        (1, 1, 1, 3, (1, 1)),
+        (1, 1, 1, 1, (1, 1)),
+        (1, 1, 2, 3, None),
+        (2, 2, 1, 3, (2, 2)),
+        (1, 3, 1, 1, (1, 1)),
+        (2, 3, 1, 1, None),
+        (1, 3, 2, 2, (2, 2)),
 ), ids=(
-    'overlapping',
-    'non-overlapping',
-    'adjacent',
-    'equal',
-    'instant overlapping start only',
-    'instant equal',
-    'instant disjoint',
-    'instant overlapping',
-    'instant overlapping start only (left)',
-    'instant disjoint (left)',
-    'instant overlapping (left)'
+        'overlapping',
+        'non-overlapping',
+        'adjacent',
+        'equal',
+        'instant overlapping start only',
+        'instant equal',
+        'instant disjoint',
+        'instant overlapping',
+        'instant overlapping start only (left)',
+        'instant disjoint (left)',
+        'instant overlapping (left)'
 ))
 def test_interval_intersection(
-    start_doy1, end_doy1, start_doy2, end_doy2, intersection_doys
+        start_doy1, end_doy1, start_doy2, end_doy2, intersection_doys
 ):
     base = maya.MayaDT.from_datetime(datetime(2016, 1, 1))
     interval1 = maya.MayaInterval(
@@ -161,20 +161,20 @@ def test_interval_duration():
 
 
 @pytest.mark.parametrize('start_doy1,end_doy1,start_doy2,end_doy2,expected', (
-    (0, 2, 1, 3, False),
-    (0, 2, 3, 4, False),
-    (0, 2, 2, 3, False),
-    (0, 1, 0, 1, True),
-    (0, 3, 1, 2, True),
+        (0, 2, 1, 3, False),
+        (0, 2, 3, 4, False),
+        (0, 2, 2, 3, False),
+        (0, 1, 0, 1, True),
+        (0, 3, 1, 2, True),
 ), ids=(
-    'overlapping',
-    'non-overlapping',
-    'adjacent',
-    'equal',
-    'subset',
+        'overlapping',
+        'non-overlapping',
+        'adjacent',
+        'equal',
+        'subset',
 ))
 def test_interval_contains(
-    start_doy1, end_doy1, start_doy2, end_doy2, expected
+        start_doy1, end_doy1, start_doy2, end_doy2, expected
 ):
     base = maya.MayaDT.from_datetime(datetime(2016, 1, 1))
     interval1 = maya.MayaInterval(
@@ -191,20 +191,20 @@ def test_interval_contains(
 
 
 @pytest.mark.parametrize('start_doy,end_doy,dt_doy,expected', (
-    (2, 4, 1, False),
-    (2, 4, 2, True),
-    (2, 4, 3, True),
-    (2, 4, 4, False),
-    (2, 4, 5, False),
+        (2, 4, 1, False),
+        (2, 4, 2, True),
+        (2, 4, 3, True),
+        (2, 4, 4, False),
+        (2, 4, 5, False),
 ), ids=(
-    'before-start',
-    'on-start',
-    'during',
-    'on-end',
-    'after-end',
+        'before-start',
+        'on-start',
+        'during',
+        'on-end',
+        'after-end',
 ))
 def test_interval_in_operator_maya_dt(
-    start_doy, end_doy, dt_doy, expected
+        start_doy, end_doy, dt_doy, expected
 ):
     base = maya.MayaDT.from_datetime(datetime(2016, 1, 1))
     interval = maya.MayaInterval(
@@ -239,10 +239,10 @@ def test_interval_iter():
     (2, 4, 1, 3, 1),
     (1, 2, 1, 3, -1),
 ], ids=(
-    'equal',
-    'less-than',
-    'greater-than',
-    'use-end-time-if-start-time-identical',
+        'equal',
+        'less-than',
+        'greater-than',
+        'use-end-time-if-start-time-identical',
 ))
 def test_interval_cmp(start1, end1, start2, end2, expected):
     base = maya.now()
@@ -263,10 +263,10 @@ def test_interval_cmp(start1, end1, start2, end2, expected):
     (1, 2, 3, 4, [(1, 2), (3, 4)]),
     (1, 5, 2, 3, [(1, 5)]),
 ], ids=(
-    'adjacent',
-    'overlapping',
-    'non-overlapping',
-    'contains',
+        'adjacent',
+        'overlapping',
+        'non-overlapping',
+        'contains',
 ))
 def test_interval_combine(start1, end1, start2, end2, expected):
     base = maya.now()
@@ -297,14 +297,14 @@ def test_interval_combine(start1, end1, start2, end2, expected):
     (1, 4, 1, 2, [(2, 4)]),
     (1, 4, 3, 4, [(1, 3)]),
 ], ids=(
-    'non-overlapping',
-    'adjacent',
-    'contains',
-    'splits',
-    'overlaps-left',
-    'overlaps-right',
-    'overlaps-left-identical-start',
-    'overlaps-right-identical-end',
+        'non-overlapping',
+        'adjacent',
+        'contains',
+        'splits',
+        'overlaps-left',
+        'overlaps-right',
+        'overlaps-left-identical-start',
+        'overlaps-right-identical-end',
 ))
 def test_interval_subtract(start1, end1, start2, end2, expected):
     base = maya.now()
@@ -330,10 +330,10 @@ def test_interval_subtract(start1, end1, start2, end2, expected):
     (1, 3, 2, 3, False),
     (2, 3, 4, 5, False),
 ], ids=(
-    'adjacent-right',
-    'adjacent-left',
-    'overlapping',
-    'non-overlapping',
+        'adjacent-right',
+        'adjacent-left',
+        'overlapping',
+        'non-overlapping',
 ))
 def test_interval_is_adjacent(start1, end1, start2, end2, expected):
     base = maya.now()
@@ -356,12 +356,12 @@ def test_interval_is_adjacent(start1, end1, start2, end2, expected):
     (0, 2, 5, False, []),
     (0, 2, 5, True, [(0, 2)]),
 ], ids=(
-    'even-split',
-    'even-split-include-partial',
-    'uneven-split-do-not-include-partial',
-    'uneven-split-include-partial',
-    'delta-larger-than-timepsan-do-not-include-partial',
-    'delta-larger-than-timepsan-include-partial',
+        'even-split',
+        'even-split-include-partial',
+        'uneven-split-do-not-include-partial',
+        'uneven-split-include-partial',
+        'delta-larger-than-timepsan-do-not-include-partial',
+        'delta-larger-than-timepsan-include-partial',
 ))
 def test_interval_split(start, end, delta, include_remainder, expected):
     base = maya.now()
@@ -406,16 +406,16 @@ def test_interval_split_non_positive_delta():
     ((6, 20), (6, 50), 60, 'America/Chicago', False, (6, 0), (6, 0)),
     ((6, 20), (6, 50), 60, 'America/Chicago', True, (6, 0), (7, 0)),
 ], ids=(
-    'normal',
-    'normal-snap_out',
-    'already-quantized',
-    'already-quantized-snap_out',
-    'with-timezone',
-    'with-timezone-snap_out',
-    'too-small',
-    'too-small-snap_out',
-    'too-small-with-timezone',
-    'too-small-with-timezone-snap_out',
+        'normal',
+        'normal-snap_out',
+        'already-quantized',
+        'already-quantized-snap_out',
+        'with-timezone',
+        'with-timezone-snap_out',
+        'too-small',
+        'too-small-snap_out',
+        'too-small-with-timezone',
+        'too-small-with-timezone-snap_out',
 ))
 def test_quantize(start, end, minutes, timezone, snap_out, expected_start, expected_end):
     base = maya.MayaDT.from_datetime(datetime(2017, 1, 1))

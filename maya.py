@@ -1,4 +1,3 @@
-
 # ___  __  ___  _  _  ___
 # || \/ | ||=|| \\// ||=||
 # ||    | || ||  //  || ||
@@ -6,19 +5,21 @@
 # Ignore warnings for yaml usage.
 import warnings
 import ruamel.yaml
-warnings.simplefilter('ignore', ruamel.yaml.error.UnsafeLoaderWarning)
 
+warnings.simplefilter('ignore', ruamel.yaml.error.UnsafeLoaderWarning)
 
 import email.utils
 import time
 from datetime import timedelta, datetime as Datetime
 
+import functools
 import pytz
 import humanize
 import dateparser
 import pendulum
 from tzlocal import get_localzone
 
+from compat import cmp, comparable
 
 _EPOCH_START = (1970, 1, 1)
 
@@ -276,15 +277,17 @@ def to_iso8601(dt):
 
 
 def end_of_day_midnight(dt):
-    return dt if dt.time() == time.min else\
+    return dt if dt.time() == time.min else \
         (dt.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1))
 
 
+@comparable
 class MayaInterval(object):
     """
     A MayaInterval represents a range between two datetimes, inclusive of the start
     and exclusive of the end.
     """
+
     def __init__(self, start=None, end=None, duration=None):
         try:
             # Ensure that proper arguments were passed.
@@ -336,7 +339,6 @@ class MayaInterval(object):
         # # Start and duration, such as "2007-03-01T13:00:00Z/P1Y2M10DT2H30M"
         # # Duration and end, such as "P1Y2M10DT2H30M/2008-05-11T15:30:00Z"
         raise NotImplementedError()
-
 
     def __and__(self, i):
         return self.intersection(i)
@@ -463,7 +465,7 @@ class MayaInterval(object):
             self.start == i.start or
             start <= end
         )
-        if ((either_instant and instant_overlap) or (start < end)):
+        if (either_instant and instant_overlap) or (start < end):
             return MayaInterval(start, end)
 
     def contains(self, i):
@@ -505,7 +507,7 @@ class MayaInterval(object):
 
     @staticmethod
     def flatten(ii):
-        return reduce(lambda reduced, i: (
+        return functools.reduce(lambda reduced, i: (
             (reduced[:-1] + i.combine(reduced[-1]))
             if reduced else [i]
         ), sorted(ii), [])
@@ -536,7 +538,8 @@ def when(string, timezone='UTC'):
         timezone -- timezone referenced from (default: 'UTC')
 
     """
-    dt = dateparser.parse(string, settings={'TIMEZONE': timezone, 'RETURN_AS_TIMEZONE_AWARE': True, 'TO_TIMEZONE': 'UTC'})
+    dt = dateparser.parse(string,
+                          settings={'TIMEZONE': timezone, 'RETURN_AS_TIMEZONE_AWARE': True, 'TO_TIMEZONE': 'UTC'})
 
     if dt is None:
         raise ValueError('invalid datetime input specified.')
@@ -558,7 +561,6 @@ def parse(string, day_first=False):
 
 
 def seconds_or_timedelta(s):
-
     # Convert seconds into timedelta.
     if isinstance(s, int):
         s = timedelta(seconds=s)
