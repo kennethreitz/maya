@@ -302,7 +302,8 @@ class MayaInterval(object):
                 'Exactly 2 of start, end, and duration must be specified')
 
         # Convert duration to timedelta if seconds were provided.
-        duration = seconds_or_timedelta(duration)
+        if duration:
+            duration = seconds_or_timedelta(duration)
 
         if not start:
             start = end - duration
@@ -560,12 +561,20 @@ def parse(string, day_first=False):
     return MayaDT.from_datetime(dt)
 
 
-def seconds_or_timedelta(s):
-    # Convert seconds into timedelta.
-    if isinstance(s, int):
-        s = timedelta(seconds=s)
+def seconds_or_timedelta(duration):
+    """Returns `datetime.timedelta` object for the passed duration.
 
-    return s
+    Keyword Arguments:
+        duration -- `datetime.timedelta` object or seconds in `int` format.
+    """
+    if isinstance(duration, int):
+        dt_timedelta = timedelta(seconds=duration)
+    elif isinstance(duration, timedelta):
+        dt_timedelta = duration
+    else:
+        raise TypeError('Expects argument as `datetime.timedelta` object '
+                        'or seconds in `int` format')
+    return dt_timedelta
 
 
 def intervals(start, end, interval):
