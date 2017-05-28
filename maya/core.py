@@ -27,7 +27,7 @@ _EPOCH_START = (1970, 1, 1)
 def validate_class_type_arguments(operator):
     """
     Decorator to validate all the arguments to function
-    are of the type of calling class
+    are of the type of calling class for passed operator
     """
 
     def inner(function):
@@ -39,7 +39,6 @@ def validate_class_type_arguments(operator):
             return function(self, *args, **kwargs)
 
         return wrapper
-
     return inner
 
 
@@ -87,15 +86,15 @@ class MayaDT(object):
     def __hash__(self):
         return hash(int(self.epoch))
 
-    def __add__(self, item):
-        return self.add(seconds=seconds_or_timedelta(item).total_seconds())
+    def __add__(self, duration):
+        return self.add(seconds=seconds_or_timedelta(duration).total_seconds())
 
-    def __radd__(self, item):
-        return self + item
+    def __radd__(self, duration):
+        return self + duration
 
-    def __sub__(self, item):
+    def __sub__(self, duration):
         return self.subtract(
-            seconds=seconds_or_timedelta(item).total_seconds())
+            seconds=seconds_or_timedelta(duration).total_seconds())
 
     def add(self, **kwargs):
         """"Returns a new MayaDT object with the given offsets."""
@@ -148,19 +147,19 @@ class MayaDT(object):
         return klass(klass.__dt_to_epoch(dt))
 
     @classmethod
-    def from_iso8601(klass, string):
+    def from_iso8601(klass, iso8601_string):
         """Returns MayaDT instance from iso8601 string."""
-        return parse(string)
+        return parse(iso8601_string)
 
     @staticmethod
-    def from_rfc2822(string):
+    def from_rfc2822(rfc2822_string):
         """Returns MayaDT instance from rfc2822 string."""
-        return parse(string)
+        return parse(rfc2822_string)
 
     @staticmethod
-    def from_rfc3339(string):
+    def from_rfc3339(rfc3339_string):
         """Returns MayaDT instance from rfc3339 string."""
-        return parse(string)
+        return parse(rfc3339_string)
 
     # Exporters
     # ---------
@@ -340,16 +339,16 @@ class MayaInterval(object):
         # # Duration and end, such as "P1Y2M10DT2H30M/2008-05-11T15:30:00Z"
         raise NotImplementedError()
 
-    def __and__(self, i):
-        return self.intersection(i)
+    def __and__(self, maya_interval):
+        return self.intersection(maya_interval)
 
-    def __or__(self, i):
-        return self.combine(i)
+    def __or__(self, maya_interval):
+        return self.combine(maya_interval)
 
-    def __eq__(self, i):
+    def __eq__(self, maya_interval):
         return (
-            self.start == i.start and
-            self.end == i.end
+            self.start == maya_interval.start and
+            self.end == maya_interval.end
         )
 
     def __hash__(self):
@@ -359,10 +358,10 @@ class MayaInterval(object):
         yield self.start
         yield self.end
 
-    def __cmp__(self, i):
+    def __cmp__(self, maya_interval):
         return (
-            cmp(self.start, i.start) or
-            cmp(self.end, i.end)
+            cmp(self.start, maya_interval.start) or
+            cmp(self.end, maya_interval.end)
         )
 
     @property
@@ -377,38 +376,38 @@ class MayaInterval(object):
     def is_instant(self):
         return self.timedelta == timedelta(seconds=0)
 
-    def intersects(self, i):
-        return self & i is not None
+    def intersects(self, maya_interval):
+        return self & maya_interval is not None
 
     @property
     def midpoint(self):
         return self.start.add(seconds=(self.duration / 2))
 
-    def combine(self, i):
+    def combine(self, maya_interval):
         """Returns a combined list of timespans, merged together."""
-        ii = sorted([self, i])
-        if self & i or self.is_adjacent(i):
+        interval_list = sorted([self, maya_interval])
+        if self & maya_interval or self.is_adjacent(maya_interval):
             return [
                 MayaInterval(
-                    ii[0].start,
-                    max(ii[0].end, ii[1].end),
+                    interval_list[0].start,
+                    max(interval_list[0].end, interval_list[1].end),
                 ),
             ]
-        return ii
+        return interval_list
 
-    def subtract(self, i):
-        """"Removes the given inerval."""
-        if not self & i:
+    def subtract(self, maya_interval):
+        """"Removes the given interval."""
+        if not self & maya_interval:
             return [self]
-        elif i.contains(self):
+        elif maya_interval.contains(self):
             return []
 
-        ii = []
-        if self.start < i.start:
-            ii.append(MayaInterval(self.start, i.start))
-        if self.end > i.end:
-            ii.append(MayaInterval(i.end, self.end))
-        return ii
+        interval_list = []
+        if self.start < maya_interval.start:
+            interval_list.append(MayaInterval(self.start, maya_interval.start))
+        if self.end > maya_interval.end:
+            interval_list.append(MayaInterval(maya_interval.end, self.end))
+        return interval_list
 
     def split(self, duration, include_remainder=True):
 
@@ -454,39 +453,39 @@ class MayaInterval(object):
             end=MayaDT.from_datetime(epoch).add(seconds=end_seconds),
         )
 
-    def intersection(self, i):
+    def intersection(self, maya_interval):
         """Returns the intersection between two intervals."""
 
-        start = max(self.start, i.start)
-        end = min(self.end, i.end)
+        start = max(self.start, maya_interval.start)
+        end = min(self.end, maya_interval.end)
 
-        either_instant = self.is_instant or i.is_instant
+        either_instant = self.is_instant or maya_interval.is_instant
         instant_overlap = (
-            self.start == i.start or
+            self.start == maya_interval.start or
             start <= end
         )
         if (either_instant and instant_overlap) or (start < end):
             return MayaInterval(start, end)
 
-    def contains(self, i):
+    def contains(self, maya_interval):
         return (
-            self.start <= i.start and
-            self.end >= i.end
+            self.start <= maya_interval.start and
+            self.end >= maya_interval.end
         )
 
-    def __contains__(self, item):
-        if isinstance(item, MayaDT):
-            return self.contains_dt(item)
+    def __contains__(self, maya_dt):
+        if isinstance(maya_dt, MayaDT):
+            return self.contains_dt(maya_dt)
 
-        return self.contains(item)
+        return self.contains(maya_dt)
 
     def contains_dt(self, dt):
         return self.start <= dt < self.end
 
-    def is_adjacent(self, i):
+    def is_adjacent(self, maya_interval):
         return (
-            self.start == i.end or
-            self.end == i.start
+            self.start == maya_interval.end or
+            self.end == maya_interval.start
         )
 
     @property
@@ -506,11 +505,11 @@ class MayaInterval(object):
         ).replace(' ', '').strip('\r\n').replace('\n', '\r\n')
 
     @staticmethod
-    def flatten(ii):
-        return functools.reduce(lambda reduced, i: (
-            (reduced[:-1] + i.combine(reduced[-1]))
-            if reduced else [i]
-        ), sorted(ii), [])
+    def flatten(interval_list):
+        return functools.reduce(lambda reduced, maya_interval: (
+            (reduced[:-1] + maya_interval.combine(reduced[-1]))
+            if reduced else [maya_interval]
+        ), sorted(interval_list), [])
 
     @classmethod
     def from_datetime(cls, start_dt=None, end_dt=None, duration=None):

@@ -33,6 +33,10 @@ required = [
     'pendulum'
 ]
 
+packages = [
+    'maya',
+]
+
 setup(
     name='maya',
     version='0.3.1',
@@ -41,7 +45,7 @@ setup(
     author='Kenneth Reitz',
     author_email='me@kennethreitz.org',
     url='https://github.com/kennethreitz/maya',
-    packages=['maya'],
+    packages=packages,
     install_requires=required,
     license='MIT',
     classifiers=(
