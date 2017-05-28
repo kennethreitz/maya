@@ -27,7 +27,7 @@ _EPOCH_START = (1970, 1, 1)
 def validate_class_type_arguments(operator):
     """
     Decorator to validate all the arguments to function
-    are of the type of calling class
+    are of the type of calling class for passed operator
     """
 
     def inner(function):
@@ -39,7 +39,6 @@ def validate_class_type_arguments(operator):
             return function(self, *args, **kwargs)
 
         return wrapper
-
     return inner
 
 
@@ -87,15 +86,15 @@ class MayaDT(object):
     def __hash__(self):
         return hash(int(self.epoch))
 
-    def __add__(self, item):
-        return self.add(seconds=seconds_or_timedelta(item).total_seconds())
+    def __add__(self, duration):
+        return self.add(seconds=seconds_or_timedelta(duration).total_seconds())
 
-    def __radd__(self, item):
-        return self + item
+    def __radd__(self, duration):
+        return self + duration
 
-    def __sub__(self, item):
+    def __sub__(self, duration):
         return self.subtract(
-            seconds=seconds_or_timedelta(item).total_seconds())
+            seconds=seconds_or_timedelta(duration).total_seconds())
 
     def add(self, **kwargs):
         """"Returns a new MayaDT object with the given offsets."""
