@@ -51,22 +51,16 @@ def validate_arguments_type_of_function(param_type=None):
 
     Note: Use this decorator on the functions of the class.
     """
-    inner_dict = {   # To use arguments within the inner functions
-        'param_type': param_type
-    }
-
     def inner(function):
         def wrapper(self, *args, **kwargs):
-            param_type = inner_dict['param_type']
-            if param_type is None:
-                param_type = type(self)
+            type_ = param_type or type(self)
             for arg in args + tuple(kwargs.values()):
-                if not isinstance(arg, param_type):
+                if not isinstance(arg, type_):
                     raise TypeError(('Invalid Type: {}.{}() accepts only the '
                                      'arguments of type "<{}>"').format(
                                             type(self).__name__,
                                             function.__name__,
-                                            param_type.__name__,
+                                            type_.__name__,
                                         )
                                     )
             return function(self, *args, **kwargs)
@@ -397,8 +391,7 @@ class MayaInterval(object):
         yield self.start
         yield self.end
 
-
-@validate_arguments_type_of_function()
+    @validate_arguments_type_of_function()
     def __cmp__(self, maya_interval):
         return (
             cmp(self.start, maya_interval.start) or
@@ -501,9 +494,8 @@ class MayaInterval(object):
             end=MayaDT.from_datetime(epoch).add(seconds=end_seconds),
         )
 
-
-@validate_arguments_type_of_function()
-def intersection(self, maya_interval):
+    @validate_arguments_type_of_function()
+    def intersection(self, maya_interval):
         """Returns the intersection between two intervals."""
 
         start = max(self.start, maya_interval.start)

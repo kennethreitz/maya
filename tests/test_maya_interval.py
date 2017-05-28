@@ -430,10 +430,10 @@ def test_interval_split_non_positive_delta():
     end = start.add(days=1)
     interval = maya.MayaInterval(start=start, end=end)
 
-    with pytest.raises(AssertionError):
+    with pytest.raises(ValueError):
         list(interval.split(timedelta(seconds=0)))
 
-    with pytest.raises(AssertionError):
+    with pytest.raises(ValueError):
         list(interval.split(timedelta(seconds=-10)))
 
 
@@ -485,9 +485,9 @@ def test_quantize_invalid_delta():
     end = start.add(days=1)
     interval = maya.MayaInterval(start=start, end=end)
 
-    with pytest.raises(AssertionError):
+    with pytest.raises(ValueError):
         interval.quantize(timedelta(minutes=0))
-    with pytest.raises(AssertionError):
+    with pytest.raises(ValueError):
         interval.quantize(timedelta(minutes=-1))
 
 
@@ -582,4 +582,3 @@ def test_interval_from_datetime():
     )
     assert interval3.start == start
     assert interval3.end == end
-    
