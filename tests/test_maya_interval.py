@@ -111,6 +111,10 @@ def test_interval_intersection(
     else:
         assert (interval1 & interval2) is None
 
+    # check invalid argument
+    with pytest.raises(TypeError):
+        interval1 & 'invalid type'
+
 
 def test_interval_intersects():
     base = maya.MayaDT.from_datetime(datetime(2016, 1, 1))
@@ -121,6 +125,10 @@ def test_interval_intersects():
         base.add(days=2),
         base.add(days=3),
     ))
+
+    # check invalid argument
+    with pytest.raises(TypeError):
+        interval.intersects('invalid type')
 
 
 def test_and_operator():
@@ -134,6 +142,10 @@ def test_and_operator():
         interval1.intersection(interval2)
     )
 
+    # check invalid argument
+    with pytest.raises(TypeError):
+        interval1.intersection('invalid type')
+
 
 def test_interval_eq_operator():
     start = maya.now()
@@ -142,6 +154,13 @@ def test_interval_eq_operator():
 
     assert interval == maya.MayaInterval(start=start, end=end)
     assert interval != maya.MayaInterval(start=start, end=end.add(days=1))
+
+    # check invalid argument
+    with pytest.raises(TypeError):
+        interval == 'invalid type'
+
+    with pytest.raises(TypeError):
+        interval != 'invalid type'
 
 
 def test_interval_timedelta():
@@ -189,6 +208,10 @@ def test_interval_contains(
     assert interval1.contains(interval2) is expected
     assert (interval2 in interval1) is expected
 
+    # check invalid argument
+    with pytest.raises(TypeError):
+        interval1.contains('invalid type')
+
 
 @pytest.mark.parametrize('start_doy,end_doy,dt_doy,expected', (
         (2, 4, 1, False),
@@ -214,6 +237,10 @@ def test_interval_in_operator_maya_dt(
     dt = base.add(days=dt_doy)
 
     assert (dt in interval) is expected
+
+    # check invalid argument
+    with pytest.raises(TypeError):
+        'invalid type' in interval
 
 
 def test_interval_hash():
@@ -256,6 +283,10 @@ def test_interval_cmp(start1, end1, start2, end2, expected):
     )
     assert cmp(interval1, interval2) == expected
 
+    # check invalid argument
+    with pytest.raises(TypeError):
+        cmp(interval1, 'invalid type')
+
 
 @pytest.mark.parametrize('start1,end1,start2,end2,expected', [
     (1, 2, 2, 3, [(1, 3)]),
@@ -285,6 +316,10 @@ def test_interval_combine(start1, end1, start2, end2, expected):
 
     assert interval1.combine(interval2) == expected_intervals
     assert interval2.combine(interval1) == expected_intervals
+
+    # check invalid argument
+    with pytest.raises(TypeError):
+        interval2.combine('invalid type')
 
 
 @pytest.mark.parametrize('start1,end1,start2,end2,expected', [
@@ -323,6 +358,10 @@ def test_interval_subtract(start1, end1, start2, end2, expected):
 
     assert interval1.subtract(interval2) == expected_intervals
 
+    # check invalid argument
+    with pytest.raises(TypeError):
+        interval1.subtract('invalid type')
+
 
 @pytest.mark.parametrize('start1,end1,start2,end2,expected', [
     (1, 2, 2, 3, True),
@@ -346,6 +385,10 @@ def test_interval_is_adjacent(start1, end1, start2, end2, expected):
         end=base.add(days=end2),
     )
     assert interval1.is_adjacent(interval2) == expected
+
+    # check invalid argument
+    with pytest.raises(TypeError):
+        interval1.is_adjacent('invalid type')
 
 
 @pytest.mark.parametrize('start,end,delta,include_remainder,expected', [
@@ -444,7 +487,6 @@ def test_quantize_invalid_delta():
 
     with pytest.raises(ValueError):
         interval.quantize(timedelta(minutes=0))
-
     with pytest.raises(ValueError):
         interval.quantize(timedelta(minutes=-1))
 
