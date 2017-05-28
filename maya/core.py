@@ -414,7 +414,9 @@ class MayaInterval(object):
         # Convert seconds to timedelta, if appropriate.
         duration = seconds_or_timedelta(duration)
 
-        assert duration > timedelta(seconds=0), 'cannot call split with a non-positive timedelta'
+        if duration <= timedelta(seconds=0):
+            raise ValueError('cannot call split with a non-positive timedelta')
+
         start = self.start
         while start < self.end:
             if start + duration <= self.end:
@@ -430,7 +432,10 @@ class MayaInterval(object):
         duration = seconds_or_timedelta(duration)
         timezone = pytz.timezone(timezone)
 
-        assert duration > timedelta(seconds=0), 'cannot quantize by non-positive timedelta'
+
+        if duration <= timedelta(seconds=0):
+            raise ValueError('cannot quantize by non-positive timedelta')
+
         epoch = timezone.localize(Datetime(1970, 1, 1))
         seconds = int(duration.total_seconds())
 
