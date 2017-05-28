@@ -204,6 +204,17 @@ def test_comparison_operations():
     with pytest.raises(TypeError):
         now >= 1
 
+
+def test_seconds_or_timedelta():
+    # test for value in seconds
+    assert maya.seconds_or_timedelta(1234) == timedelta(0, 1234)
+    # test for value as `datetime.timedelta`
+    assert maya.seconds_or_timedelta(timedelta(0, 1234)) == timedelta(0, 1234)
+    # test for invalid value
+    with pytest.raises(TypeError):
+        maya.seconds_or_timedelta('invalid interval')
+
+
 def test_intervals():
     now = maya.now()
     tomorrow = now.add(days=1)
