@@ -42,6 +42,39 @@ def validate_class_type_arguments(operator):
     return inner
 
 
+def validate_arguments_type_of_function(param_type=None):
+    """
+    Decorator to validate the <type> of arguments in
+    the calling function are of the `param_type` class.
+
+    if `param_type` is None, uses `param_type` as the class where it is used.
+
+    Note: Use this decorator on the functions of the class.
+    """
+    inner_dict = {   # To use arguments within the inner functions
+        'param_type': param_type
+    }
+
+    def inner(function):
+        def wrapper(self, *args, **kwargs):
+            param_type = inner_dict['param_type']
+            if param_type is None:
+                param_type = type(self)
+            for arg in args + tuple(kwargs.values()):
+                if not isinstance(arg, param_type):
+                    raise TypeError(('Invalid Type: {}.{}() accepts only the '
+                                     'arguments of type "<{}>"').format(
+                                            type(self).__name__,
+                                            function.__name__,
+                                            param_type.__name__,
+                                        )
+                                    )
+            return function(self, *args, **kwargs)
+
+        return wrapper
+    return inner
+
+
 class MayaDT(object):
     """The Maya Datetime object."""
 
@@ -128,6 +161,7 @@ class MayaDT(object):
         return get_localzone()
 
     @staticmethod
+    @validate_arguments_type_of_function(Datetime)
     def __dt_to_epoch(dt):
         """Converts a datetime into an epoch."""
 
@@ -142,6 +176,7 @@ class MayaDT(object):
     # ---------
 
     @classmethod
+    @validate_arguments_type_of_function(Datetime)
     def from_datetime(klass, dt):
         """Returns MayaDT instance from datetime."""
         return klass(klass.__dt_to_epoch(dt))
@@ -340,12 +375,15 @@ class MayaInterval(object):
         # # Duration and end, such as "P1Y2M10DT2H30M/2008-05-11T15:30:00Z"
         raise NotImplementedError()
 
+    @validate_arguments_type_of_function()
     def __and__(self, maya_interval):
         return self.intersection(maya_interval)
 
+    @validate_arguments_type_of_function()
     def __or__(self, maya_interval):
         return self.combine(maya_interval)
 
+    @validate_arguments_type_of_function()
     def __eq__(self, maya_interval):
         return (
             self.start == maya_interval.start and
@@ -359,6 +397,8 @@ class MayaInterval(object):
         yield self.start
         yield self.end
 
+
+@validate_arguments_type_of_function()
     def __cmp__(self, maya_interval):
         return (
             cmp(self.start, maya_interval.start) or
@@ -384,6 +424,7 @@ class MayaInterval(object):
     def midpoint(self):
         return self.start.add(seconds=(self.duration / 2))
 
+    @validate_arguments_type_of_function()
     def combine(self, maya_interval):
         """Returns a combined list of timespans, merged together."""
         interval_list = sorted([self, maya_interval])
@@ -396,6 +437,7 @@ class MayaInterval(object):
             ]
         return interval_list
 
+    @validate_arguments_type_of_function()
     def subtract(self, maya_interval):
         """"Removes the given interval."""
         if not self & maya_interval:
@@ -459,7 +501,9 @@ class MayaInterval(object):
             end=MayaDT.from_datetime(epoch).add(seconds=end_seconds),
         )
 
-    def intersection(self, maya_interval):
+
+@validate_arguments_type_of_function()
+def intersection(self, maya_interval):
         """Returns the intersection between two intervals."""
 
         start = max(self.start, maya_interval.start)
@@ -473,6 +517,7 @@ class MayaInterval(object):
         if (either_instant and instant_overlap) or (start < end):
             return MayaInterval(start, end)
 
+    @validate_arguments_type_of_function()
     def contains(self, maya_interval):
         return (
             self.start <= maya_interval.start and
@@ -488,6 +533,7 @@ class MayaInterval(object):
     def contains_dt(self, dt):
         return self.start <= dt < self.end
 
+    @validate_arguments_type_of_function()
     def is_adjacent(self, maya_interval):
         return (
             self.start == maya_interval.end or
