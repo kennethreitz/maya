@@ -37,9 +37,14 @@ packages = [
     'maya',
 ]
 
+# About dict to store version and package info
+about = dict()
+with open(os.path.join(here, 'maya', '__version__.py'), 'r', 'utf-8') as f:
+    exec(f.read(), about)
+
 setup(
     name='maya',
-    version='0.3.1',
+    version=about['__version__'],
     description='Datetimes for Humans.',
     long_description=long_description,
     author='Kenneth Reitz',
