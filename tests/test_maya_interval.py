@@ -260,6 +260,13 @@ def test_interval_iter():
     assert tuple(maya.MayaInterval(start=start, end=end)) == (start, end)
 
 
+def test_same_duration_as():
+    base = maya.now()
+    first = maya.MayaInterval(start=base, duration=4)
+    second = maya.MayaInterval(start=base, duration=5)
+    assert first.same_duration_as(first)
+    assert not first.same_duration_as(second)
+
 @pytest.mark.parametrize('start1,end1,start2,end2,expected', [
     (1, 2, 1, 2, 0),
     (1, 3, 2, 4, -1),

@@ -526,6 +526,27 @@ class MayaInterval(object):
         return self.start <= dt < self.end
 
     @validate_arguments_type_of_function()
+    def same_duration_as(self, dt):
+        """
+        Compare to MayaIntervalObjects for equivalent duration length
+        :param dt: MayaInterval with duration property to compare against
+        :type dt: MayaInterval
+        :returns: Whether durations are equivalent in length
+        :rtype: bool
+
+        :Example:
+
+        >>>from maya import MayaInterval
+        >>>first = MayaInterval(start=maya.now(), duration=4)
+        >>>second = MayaInterval(start=maya.now(), duration=5)
+        >>>first.same_duration_as(first)
+        True
+        >>>first.same_duration_as(second)
+        False
+        """
+        return self.duration == dt.duration
+
+    @validate_arguments_type_of_function()
     def is_adjacent(self, maya_interval):
         return (
             self.start == maya_interval.end or
