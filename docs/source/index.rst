@@ -74,6 +74,8 @@ Release v\ |version|. (:ref:`Installation <install>`)
    :maxdepth: 2
    :caption: Contents:
 
+   user/install
+
 
 Indices and tables
 ==================
