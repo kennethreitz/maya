@@ -66,20 +66,18 @@ Release v\ |version|. (:ref:`Installation <install>`)
     UTC
 
     # Range of hours in a day:
-    >>> maya.interval(start=maya.now(), end=maya.now().add(days=1), interval=60*60)
+    >>> maya.interval(
+    ... start=maya.now(),
+    ... end=maya.now().add(days=1),
+    ... interval=60*60)
     <generator object intervals at 0x105ba5820>
 
 
+Table of Contents
+-----------------
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    user/install
+   user/quickstart
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
