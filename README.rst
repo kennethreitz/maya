@@ -10,6 +10,7 @@ Maya: Datetimes for Humans™
 .. image:: https://img.shields.io/badge/SayThanks-!-1EAEDB.svg
     :target: https://saythanks.io/to/kennethreitz
 
+test
 
 Datetimes are very frustrating to work with in Python, especially when dealing
 with different locales on different systems. This library exists to make the
