@@ -114,14 +114,14 @@ class MayaDT(object):
         return hash(int(self.epoch))
 
     def __add__(self, duration):
-        return self.add(seconds=seconds_or_timedelta(duration).total_seconds())
+        return self.add(seconds=_seconds_or_timedelta(duration).total_seconds())
 
     def __radd__(self, duration):
         return self + duration
 
     def __sub__(self, duration):
         return self.subtract(
-            seconds=seconds_or_timedelta(duration).total_seconds())
+            seconds=_seconds_or_timedelta(duration).total_seconds())
 
     def add(self, **kwargs):
         """"Returns a new MayaDT object with the given offsets."""
@@ -331,7 +331,7 @@ class MayaInterval(object):
 
         # Convert duration to timedelta if seconds were provided.
         if duration:
-            duration = seconds_or_timedelta(duration)
+            duration = _seconds_or_timedelta(duration)
 
         if not start:
             start = end - duration
@@ -448,7 +448,7 @@ class MayaInterval(object):
     def split(self, duration, include_remainder=True):
 
         # Convert seconds to timedelta, if appropriate.
-        duration = seconds_or_timedelta(duration)
+        duration = _seconds_or_timedelta(duration)
 
         if duration <= timedelta(seconds=0):
             raise ValueError('cannot call split with a non-positive timedelta')
@@ -465,7 +465,7 @@ class MayaInterval(object):
         """Returns a quanitzed interval."""
 
         # Convert seconds to timedelta, if appropriate.
-        duration = seconds_or_timedelta(duration)
+        duration = _seconds_or_timedelta(duration)
         timezone = pytz.timezone(timezone)
 
 
@@ -603,7 +603,7 @@ def parse(string, day_first=False):
     return MayaDT.from_datetime(dt)
 
 
-def seconds_or_timedelta(duration):
+def _seconds_or_timedelta(duration):
     """Returns `datetime.timedelta` object for the passed duration.
 
     Keyword Arguments:
@@ -622,7 +622,7 @@ def seconds_or_timedelta(duration):
 def intervals(start, end, interval):
     """Yields MayaDT objects between the start and end MayaDTs given, at a given interval (seconds or timedelta)."""
 
-    interval = seconds_or_timedelta(interval)
+    interval = _seconds_or_timedelta(interval)
 
     current_timestamp = start
     while current_timestamp.epoch < end.epoch:
