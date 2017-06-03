@@ -166,6 +166,11 @@ class MayaDT(object):
         epoch_start = Datetime(*_EPOCH_START, tzinfo=pytz.timezone('UTC'))
         return (dt - epoch_start).total_seconds()
 
+    @property
+    def aoe(self):
+        """"""
+        return when('tomorrow') > self > when('tomorrow').subtract(days=2)
+
     # Importers
     # ---------
 
