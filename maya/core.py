@@ -168,7 +168,10 @@ class MayaDT(object):
 
     @property
     def aoe(self):
-        """"""
+        """
+        Return True if the date has not passed anywhere on earth.
+        See also: http://www.ieee802.org/16/aoe.html
+        """
         return when('tomorrow') > self > when('tomorrow').subtract(days=2)
 
     # Importers
@@ -424,6 +427,10 @@ class MayaInterval(object):
 
     @property
     def aoe(self):
+        """
+        Return True if the interval has not passed anywhere on earth.
+        See also: http://www.ieee802.org/16/aoe.html
+        """
         return self.start.aoe or self.end.aoe
 
     @validate_arguments_type_of_function()
