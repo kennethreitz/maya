@@ -34,7 +34,6 @@ def test_interval_requires_2_of_start_end_duration():
 
 
 def test_interval_requires_end_time_after_or_on_start_time():
-
     with pytest.raises(ValueError):
         maya.MayaInterval(start=maya.now(), duration=0)
         maya.MayaInterval(start=maya.now(), duration=-1)
@@ -582,3 +581,28 @@ def test_interval_from_datetime():
     )
     assert interval3.start == start
     assert interval3.end == end
+
+
+def test_interval_anywhere_on_earth():
+    start = maya.now()
+    duration = timedelta(days=1)
+
+    interval = maya.MayaInterval.from_datetime(
+        start_dt=start.datetime(),
+        duration=duration
+    )
+    assert interval.aoe is True
+
+    start2 = maya.when('tomorrow')
+    interval2 = maya.MayaInterval.from_datetime(
+        start_dt=start2.datetime(),
+        duration=duration
+    )
+    assert interval2.aoe is False
+
+    start3 = maya.now().subtract(days=2)
+    interval3 = maya.MayaInterval.from_datetime(
+        start_dt=start3.datetime(),
+        duration=duration
+    )
+    assert interval3.aoe is False

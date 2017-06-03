@@ -422,6 +422,10 @@ class MayaInterval(object):
     def midpoint(self):
         return self.start.add(seconds=(self.duration / 2))
 
+    @property
+    def aoe(self):
+        return self.start.aoe or self.end.aoe
+
     @validate_arguments_type_of_function()
     def combine(self, maya_interval):
         """Returns a combined list of timespans, merged together."""
