@@ -1,6 +1,7 @@
-import pytest
 import copy
 from datetime import timedelta
+
+import pytest
 
 import maya
 from maya.core import _seconds_or_timedelta  # import private function
@@ -95,7 +96,6 @@ def test_dt_tz_naive():
 
 
 def test_random_date():
-
     # Test properties for maya.when()
     d1 = maya.when('11-17-11 08:09:10')
     assert d1.year == 2011
@@ -161,8 +161,9 @@ def test_datetime_to_timezone():
     dt = maya.when('2016-01-01').datetime(to_timezone='US/Eastern')
     assert dt.tzinfo.zone == 'US/Eastern'
 
+
 def test_rfc3339():
-    mdt =  maya.when('2016-01-01')
+    mdt = maya.when('2016-01-01')
     out = mdt.rfc3339()
     mdt2 = maya.MayaDT.from_rfc3339(out)
     assert mdt.epoch == mdt2.epoch
@@ -220,7 +221,7 @@ def test_intervals():
     now = maya.now()
     tomorrow = now.add(days=1)
 
-    assert len(list(maya.intervals(now, tomorrow, 60*60))) == 24
+    assert len(list(maya.intervals(now, tomorrow, 60 * 60))) == 24
 
 
 def test_dunder_add():
@@ -239,3 +240,12 @@ def test_dunder_sub():
     now = maya.now()
     assert now - 1 == now.subtract(seconds=1)
     assert now - timedelta(seconds=1) == now.subtract(seconds=1)
+
+
+def test_anywhere_on_earth():
+    now = maya.now()
+    tomorrow = maya.when('tomorrow noon')
+
+    assert now.aoe is True
+    assert tomorrow.subtract(hours=1).aoe is True
+    assert tomorrow.add(hours=1).add(minutes=1).aoe is False

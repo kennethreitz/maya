@@ -166,6 +166,14 @@ class MayaDT(object):
         epoch_start = Datetime(*_EPOCH_START, tzinfo=pytz.timezone('UTC'))
         return (dt - epoch_start).total_seconds()
 
+    @property
+    def aoe(self):
+        """
+        Return True if the date has not passed anywhere on earth.
+        See also: http://www.ieee802.org/16/aoe.html
+        """
+        return when('tomorrow noon') > self > when('yesterday noon')
+
     # Importers
     # ---------
 
@@ -416,6 +424,14 @@ class MayaInterval(object):
     @property
     def midpoint(self):
         return self.start.add(seconds=(self.duration / 2))
+
+    @property
+    def aoe(self):
+        """
+        Return True if the interval has not passed anywhere on earth.
+        See also: http://www.ieee802.org/16/aoe.html
+        """
+        return self.start.aoe or self.end.aoe
 
     @validate_arguments_type_of_function()
     def combine(self, maya_interval):
