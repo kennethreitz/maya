@@ -172,7 +172,7 @@ class MayaDT(object):
         Return True if the date has not passed anywhere on earth.
         See also: http://www.ieee802.org/16/aoe.html
         """
-        return when('tomorrow') > self > when('tomorrow').subtract(days=2)
+        return when('tomorrow noon') > self > when('yesterday noon')
 
     # Importers
     # ---------

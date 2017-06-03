@@ -244,6 +244,8 @@ def test_dunder_sub():
 
 def test_anywhere_on_earth():
     now = maya.now()
+    tomorrow = maya.when('tomorrow noon')
+
     assert now.aoe is True
-    assert now.add(days=1).aoe is False
-    assert now.subtract(days=1).aoe is False
+    assert tomorrow.subtract(hours=1).aoe is True
+    assert tomorrow.add(hours=1).add(minutes=1).aoe is False

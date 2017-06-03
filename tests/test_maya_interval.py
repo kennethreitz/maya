@@ -593,16 +593,23 @@ def test_interval_anywhere_on_earth():
     )
     assert interval.aoe is True
 
-    start2 = maya.when('tomorrow')
+    start2 = maya.when('tomorrow noon')
     interval2 = maya.MayaInterval.from_datetime(
         start_dt=start2.datetime(),
         duration=duration
     )
     assert interval2.aoe is False
 
-    start3 = maya.now().subtract(days=2)
+    start3 = maya.when('yesterday noon')
     interval3 = maya.MayaInterval.from_datetime(
         start_dt=start3.datetime(),
         duration=duration
     )
-    assert interval3.aoe is False
+    assert interval3.aoe is True
+
+    start4 = maya.when('two days ago noon')
+    interval4 = maya.MayaInterval.from_datetime(
+        start_dt=start4.datetime(),
+        duration=duration
+    )
+    assert interval4.aoe is False
