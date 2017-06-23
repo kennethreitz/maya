@@ -74,7 +74,7 @@ Behold, datetimes for humans!
     UTC
 
     # Range of hours in a day:
-    >>> maya.interval(start=maya.now(), end=maya.now().add(days=1), interval=60*60)
+    >>> maya.intervals(start=maya.now(), end=maya.now().add(days=1), interval=60*60)
     <generator object intervals at 0x105ba5820>
 
 ☤ Advanced Usage of Maya
