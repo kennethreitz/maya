@@ -147,7 +147,9 @@ class MayaDT(object):
     @property
     def local_timezone(self):
         """Returns the name of the local timezone, for informational purposes."""
-        return self._local_tz.zone
+        if self._local_tz.zone in pytz.all_timezones:
+            return self._local_tz.zone
+        return self.timezone
 
     @property
     def _local_tz(self):
