@@ -239,3 +239,16 @@ def test_dunder_sub():
     now = maya.now()
     assert now - 1 == now.subtract(seconds=1)
     assert now - timedelta(seconds=1) == now.subtract(seconds=1)
+
+    
+def test_core_local_timezone(monkeypatch):
+    @property
+    def mock_local_tz(self):
+        class StaticTzInfo(object):
+            zone = 'local'
+            def __repr__(self):
+                return "<StaticTzInfo 'local'>"
+        return StaticTzInfo()
+    monkeypatch.setattr(maya.MayaDT, '_local_tz', mock_local_tz)
+    mdt = maya.MayaDT(0)
+    assert mdt.local_timezone == 'UTC'
