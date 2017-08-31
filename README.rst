@@ -127,9 +127,9 @@ I think these projects complement each-other, personally. Maya is great for pars
 ☤ Installing Maya
 -----------------
 
-Installation is easy, with pip::
+Installation is easy, with `pipenv <https://pipenv.org/>`_::
 
-    $ pip install maya
+    $ pipenv install maya
 
 ✨🍰✨
 
