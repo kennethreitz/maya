@@ -352,7 +352,7 @@ class MayaInterval(object):
 
     def iso8601(self):
         """Returns an ISO 8601 representation of the MayaInterval."""
-        return '{0}/{1}'.format(self.start.iso6801, self.end.iso8601)
+        return '{0}/{1}'.format(self.start.iso8601(), self.end.iso8601())
 
     @classmethod
     def from_iso8601(cls, s):
