@@ -20,7 +20,7 @@ Datetimes should be interacted with via an API written for humans.
 
 Maya is mostly built around the headaches and use-cases around parsing datetime data from websites.
 
-.. image:: https://imgs.xkcd.com/comics/supervillain_plan.png
+.. image:: https://farm4.staticflickr.com/3702/33288285996_5b69d2b8f7_k_d.jpg
 
 
 ☤ Basic Usage of Maya
