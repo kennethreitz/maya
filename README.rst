@@ -65,6 +65,15 @@ Behold, datetimes for humans!
     >>> rand_day = maya.when('2011-02-07', timezone='US/Eastern')
     <MayaDT epoch=1297036800.0>
 
+    # Maya speaks Python
+    >>> m = maya.MayaDT.from_datetime(datetime.utcnow())
+    >>> print(m)
+    Wed, 20 Sep 2017 17:24:32 GMT
+    
+    >>> m = maya.MayaDT.from_struct(time.gmtime())
+    >>> print(m)
+    Wed, 20 Sep 2017 17:24:32 GMT 
+
     >>> rand_day.day
     7
 

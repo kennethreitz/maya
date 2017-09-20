@@ -1,6 +1,8 @@
 import pytest
+import pytz
 import copy
-from datetime import timedelta
+import time
+from datetime import date, timedelta, datetime as Datetime
 
 import maya
 from maya.core import _seconds_or_timedelta  # import private function
@@ -63,6 +65,18 @@ def test_parse_iso8601():
 
     assert expected == d.iso8601()
 
+def test_struct():
+    ts = time.gmtime()
+    m = maya.MayaDT.from_struct(ts)
+    dt = Datetime.fromtimestamp(time.mktime(ts), pytz.UTC)
+    assert m._epoch != None
+    assert m.datetime() == dt
+
+    ts = time.localtime()
+    m = maya.MayaDT.from_struct(ts)
+    dt = Datetime.fromtimestamp(time.mktime(ts), pytz.UTC)
+    assert m._epoch != None
+    assert m.datetime() == dt 
 
 def test_human_when():
     r1 = maya.when('yesterday')
