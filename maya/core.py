@@ -176,6 +176,14 @@ class MayaDT(object):
     def from_datetime(klass, dt):
         """Returns MayaDT instance from datetime."""
         return klass(klass.__dt_to_epoch(dt))
+    
+    @classmethod
+    @validate_arguments_type_of_function(time.struct_time)
+    def from_struct(klass, struct, timezone=pytz.UTC):
+        """Returns MayaDT instance from a 9-tuple struct""" 
+        struct_time = time.mktime(struct)
+        dt = Datetime.fromtimestamp(struct_time, timezone)
+        return klass(klass.__dt_to_epoch(dt))
 
     @classmethod
     def from_iso8601(klass, iso8601_string):
