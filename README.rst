@@ -65,7 +65,7 @@ Behold, datetimes for humans!
     >>> rand_day = maya.when('2011-02-07', timezone='US/Eastern')
     <MayaDT epoch=1297036800.0>
 
-    # Maya speaks Python
+    # Maya speaks Python.
     >>> m = maya.MayaDT.from_datetime(datetime.utcnow())
     >>> print(m)
     Wed, 20 Sep 2017 17:24:32 GMT
@@ -91,7 +91,7 @@ Behold, datetimes for humans!
 ☤ Advanced Usage of Maya
 ------------------------
 
-In addition to timestamps, Maya also includes a wonderfuly powerful ``MayaInterval`` class, which represents a range of time (e.g. an event). With this class, you can perform a multitude of advanced calendar calculations with finese and ease. 
+In addition to timestamps, Maya also includes a wonderfuly powerful ``MayaInterval`` class, which represents a range of time (e.g. an event). With this class, you can perform a multitude of advanced calendar calculations with finesse and ease. 
 
 For example:
 
@@ -105,7 +105,7 @@ For example:
     
     >>> event = MayaInterval(start=event_start, end=event_end)
 
-From here, there a a number of methods available to you, which you can use to compare this event to another event.
+From here, there are a number of methods available to you, which you can use to compare this event to another event.
     
     
 
@@ -124,7 +124,7 @@ From here, there a a number of methods available to you, which you can use to co
 ☤ What about Delorean, Arrow, & Pendulum?
 -----------------------------------------
 
-All these project complement eachother, and are friends. Pendulum, for example, helps power Maya's parsing. 
+All these project complement each other, and are friends. Pendulum, for example, helps power Maya's parsing. 
 
 Arrow, for example, is a fantastic library, but isn't what I wanted in a datetime library. In many ways, it's better than Maya for certain things. In some ways, in my opinion, it's not.
 
