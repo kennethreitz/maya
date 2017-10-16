@@ -170,6 +170,17 @@ def test_parse():
     d = maya.parse('01/05/2016', day_first=True)
     assert format(d) == '2016-05-01 00:00:00+00:00'
 
+def test_when_past():
+    next_month = str(maya.now().add(months=1).month)
+    this_year = maya.now().year
+    last_year = this_year - 1
+
+    future_date = maya.when(next_month)
+    past_date = maya.when(next_month, prefer_past=True)
+
+    assert future_d.year == this_year
+    assert past_d.year == last_year
+
 
 def test_datetime_to_timezone():
     dt = maya.when('2016-01-01').datetime(to_timezone='US/Eastern')
