@@ -178,8 +178,8 @@ def test_when_past():
     future_date = maya.when(next_month)
     past_date = maya.when(next_month, prefer_past=True)
 
-    assert future_d.year == this_year
-    assert past_d.year == last_year
+    assert future_date.year == this_year
+    assert past_date.year == last_year
 
 
 def test_datetime_to_timezone():
