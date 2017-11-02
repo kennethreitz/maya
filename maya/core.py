@@ -612,6 +612,7 @@ def parse(string, day_first=False):
     dt = pendulum.parse(string, day_first=day_first)
     return MayaDT.from_datetime(dt)
 
+parce = parse
 
 def _seconds_or_timedelta(duration):
     """Returns `datetime.timedelta` object for the passed duration.
