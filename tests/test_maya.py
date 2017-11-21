@@ -65,6 +65,7 @@ def test_parse_iso8601():
 
     assert expected == d.iso8601()
 
+
 def test_struct():
     ts = time.gmtime()
     m = maya.MayaDT.from_struct(ts)
@@ -76,7 +77,8 @@ def test_struct():
     m = maya.MayaDT.from_struct(ts)
     dt = Datetime.fromtimestamp(time.mktime(ts), pytz.UTC)
     assert m._epoch != None
-    assert m.datetime() == dt 
+    assert m.datetime() == dt
+
 
 def test_human_when():
     r1 = maya.when('yesterday')
@@ -170,6 +172,13 @@ def test_parse():
     d = maya.parse('01/05/2016', day_first=True)
     assert format(d) == '2016-05-01 00:00:00+00:00'
 
+    d = maya.parse('2016/05/01', year_first=True, day_first=False)
+    assert format(d) == '2016-05-01 00:00:00+00:00'
+
+    d = maya.parse('2016/01/05', year_first=True, day_first=True)
+    assert format(d) == '2016-05-01 00:00:00+00:00'
+
+
 def test_when_past():
     next_month = str(maya.now().add(months=1).month)
     this_year = maya.now().year
@@ -185,6 +194,7 @@ def test_when_past():
 def test_datetime_to_timezone():
     dt = maya.when('2016-01-01').datetime(to_timezone='US/Eastern')
     assert dt.tzinfo.zone == 'US/Eastern'
+
 
 def test_rfc3339():
     mdt =  maya.when('2016-01-01')
@@ -265,7 +275,7 @@ def test_dunder_sub():
     assert now - 1 == now.subtract(seconds=1)
     assert now - timedelta(seconds=1) == now.subtract(seconds=1)
 
-    
+
 def test_core_local_timezone(monkeypatch):
     @property
     def mock_local_tz(self):
