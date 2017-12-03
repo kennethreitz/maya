@@ -596,7 +596,7 @@ def when(string, timezone='UTC', prefer_past=False):
 
     if prefer_past:
         settings['PREFER_DATES_FROM'] = 'past'
-    
+
     dt = dateparser.parse(string, settings=settings)
 
     if dt is None:
@@ -605,18 +605,24 @@ def when(string, timezone='UTC', prefer_past=False):
     return MayaDT.from_datetime(dt)
 
 
-def parse(string, day_first=False, year_first=True):
+def parse(string, timezone='UTC', day_first=False, year_first=True):
     """"Returns a MayaDT instance for the machine-produced moment specified.
 
     Powered by pendulum. Accepts most known formats. Useful for working with data.
 
     Keyword Arguments:
         string -- string to be parsed
+        timezone -- timezone referenced from (default: 'UTC')
         day_first -- if true, the first value (e.g. 01/05/2016) is parsed as day.
                      if year_first is set to True, this distinguishes between YDM and YMD. (default: False)
         year_first -- if true, the first value (e.g. 2016/05/01) is parsed as year (default: True)
     """
-    dt = pendulum.parse(string, day_first=day_first, year_first=year_first)
+    options = {}
+    options['tz'] = timezone
+    options['day_first'] = day_first
+    options['year_first'] = year_first
+
+    dt = pendulum.parse(string, **options)
     return MayaDT.from_datetime(dt)
 
 
