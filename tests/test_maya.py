@@ -178,6 +178,12 @@ def test_parse():
     d = maya.parse('2016/01/05', year_first=True, day_first=True)
     assert format(d) == '2016-05-01 00:00:00+00:00'
 
+    d = maya.parse('01/05/2016', timezone='UTC')
+    assert format(d) == '2016-01-05 00:00:00+00:00'
+
+    d = maya.parse('01/05/2016', timezone='US/Central')
+    assert format(d) == '2016-01-05 06:00:00+00:00'
+
 
 def test_when_past():
     next_month = str(maya.now().add(months=1).month)
