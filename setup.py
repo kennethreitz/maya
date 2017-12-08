@@ -7,14 +7,8 @@ import codecs
 
 from setuptools import setup
 
-try:
-    # Python 3
-    from os import dirname
-except ImportError:
-    # Python 2
-    from os.path import dirname
 
-here = os.path.abspath(dirname(__file__))
+here = os.path.abspath(os.path.dirname(__file__))
 
 with codecs.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = '\n' + f.read()
