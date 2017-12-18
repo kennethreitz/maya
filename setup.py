@@ -39,7 +39,7 @@ packages = [
 
 # About dict to store version and package info
 about = dict()
-with open(os.path.join(here, 'maya', '__version__.py'), 'r', encoding='utf-8') as f:
+with codecs.open(os.path.join(here, 'maya', '__version__.py'), 'r', encoding='utf-8') as f:
     exec(f.read(), about)
 
 setup(
