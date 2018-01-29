@@ -119,17 +119,24 @@ class MayaDT(object):
     def __radd__(self, duration):
         return self + duration
 
-    def __sub__(self, duration):
-        return self.subtract(
-            seconds=_seconds_or_timedelta(duration).total_seconds())
+    def __sub__(self, duration_or_date):
+        if isinstance(duration_or_date, MayaDT):
+            return self.subtract_date(dt=duration_or_date)
+        else:
+            return self.subtract(
+                seconds=_seconds_or_timedelta(duration_or_date).total_seconds())
 
     def add(self, **kwargs):
-        """"Returns a new MayaDT object with the given offsets."""
+        """Returns a new MayaDT object with the given offsets."""
         return self.from_datetime(pendulum.instance(self.datetime()).add(**kwargs))
 
     def subtract(self, **kwargs):
-        """"Returns a new MayaDT object with the given offsets."""
+        """Returns a new MayaDT object with the given offsets."""
         return self.from_datetime(pendulum.instance(self.datetime()).subtract(**kwargs))
+
+    def subtract_date(self, **kwargs):
+        """Returns a timedelta object with the duration between the dates"""
+        return timedelta(self.epoch - kwargs['dt'].epoch)
 
     # Timezone Crap
     # -------------
