@@ -176,12 +176,12 @@ class MayaDT(object):
     def from_datetime(klass, dt):
         """Returns MayaDT instance from datetime."""
         return klass(klass.__dt_to_epoch(dt))
-    
+
     @classmethod
     @validate_arguments_type_of_function(time.struct_time)
     def from_struct(klass, struct, timezone=pytz.UTC):
-        """Returns MayaDT instance from a 9-tuple struct""" 
-        struct_time = time.mktime(struct)
+        """Returns MayaDT instance from a 9-tuple struct (assumed to be from gmtime())"""
+        struct_time = time.mktime(struct) - utc_offset()
         dt = Datetime.fromtimestamp(struct_time, timezone)
         return klass(klass.__dt_to_epoch(dt))
 
@@ -296,6 +296,16 @@ class MayaDT(object):
         """"Returns human slang representation of time."""
         dt = self.datetime(naive=True, to_timezone=self.local_timezone)
         return humanize.naturaltime(dt)
+
+
+def utc_offset():
+    """Returns the current local time offset from UTC accounting for DST """
+    ts = time.localtime()
+    if ts[-1]:
+        offset = time.altzone
+    else:
+        offset = time.timezone
+    return offset
 
 
 def to_utc_offset_naive(dt):
