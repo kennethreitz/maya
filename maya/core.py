@@ -254,6 +254,10 @@ class MayaDT(object):
     @property
     def day(self):
         return self.datetime().day
+    
+    @property
+    def date(self):
+        return self.datetime().date()
 
     @property
     def week(self):
