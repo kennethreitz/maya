@@ -23,4 +23,4 @@ In chronological order:
 - Sébastien Eustace <sebastien@eustace.io> (`@sdispater <https://github.com/sdispater>`_)
 - Evan Mattiza <emattiza@gmail.com> (`@emattiza <https://github.com/emattiza>`_)
 - Dima Spivak <dima@spivak.ch> (`@dimaspivak <https://github.com/dimaspivak>`_)
-- Tom Barron <tusculum@gmail.com> (`@tbarron <https://github.com/tbarron>`_)
+- Tom Barron <tusculum@gmail.com> (`@dtbarron <https://github.com/tbarron>`_)

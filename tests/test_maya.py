@@ -67,17 +67,28 @@ def test_parse_iso8601():
 
 
 def test_struct():
-    ts = time.gmtime()
+    now = round(time.time())
+    ts = time.gmtime(now)
     m = maya.MayaDT.from_struct(ts)
-    dt = Datetime.fromtimestamp(time.mktime(ts), pytz.UTC)
+    dt = Datetime.fromtimestamp(now, pytz.UTC)
     assert m._epoch != None
     assert m.datetime() == dt
 
-    ts = time.localtime()
+    ts = time.localtime(now)
     m = maya.MayaDT.from_struct(ts)
-    dt = Datetime.fromtimestamp(time.mktime(ts), pytz.UTC)
+    dt = Datetime.fromtimestamp(time.mktime(ts) - maya.core.utc_offset(), pytz.UTC)
     assert m._epoch != None
     assert m.datetime() == dt
+
+
+def test_issue_104():
+    e = 1507756331
+    t = Datetime.utcfromtimestamp(e)
+    t = maya.MayaDT.from_datetime(t)
+    assert str(t) == 'Wed, 11 Oct 2017 21:12:11 GMT'
+    t = time.gmtime(e)
+    t = maya.MayaDT.from_struct(t)
+    assert str(t) == 'Wed, 11 Oct 2017 21:12:11 GMT'
 
 
 def test_human_when():
