@@ -386,19 +386,23 @@ class MayaInterval(object):
     @classmethod
     def from_iso8601(cls, s):
         # # Start and end, such as "2007-03-01T13:00:00Z/2008-05-11T15:30:00Z"
-        # start, end = s.split('/')
-        # try:
-        #     start = parse(start)
-        # except pendulum.parsing.exceptions.ParserError:
-        #     start = self._parse_iso8601_duration(start)
-        # try:
-        #     end = parse(start)
-        # except pendulum.parsing.exceptions.ParserError as e:
-        #     end = self._parse_iso8601_duration(start)
+        start, end = s.split('/')
+        try:
+            start = parse(start)
+        except pendulum.parsing.exceptions.ParserError:
+            # start = self._parse_iso8601_duration(start)
+            raise NotImplementedError()
+
+        try:
+            end = parse(end)
+        except pendulum.parsing.exceptions.ParserError as e:
+            # end = self._parse_iso8601_duration(end)
+            raise NotImplementedError()
+
+        return cls(start=start, end=end)
 
         # # Start and duration, such as "2007-03-01T13:00:00Z/P1Y2M10DT2H30M"
         # # Duration and end, such as "P1Y2M10DT2H30M/2008-05-11T15:30:00Z"
-        raise NotImplementedError()
 
     @validate_arguments_type_of_function()
     def __and__(self, maya_interval):
@@ -643,7 +647,7 @@ def parse(string, timezone='UTC', day_first=False, year_first=True):
     options['day_first'] = day_first
     options['year_first'] = year_first
 
-    dt = pendulum.parse(string, **options)
+    dt = pendulum.parse(str(string), **options)
     return MayaDT.from_datetime(dt)
 
 
