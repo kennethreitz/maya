@@ -314,3 +314,14 @@ def test_core_local_timezone(monkeypatch):
     monkeypatch.setattr(maya.MayaDT, '_local_tz', mock_local_tz)
     mdt = maya.MayaDT(0)
     assert mdt.local_timezone == 'UTC'
+
+
+def test_snaptime():
+    # given
+    dt = maya.when('Mon, 21 Feb 1994 21:21:42 GMT')
+
+    # when
+    dt = dt.snap('@d')
+
+    # then
+    assert dt == maya.when('Mon, 21 Feb 1994 00:00:00 GMT')
