@@ -1,3 +1,5 @@
+.PHONY: tests docs
+
 tests:
 	pytest tests/
 docs:
