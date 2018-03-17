@@ -17,6 +17,7 @@ import pytz
 import humanize
 import dateparser
 import pendulum
+import snaptime
 from tzlocal import get_localzone
 
 from .compat import cmp, comparable
@@ -137,6 +138,15 @@ class MayaDT(object):
     def subtract_date(self, **kwargs):
         """Returns a timedelta object with the duration between the dates"""
         return timedelta(self.epoch - kwargs['dt'].epoch)
+
+    def snap(self, instruction):
+        """
+        Returns a new MayaDT object modified by the given instruction.
+
+        Powered by snaptime.  See https://github.com/zartstrom/snaptime
+        for a complete documentation about the snaptime instructions.
+        """
+        return self.from_datetime(snaptime.snap(self.datetime(), instruction))
 
     # Timezone Crap
     # -------------
@@ -261,7 +271,7 @@ class MayaDT(object):
     @property
     def day(self):
         return self.datetime().day
-    
+
     @property
     def date(self):
         return self.datetime().date()

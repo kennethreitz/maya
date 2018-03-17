@@ -26,7 +26,8 @@ required = [
     'dateparser',
     'ruamel.yaml',
     'tzlocal',
-    'pendulum'
+    'pendulum',
+    'snaptime'
 ]
 
 packages = [
