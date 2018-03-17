@@ -69,10 +69,10 @@ Behold, datetimes for humans!
     >>> m = maya.MayaDT.from_datetime(datetime.utcnow())
     >>> print(m)
     Wed, 20 Sep 2017 17:24:32 GMT
-    
+
     >>> m = maya.MayaDT.from_struct(time.gmtime())
     >>> print(m)
-    Wed, 20 Sep 2017 17:24:32 GMT 
+    Wed, 20 Sep 2017 17:24:32 GMT
 
     >>> rand_day.day
     7
@@ -88,10 +88,15 @@ Behold, datetimes for humans!
     >>> maya.intervals(start=maya.now(), end=maya.now().add(days=1), interval=60*60)
     <generator object intervals at 0x105ba5820>
 
+    # snap modifiers
+    >>> dt = maya.when('Mon, 21 Feb 1994 21:21:42 GMT')
+    >>> dt.snap('@d+3h').rfc2822()
+    'Mon, 21 Feb 1994 03:00:00 GMT'
+
 ☤ Advanced Usage of Maya
 ------------------------
 
-In addition to timestamps, Maya also includes a wonderfuly powerful ``MayaInterval`` class, which represents a range of time (e.g. an event). With this class, you can perform a multitude of advanced calendar calculations with finesse and ease. 
+In addition to timestamps, Maya also includes a wonderfully powerful ``MayaInterval`` class, which represents a range of time (e.g. an event). With this class, you can perform a multitude of advanced calendar calculations with finesse and ease.
 
 For example:
 
@@ -99,15 +104,15 @@ For example:
 
     >>> from maya import MayaInterval
 
-    # Create an event that is one hour long, starting now. 
+    # Create an event that is one hour long, starting now.
     >>> event_start = maya.now()
     >>> event_end = event_start.add(hours=1)
-    
+
     >>> event = MayaInterval(start=event_start, end=event_end)
 
 From here, there are a number of methods available to you, which you can use to compare this event to another event.
-    
-    
+
+
 
 ☤ Why is this useful?
 ---------------------
@@ -124,7 +129,7 @@ From here, there are a number of methods available to you, which you can use to 
 ☤ What about Delorean, Arrow, & Pendulum?
 -----------------------------------------
 
-All these project complement each other, and are friends. Pendulum, for example, helps power Maya's parsing. 
+All these project complement each other, and are friends. Pendulum, for example, helps power Maya's parsing.
 
 Arrow, for example, is a fantastic library, but isn't what I wanted in a datetime library. In many ways, it's better than Maya for certain things. In some ways, in my opinion, it's not.
 

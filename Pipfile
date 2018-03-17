@@ -1,11 +1,15 @@
 [dev-packages]
+
 pytest = "*"
-Sphinx = "*"
+sphinx = "*"
+
 
 [packages]
+
 humanize = "*"
 pytz = "*"
 dateparser = "*"
 "ruamel.yaml" = "*"
 tzlocal = "*"
 pendulum = ">=1.0"
+snaptime = "*"

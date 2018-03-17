@@ -1,8 +1,9 @@
-import pytest
-import pytz
 import copy
 import time
-from datetime import date, timedelta, datetime as Datetime
+from datetime import timedelta, datetime as Datetime
+
+import pytz
+import pytest
 
 import maya
 from maya.core import _seconds_or_timedelta  # import private function
@@ -26,43 +27,30 @@ def test_parse_iso8601():
     string = '20161001T1430.4+05:30'
     expected = '2016-10-01T09:00:00.400000Z'
     d = maya.MayaDT.from_iso8601(string)
-
     assert expected == d.iso8601()
-
     string = '2016T14'
     expected = '2016-01-01T14:00:00Z'
     d = maya.MayaDT.from_iso8601(string)
-
     assert expected == d.iso8601()
-
     string = '2016-10T14'
     expected = '2016-10-01T14:00:00Z'
     d = maya.MayaDT.from_iso8601(string)
-
     assert expected == d.iso8601()
-
     string = '2012W05'
     expected = '2012-01-30T00:00:00Z'
     d = maya.MayaDT.from_iso8601(string)
-
     assert expected == d.iso8601()
-
     string = '2012W055'
     expected = '2012-02-03T00:00:00Z'
     d = maya.MayaDT.from_iso8601(string)
-
     assert expected == d.iso8601()
-
     string = '2012007'
     expected = '2012-01-07T00:00:00Z'
     d = maya.MayaDT.from_iso8601(string)
-
     assert expected == d.iso8601()
-
     string = '2016-W07T09'
     expected = '2016-02-15T09:00:00Z'
     d = maya.MayaDT.from_iso8601(string)
-
     assert expected == d.iso8601()
 
 
@@ -71,13 +59,14 @@ def test_struct():
     ts = time.gmtime(now)
     m = maya.MayaDT.from_struct(ts)
     dt = Datetime.fromtimestamp(now, pytz.UTC)
-    assert m._epoch != None
+    assert m._epoch is not None
     assert m.datetime() == dt
-
     ts = time.localtime(now)
     m = maya.MayaDT.from_struct(ts)
-    dt = Datetime.fromtimestamp(time.mktime(ts) - maya.core.utc_offset(), pytz.UTC)
-    assert m._epoch != None
+    dt = Datetime.fromtimestamp(
+        time.mktime(ts) - maya.core.utc_offset(), pytz.UTC
+    )
+    assert m._epoch is not None
     assert m.datetime() == dt
 
 
@@ -94,14 +83,12 @@ def test_issue_104():
 def test_human_when():
     r1 = maya.when('yesterday')
     r2 = maya.when('today')
-
     assert (r2.day - r1.day) in (1, -30, -29, -28, -27)
 
 
 def test_machine_parse():
     r1 = maya.parse('August 14, 2015')
     assert r1.day == 14
-
     r2 = maya.parse('August 15, 2015')
     assert r2.day == 15
 
@@ -115,14 +102,12 @@ def test_dt_tz_translation():
 def test_dt_tz_naive():
     d1 = maya.now().datetime(naive=True)
     assert d1.tzinfo is None
-
     d2 = maya.now().datetime(to_timezone='EST', naive=True)
     assert d2.tzinfo is None
     assert (d1.hour - d2.hour) % 24 == 5
 
 
 def test_random_date():
-
     # Test properties for maya.when()
     d1 = maya.when('11-17-11 08:09:10')
     assert d1.year == 2011
@@ -134,7 +119,6 @@ def test_random_date():
     assert d1.minute == 9
     assert d1.second == 10
     assert d1.microsecond == 0
-
     # Test properties for maya.parse()
     d2 = maya.parse('February 29, 1992 13:12:34')
     assert d2.year == 1992
@@ -150,10 +134,8 @@ def test_random_date():
 
 def test_print_date(capsys):
     d = maya.when('11-17-11')
-
     print(d)
     out, err = capsys.readouterr()
-
     assert out == 'Thu, 17 Nov 2011 00:00:00 GMT\n'
     assert repr(d) == '<MayaDT epoch=1321488000.0>'
 
@@ -169,29 +151,23 @@ def test_slang_date():
 
 
 def test_slang_time():
-    d = maya.when('one hour ago')
+    d = maya.when('1 hour ago')
     assert d.slang_time() == 'an hour ago'
 
 
 def test_parse():
     d = maya.parse('February 21, 1994')
     assert format(d) == '1994-02-21 00:00:00+00:00'
-
     d = maya.parse('01/05/2016')
     assert format(d) == '2016-01-05 00:00:00+00:00'
-
     d = maya.parse('01/05/2016', day_first=True)
     assert format(d) == '2016-05-01 00:00:00+00:00'
-
     d = maya.parse('2016/05/01', year_first=True, day_first=False)
     assert format(d) == '2016-05-01 00:00:00+00:00'
-
     d = maya.parse('2016/01/05', year_first=True, day_first=True)
     assert format(d) == '2016-05-01 00:00:00+00:00'
-
     d = maya.parse('01/05/2016', timezone='UTC')
     assert format(d) == '2016-01-05 00:00:00+00:00'
-
     d = maya.parse('01/05/2016', timezone='US/Central')
     assert format(d) == '2016-01-05 06:00:00+00:00'
 
@@ -200,10 +176,8 @@ def test_when_past():
     next_month = str(maya.now().add(months=1).month)
     this_year = maya.now().year
     last_year = this_year - 1
-
     future_date = maya.when(next_month)
     past_date = maya.when(next_month, prefer_past=True)
-
     assert future_date.year == this_year
     if next_month == '1':
         assert past_date.year == this_year
@@ -217,7 +191,7 @@ def test_datetime_to_timezone():
 
 
 def test_rfc3339():
-    mdt =  maya.when('2016-01-01')
+    mdt = maya.when('2016-01-01')
     out = mdt.rfc3339()
     mdt2 = maya.MayaDT.from_rfc3339(out)
     assert mdt.epoch == mdt2.epoch
@@ -227,25 +201,18 @@ def test_comparison_operations():
     now = maya.now()
     now_copy = copy.deepcopy(now)
     tomorrow = maya.when('tomorrow')
-
     assert (now == now_copy) is True
     assert (now == tomorrow) is False
-
     assert (now != now_copy) is False
     assert (now != tomorrow) is True
-
     assert (now < now_copy) is False
     assert (now < tomorrow) is True
-
     assert (now <= now_copy) is True
     assert (now <= tomorrow) is True
-
     assert (now > now_copy) is False
     assert (now > tomorrow) is False
-
     assert (now >= now_copy) is True
     assert (now >= tomorrow) is False
-
     # Check Exceptions
     with pytest.raises(TypeError):
         now == 1
@@ -274,8 +241,7 @@ def test_seconds_or_timedelta():
 def test_intervals():
     now = maya.now()
     tomorrow = now.add(days=1)
-
-    assert len(list(maya.intervals(now, tomorrow, 60*60))) == 24
+    assert len(list(maya.intervals(now, tomorrow, 60 * 60))) == 24
 
 
 def test_dunder_add():
@@ -299,18 +265,32 @@ def test_dunder_sub():
 def test_mayaDT_sub():
     now = maya.now()
     then = now.add(days=1)
-    assert then - now == timedelta(24*60*60)
-    assert now - then == timedelta(-24*60*60)
+    assert then - now == timedelta(24 * 60 * 60)
+    assert now - then == timedelta(-24 * 60 * 60)
 
 
 def test_core_local_timezone(monkeypatch):
+
     @property
     def mock_local_tz(self):
+
         class StaticTzInfo(object):
             zone = 'local'
+
             def __repr__(self):
                 return "<StaticTzInfo 'local'>"
+
         return StaticTzInfo()
+
     monkeypatch.setattr(maya.MayaDT, '_local_tz', mock_local_tz)
     mdt = maya.MayaDT(0)
     assert mdt.local_timezone == 'UTC'
+
+
+def test_snaptime():
+    # given
+    dt = maya.when('Mon, 21 Feb 1994 21:21:42 GMT')
+    # when
+    dt = dt.snap('@d')
+    # then
+    assert dt == maya.when('Mon, 21 Feb 1994 00:00:00 GMT')
