@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """
 maya.compat
 ~~~~~~~~~~~~~~~
@@ -12,24 +11,19 @@ import sys
 # -------
 # Pythons
 # -------
-
 # Syntax sugar.
 _ver = sys.version_info
-
-#: Python 2.x?
+# : Python 2.x?
 is_py2 = (_ver[0] == 2)
-
-#: Python 3.x?
+# : Python 3.x?
 is_py3 = (_ver[0] == 3)
-
 # ---------
 # Specifics
 # ---------
-
 if is_py2:
     cmp = cmp
-
 elif is_py3:
+
     def cmp(a, b):
         """
         Compare two objects.
@@ -38,8 +32,10 @@ elif is_py3:
         """
         if a < b:
             return -1
+
         elif a == b:
             return 0
+
         else:
             return 1
 
@@ -59,36 +55,42 @@ def comparable(klass):
         c = self.__cmp__(other)
         if c is NotImplemented:
             return c
+
         return c == 0
 
     def __ne__(self, other):
         c = self.__cmp__(other)
         if c is NotImplemented:
             return c
+
         return c != 0
 
     def __lt__(self, other):
         c = self.__cmp__(other)
         if c is NotImplemented:
             return c
+
         return c < 0
 
     def __le__(self, other):
         c = self.__cmp__(other)
         if c is NotImplemented:
             return c
+
         return c <= 0
 
     def __gt__(self, other):
         c = self.__cmp__(other)
         if c is NotImplemented:
             return c
+
         return c > 0
 
     def __ge__(self, other):
         c = self.__cmp__(other)
         if c is NotImplemented:
             return c
+
         return c >= 0
 
     klass.__lt__ = __lt__
