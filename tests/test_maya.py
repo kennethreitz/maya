@@ -169,7 +169,7 @@ def test_slang_date():
 
 
 def test_slang_time():
-    d = maya.when('one hour ago')
+    d = maya.when('1 hour ago')
     assert d.slang_time() == 'an hour ago'
 
 
