@@ -539,3 +539,14 @@ def test_interval_iso8601():
     start = maya.when('11-17-11 08:09:10')
     interval = maya.MayaInterval(start=start, duration=1)
     assert interval.iso8601() == '2011-11-17T08:09:10Z/2011-11-17T08:09:11Z'
+
+
+def test_interval_from_iso8601():
+    interval = maya.MayaInterval.from_iso8601(
+        "2018-03-18T14:27:18Z/2018-04-01T04:15:27Z"
+    )
+    s = maya.when("2018-03-18T14:27:18Z")
+    e = maya.when("2018-04-01T04:15:27Z")
+
+    assert interval.start == s
+    assert interval.end == e
