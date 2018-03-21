@@ -12,12 +12,14 @@ import time
 import functools
 from datetime import timedelta, datetime as Datetime
 
+import re
 import pytz
 import humanize
 import dateparser
 import pendulum
 import snaptime
 from tzlocal import get_localzone
+from dateutil.relativedelta import relativedelta
 
 from .compat import cmp, comparable
 
@@ -424,20 +426,42 @@ class MayaInterval(object):
         return '{0}/{1}'.format(self.start.iso8601(), self.end.iso8601())
 
     @classmethod
+    def parse_iso8601_duration(cls, duration, start=None, end=None):
+        match = re.match(
+            r'(?:P(?P<weeks>\d+)W)|(?:P(?:(?:(?P<years>\d+)Y)?(?:(?P<months>\d+)M)?(?:(?P<days>\d+)D))?(?:T(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?)?)',
+            duration
+        )
+
+        time_components = {}
+        if match:
+            time_components = match.groupdict(0)
+            for key, value in time_components.items():
+                time_components[key] = int(value)
+
+            duration = relativedelta(**time_components)
+
+            if start:
+                return parse(start.datetime() + duration)
+
+            if end:
+                return parse(end.datetime() - duration)
+
+        return None
+
+    @classmethod
     def from_iso8601(cls, s):
         # # Start and end, such as "2007-03-01T13:00:00Z/2008-05-11T15:30:00Z"
         start, end = s.split('/')
         try:
             start = parse(start)
         except pendulum.parsing.exceptions.ParserError:
-            # start = self._parse_iso8601_duration(start)
+            # start = self._parse_iso8601_duration(start, end=end)
             raise NotImplementedError()
 
         try:
             end = parse(end)
         except pendulum.parsing.exceptions.ParserError as e:
-            # end = self._parse_iso8601_duration(end)
-            raise NotImplementedError()
+            end = cls.parse_iso8601_duration(end, start=start)
 
         return cls(start=start, end=end)
 
