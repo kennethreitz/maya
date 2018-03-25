@@ -23,8 +23,6 @@ from dateutil.relativedelta import relativedelta
 
 from .compat import cmp, comparable
 
-_EPOCH_START = (1970, 1, 1)
-
 
 def validate_class_type_arguments(operator):
     """
@@ -86,6 +84,7 @@ def validate_arguments_type_of_function(param_type=None):
 
 class MayaDT(object):
     """The Maya Datetime object."""
+    __EPOCH_START = (1970, 1, 1)
 
     def __init__(self, epoch):
         super(MayaDT, self).__init__()
@@ -202,7 +201,7 @@ class MayaDT(object):
         # Assume UTC if no datetime is provided.
         if dt.tzinfo is None:
             dt = dt.replace(tzinfo=pytz.utc)
-        epoch_start = Datetime(*_EPOCH_START, tzinfo=pytz.timezone('UTC'))
+        epoch_start = Datetime(*MayaDT.__EPOCH_START, tzinfo=pytz.timezone('UTC'))
         return (dt - epoch_start).total_seconds()
 
     # Importers
