@@ -1,12 +1,6 @@
 # ___  __  ___  _  _  ___
 # || \/ | ||=|| \\// ||=||
 # ||    | || ||  //  || ||
-# Ignore warnings for yaml usage.
-import warnings
-import ruamel.yaml
-
-warnings.simplefilter('ignore', ruamel.yaml.error.UnsafeLoaderWarning)
-
 import email.utils
 import time
 import functools

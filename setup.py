@@ -24,7 +24,6 @@ required = [
     'humanize',
     'pytz',
     'dateparser',
-    'ruamel.yaml',
     'tzlocal',
     'pendulum',
     'snaptime'
