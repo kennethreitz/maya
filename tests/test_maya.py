@@ -9,47 +9,51 @@ import maya
 from maya.core import _seconds_or_timedelta  # import private function
 
 
-def test_rfc2822():
-    r = maya.parse('February 21, 1994').rfc2822()
+@pytest.mark.parametrize("string,expected", [
+    ('February 21, 1994',
+     'Mon, 21 Feb 1994 00:00:00 GMT'),
+])
+def test_rfc2822(string, expected):
+    r = maya.parse(string).rfc2822()
     d = maya.MayaDT.from_rfc2822(r)
-    assert r == 'Mon, 21 Feb 1994 00:00:00 GMT'
+    assert r == expected
     assert r == d.rfc2822()
 
 
-def test_iso8601():
-    r = maya.parse('February 21, 1994').iso8601()
+@pytest.mark.parametrize("string,expected", [
+    ('February 21, 1994',
+     '1994-02-21T00:00:00Z'),
+])
+def test_iso8601(string, expected):
+    r = maya.parse(string).iso8601()
     d = maya.MayaDT.from_iso8601(r)
-    assert r == '1994-02-21T00:00:00Z'
+    assert r == expected
     assert r == d.iso8601()
 
 
-def test_parse_iso8601():
-    string = '20161001T1430.4+05:30'
-    expected = '2016-10-01T09:00:00.400000Z'
-    d = maya.MayaDT.from_iso8601(string)
-    assert expected == d.iso8601()
-    string = '2016T14'
-    expected = '2016-01-01T14:00:00Z'
-    d = maya.MayaDT.from_iso8601(string)
-    assert expected == d.iso8601()
-    string = '2016-10T14'
-    expected = '2016-10-01T14:00:00Z'
-    d = maya.MayaDT.from_iso8601(string)
-    assert expected == d.iso8601()
-    string = '2012W05'
-    expected = '2012-01-30T00:00:00Z'
-    d = maya.MayaDT.from_iso8601(string)
-    assert expected == d.iso8601()
-    string = '2012W055'
-    expected = '2012-02-03T00:00:00Z'
-    d = maya.MayaDT.from_iso8601(string)
-    assert expected == d.iso8601()
-    string = '2012007'
-    expected = '2012-01-07T00:00:00Z'
-    d = maya.MayaDT.from_iso8601(string)
-    assert expected == d.iso8601()
-    string = '2016-W07T09'
-    expected = '2016-02-15T09:00:00Z'
+@pytest.mark.parametrize("string,expected", [
+    ('20161001T1430.4+05:30',
+     '2016-10-01T09:00:00.400000Z'),
+
+    ('2016T14',
+     '2016-01-01T14:00:00Z'),
+
+    ('2016-10T14',
+     '2016-10-01T14:00:00Z'),
+
+    ('2012W05',
+     '2012-01-30T00:00:00Z'),
+
+    ('2012W055',
+     '2012-02-03T00:00:00Z'),
+
+    ('2012007',
+     '2012-01-07T00:00:00Z'),
+
+    ('2016-W07T09',
+     '2016-02-15T09:00:00Z'),
+])
+def test_parse_iso8601(string, expected):
     d = maya.MayaDT.from_iso8601(string)
     assert expected == d.iso8601()
 
@@ -155,21 +159,31 @@ def test_slang_time():
     assert d.slang_time() == 'an hour ago'
 
 
-def test_parse():
-    d = maya.parse('February 21, 1994')
-    assert format(d) == '1994-02-21 00:00:00+00:00'
-    d = maya.parse('01/05/2016')
-    assert format(d) == '2016-01-05 00:00:00+00:00'
-    d = maya.parse('01/05/2016', day_first=True)
-    assert format(d) == '2016-05-01 00:00:00+00:00'
-    d = maya.parse('2016/05/01', year_first=True, day_first=False)
-    assert format(d) == '2016-05-01 00:00:00+00:00'
-    d = maya.parse('2016/01/05', year_first=True, day_first=True)
-    assert format(d) == '2016-05-01 00:00:00+00:00'
-    d = maya.parse('01/05/2016', timezone='UTC')
-    assert format(d) == '2016-01-05 00:00:00+00:00'
-    d = maya.parse('01/05/2016', timezone='US/Central')
-    assert format(d) == '2016-01-05 06:00:00+00:00'
+@pytest.mark.parametrize("string,kwds,expected", [
+    ('February 21, 1994', {},
+     '1994-02-21 00:00:00+00:00'),
+
+    ('01/05/2016', {},
+     '2016-01-05 00:00:00+00:00'),
+
+    ('01/05/2016', dict(day_first=True),
+     '2016-05-01 00:00:00+00:00'),
+
+    ('2016/05/01', dict(year_first=True, day_first=False),
+     '2016-05-01 00:00:00+00:00'),
+
+    ('2016/01/05', dict(year_first=True, day_first=True),
+     '2016-05-01 00:00:00+00:00'),
+
+    ('01/05/2016', dict(timezone='UTC'),
+     '2016-01-05 00:00:00+00:00'),
+
+    ('01/05/2016', dict(timezone='US/Central'),
+     '2016-01-05 06:00:00+00:00'),
+])
+def test_parse(string, kwds, expected):
+    d = maya.parse(string, **kwds)
+    assert format(d) == expected
 
 
 def test_when_past():
@@ -287,10 +301,14 @@ def test_core_local_timezone(monkeypatch):
     assert mdt.local_timezone == 'UTC'
 
 
-def test_snaptime():
+@pytest.mark.parametrize("when_str,snap_str,expected_when", [
+    ('Mon, 21 Feb 1994 21:21:42 GMT', '@d',
+     'Mon, 21 Feb 1994 00:00:00 GMT'),
+])
+def test_snaptime(when_str, snap_str, expected_when):
     # given
-    dt = maya.when('Mon, 21 Feb 1994 21:21:42 GMT')
+    dt = maya.when(when_str)
     # when
-    dt = dt.snap('@d')
+    dt = dt.snap(snap_str)
     # then
-    assert dt == maya.when('Mon, 21 Feb 1994 00:00:00 GMT')
+    assert dt == maya.when(expected_when)
