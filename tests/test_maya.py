@@ -58,6 +58,7 @@ def test_parse_iso8601(string, expected):
     assert expected == d.iso8601()
 
 
+@pytest.mark.usefixtures("frozen_now")
 def test_struct():
     now = round(time.time())
     ts = time.gmtime(now)
@@ -97,12 +98,14 @@ def test_machine_parse():
     assert r2.day == 15
 
 
+@pytest.mark.usefixtures("frozen_now")
 def test_dt_tz_translation():
     d1 = maya.now().datetime()
     d2 = maya.now().datetime(to_timezone='EST')
     assert (d1.hour - d2.hour) % 24 == 5
 
 
+@pytest.mark.usefixtures("frozen_now")
 def test_dt_tz_naive():
     d1 = maya.now().datetime(naive=True)
     assert d1.tzinfo is None
@@ -186,6 +189,7 @@ def test_parse(string, kwds, expected):
     assert format(d) == expected
 
 
+@pytest.mark.usefixtures("frozen_now")
 def test_when_past():
     next_month = str(maya.now().add(months=1).month)
     this_year = maya.now().year
@@ -211,6 +215,7 @@ def test_rfc3339():
     assert mdt.epoch == mdt2.epoch
 
 
+@pytest.mark.usefixtures("frozen_now")
 def test_comparison_operations():
     now = maya.now()
     now_copy = copy.deepcopy(now)
@@ -252,30 +257,35 @@ def test_seconds_or_timedelta():
         _seconds_or_timedelta('invalid interval')
 
 
+@pytest.mark.usefixtures("frozen_now")
 def test_intervals():
     now = maya.now()
     tomorrow = now.add(days=1)
     assert len(list(maya.intervals(now, tomorrow, 60 * 60))) == 24
 
 
+@pytest.mark.usefixtures("frozen_now")
 def test_dunder_add():
     now = maya.now()
     assert now + 1 == now.add(seconds=1)
     assert now + timedelta(seconds=1) == now.add(seconds=1)
 
 
+@pytest.mark.usefixtures("frozen_now")
 def test_dunder_radd():
     now = maya.now()
     assert now.add(seconds=1) == now + 1
     assert now.add(seconds=1) == now + timedelta(seconds=1)
 
 
+@pytest.mark.usefixtures("frozen_now")
 def test_dunder_sub():
     now = maya.now()
     assert now - 1 == now.subtract(seconds=1)
     assert now - timedelta(seconds=1) == now.subtract(seconds=1)
 
 
+@pytest.mark.usefixtures("frozen_now")
 def test_mayaDT_sub():
     now = maya.now()
     then = now.add(days=1)
