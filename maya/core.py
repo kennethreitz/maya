@@ -219,7 +219,7 @@ class MayaDT(object):
 
         It's assumed to be from gmtime().
         """
-        struct_time = time.mktime(struct) - utc_offset()
+        struct_time = time.mktime(struct) - utc_offset(struct)
         dt = Datetime.fromtimestamp(struct_time, timezone)
         return klass(klass.__dt_to_epoch(dt))
 
@@ -340,9 +340,20 @@ class MayaDT(object):
         return humanize.naturaltime(dt)
 
 
-def utc_offset():
-    """Returns the current local time offset from UTC accounting for DST """
-    ts = time.localtime()
+def utc_offset(time_struct=None):
+    """
+    Returns the time offset from UTC accounting for DST
+
+    Keyword Arguments:
+        time_struct {time.struct_time} -- the struct time for which to
+                                          return the UTC offset.
+                                          If None, use current local time.
+    """
+    if time_struct:
+        ts = time_struct
+    else:
+        ts = time.localtime()
+
     if ts[-1]:
         offset = time.altzone
     else:
