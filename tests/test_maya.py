@@ -68,7 +68,7 @@ def test_struct():
     ts = time.localtime(now)
     m = maya.MayaDT.from_struct(ts)
     dt = Datetime.fromtimestamp(
-        time.mktime(ts) - maya.core.utc_offset(), pytz.UTC
+        time.mktime(ts) - maya.core.utc_offset(ts), pytz.UTC
     )
     assert m._epoch is not None
     assert m.datetime() == dt
