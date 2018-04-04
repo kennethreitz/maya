@@ -4,4 +4,4 @@ pytest = "*"
 sphinx = "*"
 
 [packages]
-maya = {path=".", editable=true}
+"e1839a8" = {path = ".", editable = true}
