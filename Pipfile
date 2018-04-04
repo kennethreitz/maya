@@ -6,7 +6,7 @@ sphinx = "*"
 [packages]
 humanize = "*"
 pytz = "*"
-dateparser = "*"
+dateparser = ">=0.7.0"
 tzlocal = "*"
 pendulum = ">=1.0"
 snaptime = "*"

@@ -23,7 +23,7 @@ if sys.argv[-1] == "publish":
 required = [
     'humanize',
     'pytz',
-    'dateparser',
+    'dateparser>=0.7.0',
     'tzlocal',
     'pendulum',
     'snaptime'
