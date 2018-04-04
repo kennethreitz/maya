@@ -4,9 +4,4 @@ pytest = "*"
 sphinx = "*"
 
 [packages]
-humanize = "*"
-pytz = "*"
-dateparser = ">=0.7.0"
-tzlocal = "*"
-pendulum = ">=1.0"
-snaptime = "*"
+maya = {path=".", editable=true}
