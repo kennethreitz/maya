@@ -675,7 +675,7 @@ def now():
     return MayaDT(epoch=epoch)
 
 
-def when(string, timezone='UTC', prefer_past=False):
+def when(string, timezone='UTC', prefer_past=None):
     """"Returns a MayaDT instance for the human moment specified.
 
     Powered by dateparser. Useful for scraping websites.
@@ -694,8 +694,12 @@ def when(string, timezone='UTC', prefer_past=False):
         'RETURN_AS_TIMEZONE_AWARE': True,
         'TO_TIMEZONE': 'UTC',
     }
-    if prefer_past:
+
+    if prefer_past is False:
+        settings['PREFER_DATES_FROM'] = 'future'
+    if prefer_past is True:
         settings['PREFER_DATES_FROM'] = 'past'
+
     dt = dateparser.parse(string, settings=settings)
     if dt is None:
         raise ValueError('invalid datetime input specified.')
