@@ -686,8 +686,12 @@ def when(string, timezone='UTC', prefer_dates_from='current_period'):
     Keyword Arguments:
         string -- string to be parsed
         timezone -- timezone referenced from (default: 'UTC')
-        prefer_past -- prefer parsing ambiguous date as in the past
+        prefer_dates_from -- what dates are prefered when `string` is ambigous.
+                             options are 'past', 'future', and 'current_period'
+                             (default: 'current_period'). see: [1]
 
+    Reference:
+        [1] dateparser.readthedocs.io/en/latest/usage.html#handling-incomplete-dates
     """
     settings = {
         'TIMEZONE': timezone,
