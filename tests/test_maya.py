@@ -194,7 +194,9 @@ def test_parse(string, kwds, expected):
 def test_when_past():
     two_days_away = maya.now().add(days=2)
 
-    past_date = maya.when(two_days_away.slang_date(), prefer_past=True)
+    past_date = maya.when(
+            two_days_away.slang_date(),
+            prefer_dates_from='past')
 
     assert past_date < maya.now()
 
@@ -203,7 +205,9 @@ def test_when_past():
 def test_when_future():
     two_days_away = maya.now().add(days=2)
 
-    future_date = maya.when(two_days_away.slang_date(), prefer_past=False)
+    future_date = maya.when(
+            two_days_away.slang_date(),
+            prefer_dates_from='future')
 
     assert future_date > maya.now()
 
@@ -213,7 +217,8 @@ def test_when_past_day_name():
     two_days_away = maya.now().add(days=2)
 
     past_date = maya.when(
-            calendar.day_name[two_days_away.weekday], prefer_past=True)
+            calendar.day_name[two_days_away.weekday],
+            prefer_dates_from='past')
 
     assert past_date < maya.now()
 
@@ -223,7 +228,8 @@ def test_when_future_day_name():
     two_days_away = maya.now().add(days=2)
 
     future_date = maya.when(
-            calendar.day_name[two_days_away.weekday], prefer_past=False)
+            calendar.day_name[two_days_away.weekday],
+            prefer_dates_from='future')
 
     assert future_date > maya.now()
 
