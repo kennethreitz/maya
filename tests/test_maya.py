@@ -1,5 +1,6 @@
 import copy
 import time
+import calendar
 from datetime import timedelta, datetime as Datetime
 
 import pytz
@@ -191,16 +192,46 @@ def test_parse(string, kwds, expected):
 
 @pytest.mark.usefixtures("frozen_now")
 def test_when_past():
-    next_month = str(maya.now().add(months=1).month)
-    this_year = maya.now().year
-    last_year = this_year - 1
-    future_date = maya.when(next_month)
-    past_date = maya.when(next_month, prefer_past=True)
-    assert future_date.year == this_year
-    if next_month == '1':
-        assert past_date.year == this_year
-    else:
-        assert past_date.year == last_year
+    two_days_away = maya.now().add(days=2)
+
+    past_date = maya.when(
+            two_days_away.slang_date(),
+            prefer_dates_from='past')
+
+    assert past_date < maya.now()
+
+
+@pytest.mark.usefixtures("frozen_now")
+def test_when_future():
+    two_days_away = maya.now().add(days=2)
+
+    future_date = maya.when(
+            two_days_away.slang_date(),
+            prefer_dates_from='future')
+
+    assert future_date > maya.now()
+
+
+@pytest.mark.usefixtures("frozen_now")
+def test_when_past_day_name():
+    two_days_away = maya.now().add(days=2)
+
+    past_date = maya.when(
+            calendar.day_name[two_days_away.weekday],
+            prefer_dates_from='past')
+
+    assert past_date < maya.now()
+
+
+@pytest.mark.usefixtures("frozen_now")
+def test_when_future_day_name():
+    two_days_away = maya.now().add(days=2)
+
+    future_date = maya.when(
+            calendar.day_name[two_days_away.weekday],
+            prefer_dates_from='future')
+
+    assert future_date > maya.now()
 
 
 def test_datetime_to_timezone():

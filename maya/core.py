@@ -675,7 +675,7 @@ def now():
     return MayaDT(epoch=epoch)
 
 
-def when(string, timezone='UTC', prefer_past=False):
+def when(string, timezone='UTC', prefer_dates_from='current_period'):
     """"Returns a MayaDT instance for the human moment specified.
 
     Powered by dateparser. Useful for scraping websites.
@@ -686,16 +686,20 @@ def when(string, timezone='UTC', prefer_past=False):
     Keyword Arguments:
         string -- string to be parsed
         timezone -- timezone referenced from (default: 'UTC')
-        prefer_past -- prefer parsing ambiguous date as in the past
+        prefer_dates_from -- what dates are prefered when `string` is ambigous.
+                             options are 'past', 'future', and 'current_period'
+                             (default: 'current_period'). see: [1]
 
+    Reference:
+        [1] dateparser.readthedocs.io/en/latest/usage.html#handling-incomplete-dates
     """
     settings = {
         'TIMEZONE': timezone,
         'RETURN_AS_TIMEZONE_AWARE': True,
         'TO_TIMEZONE': 'UTC',
+        'PREFER_DATES_FROM': prefer_dates_from,
     }
-    if prefer_past:
-        settings['PREFER_DATES_FROM'] = 'past'
+
     dt = dateparser.parse(string, settings=settings)
     if dt is None:
         raise ValueError('invalid datetime input specified.')
