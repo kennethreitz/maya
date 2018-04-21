@@ -33,6 +33,21 @@ def test_iso8601(string, expected):
 @pytest.mark.parametrize(
     "string,expected",
     [
+        ('January 1, 1970', "12.17.16.7.5"),
+        ('December 21, 2012', "13.0.0.0.0"),
+        ('March 4, 1900', "12.14.5.10.0"),
+    ],
+)
+def test_long_count(string, expected):
+    r = maya.parse(string).long_count()
+    d = maya.MayaDT.from_long_count(r)
+    assert r == expected
+    assert r == d.long_count()
+
+
+@pytest.mark.parametrize(
+    "string,expected",
+    [
         ("20161001T1430.4+05:30", "2016-10-01T09:00:00.400000Z"),
         ("2016T14", "2016-01-01T14:00:00Z"),
         ("2016-10T14", "2016-10-01T14:00:00Z"),
