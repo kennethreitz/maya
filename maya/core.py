@@ -277,7 +277,7 @@ class MayaDT(object):
 
     def rfc3339(self):
         """Returns an RFC 3339 representation of the MayaDT."""
-        return self.datetime().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-4] + "Z"
+        return self.datetime().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-5] + "Z"
 
     # Properties
     # ----------
