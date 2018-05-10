@@ -320,8 +320,8 @@ def test_dunder_sub():
 def test_mayaDT_sub():
     now = maya.now()
     then = now.add(days=1)
-    assert then - now == timedelta(24 * 60 * 60)
-    assert now - then == timedelta(-24 * 60 * 60)
+    assert then - now == timedelta(seconds=24 * 60 * 60)
+    assert now - then == timedelta(seconds=-24 * 60 * 60)
 
 
 def test_core_local_timezone(monkeypatch):

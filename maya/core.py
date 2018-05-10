@@ -152,7 +152,7 @@ class MayaDT(object):
 
     def subtract_date(self, **kwargs):
         """Returns a timedelta object with the duration between the dates"""
-        return timedelta(self.epoch - kwargs['dt'].epoch)
+        return timedelta(seconds=self.epoch - kwargs['dt'].epoch)
 
     def snap(self, instruction):
         """
