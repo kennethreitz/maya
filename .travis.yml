@@ -3,6 +3,9 @@ python:
   - "2.7"
   - "3.6"
   - "3.7-dev"
+  # Test PyPy versions because PyPy is awesome :)
+  - "pypy2.7"
+  - "pypy3.6"
 
 matrix:
     allow_failures:
