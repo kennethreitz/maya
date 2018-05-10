@@ -342,6 +342,28 @@ def test_core_local_timezone(monkeypatch):
     assert mdt.local_timezone == 'UTC'
 
 
+def test_getting_datetime_for_local_timezone(monkeypatch):
+
+    @property
+    def mock_local_tz(self):
+        class StaticTzInfo(object):
+            zone = 'Europe/Zurich'
+
+            def __repr__(self):
+                return "<StaticTzInfo 'Europe/Zurich'>"
+
+        return StaticTzInfo()
+
+    monkeypatch.setattr(maya.MayaDT, '_local_tz', mock_local_tz)
+
+    d = maya.parse('1994-02-21T12:00:00+05:30')
+
+    dt = pytz.timezone('Europe/Zurich').localize(
+            Datetime(1994, 2, 21, 7, 30))
+
+    assert d.local_datetime() == dt
+
+
 @pytest.mark.parametrize("when_str,snap_str,expected_when", [
     ('Mon, 21 Feb 1994 21:21:42 GMT', '@d',
      'Mon, 21 Feb 1994 00:00:00 GMT'),
