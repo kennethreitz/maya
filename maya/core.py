@@ -257,6 +257,14 @@ class MayaDT(object):
                 dt = dt.replace(tzinfo=self._tz)
         return dt
 
+    def local_datetime(self):
+        """Returns a local timezone-aware datetime object
+
+        It's the same as:
+        mayaDt.datetime(to_timezone=mayaDt.local_timezone)
+        """
+        return self.datetime(to_timezone=self.local_timezone, naive=False)
+
     def iso8601(self):
         """Returns an ISO 8601 representation of the MayaDT."""
         # Get a timezone-naive datetime.
