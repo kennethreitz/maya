@@ -160,7 +160,7 @@ def test_slang_date():
 
 def test_slang_time():
     d = maya.when('1 hour ago')
-    assert d.slang_time() == 'an hour ago'
+    assert d.slang_time() == '1 hour ago'
 
 
 @pytest.mark.parametrize("string,kwds,expected", [
