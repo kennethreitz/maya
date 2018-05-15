@@ -239,12 +239,14 @@ def test_datetime_to_timezone():
     assert dt.tzinfo.zone == 'US/Eastern'
 
 
-def test_rfc3339():
+def test_rfc3339_epoch():
     mdt = maya.when('2016-01-01')
     out = mdt.rfc3339()
     mdt2 = maya.MayaDT.from_rfc3339(out)
     assert mdt.epoch == mdt2.epoch
 
+
+def test_rfc3339_format():
     rfc3339 = maya.MayaDT.rfc3339(maya.when('2016-01-01T12:03:03Z'))
     # it's important that the string has got a "max 1-digit millis" fragment
     # as per https://tools.ietf.org/html/rfc3339#section-5.6
