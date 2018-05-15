@@ -245,6 +245,11 @@ def test_rfc3339():
     mdt2 = maya.MayaDT.from_rfc3339(out)
     assert mdt.epoch == mdt2.epoch
 
+    rfc3339 = maya.MayaDT.rfc3339(maya.when('2016-01-01T12:03:03Z'))
+    # it's important that the string has got a "max 1-digit millis" fragment
+    # as per https://tools.ietf.org/html/rfc3339#section-5.6
+    assert rfc3339 == '2016-01-01T12:03:03.0Z'
+
 
 @pytest.mark.usefixtures("frozen_now")
 def test_comparison_operations():
