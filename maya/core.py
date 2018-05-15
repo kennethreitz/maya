@@ -336,10 +336,15 @@ class MayaDT(object):
         dt = self.datetime(naive=True, to_timezone=self.local_timezone)
         return humanize.naturaldate(dt)
 
-    def slang_time(self):
-        """"Returns human slang representation of time."""
-        dt = self.datetime(naive=True, to_timezone=self.local_timezone)
-        return humanize.naturaltime(dt)
+    def slang_time(self, locale="en"):
+        """"Returns human slang representation of time.
+
+        Keyword Arguments:
+            locale -- locale to translate too, e.g. 'fr' for french.
+                       (default: 'en' - English)
+        """
+        dt = self.datetime(to_timezone=self.local_timezone)
+        return pendulum.instance(dt).diff_for_humans(locale=locale)
 
 
 def utc_offset(time_struct=None):
