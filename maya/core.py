@@ -340,7 +340,7 @@ class MayaDT(object):
         """"Returns human slang representation of time.
 
         Keyword Arguments:
-            locale -- locale to translate too, e.g. 'fr' for french.
+            locale -- locale to translate to, e.g. 'fr' for french.
                        (default: 'en' - English)
         """
         dt = self.datetime(to_timezone=self.local_timezone)
