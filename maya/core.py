@@ -3,6 +3,7 @@
 # ||    | || ||  //  || ||
 import email.utils
 import time
+import calendar
 import functools
 from datetime import timedelta, datetime as Datetime
 
@@ -14,6 +15,7 @@ import pendulum
 import snaptime
 from tzlocal import get_localzone
 from dateutil.relativedelta import relativedelta
+from dateparser.languages.loader import default_loader
 
 from .compat import cmp, comparable
 
@@ -331,10 +333,29 @@ class MayaDT(object):
 
     # Human Slang Extras
     # ------------------
-    def slang_date(self):
-        """"Returns human slang representation of date."""
-        dt = self.datetime(naive=True, to_timezone=self.local_timezone)
-        return humanize.naturaldate(dt)
+    def slang_date(self, locale="en"):
+        """"Returns human slang representation of date.
+
+        Keyword Arguments:
+            locale -- locale to translate to, e.g. 'fr' for french.
+                       (default: 'en' - English)
+        """
+        dt = pendulum.instance(self.datetime())
+
+        try:
+            return _translate(dt, locale)
+        except KeyError:
+            pass
+
+        dt.set_formatter("alternative")
+        delta = humanize.time.abs_timedelta(
+            timedelta(seconds=(self.epoch - now().epoch)))
+
+        format_string = "DD MMM"
+        if delta.days >= 365:
+            format_string += " YYYY"
+
+        return dt.format(format_string, locale=locale).title()
 
     def slang_time(self, locale="en"):
         """"Returns human slang representation of time.
@@ -343,7 +364,7 @@ class MayaDT(object):
             locale -- locale to translate to, e.g. 'fr' for french.
                        (default: 'en' - English)
         """
-        dt = self.datetime(to_timezone=self.local_timezone)
+        dt = self.datetime()
         return pendulum.instance(dt).diff_for_humans(locale=locale)
 
 
@@ -762,6 +783,16 @@ def _seconds_or_timedelta(duration):
         )
 
     return dt_timedelta
+
+
+def _translate(dt, target_locale):
+    en = default_loader.get_locale("en")
+    target = default_loader.get_locale(target_locale)
+    naturaldate = humanize.naturaldate(dt)
+
+    base = en.translate(naturaldate, settings=dateparser.conf.settings)
+
+    return target.info["relative-type"][base][-1]
 
 
 def intervals(start, end, interval):
