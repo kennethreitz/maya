@@ -3,7 +3,6 @@
 # ||    | || ||  //  || ||
 import email.utils
 import time
-import calendar
 import functools
 from datetime import timedelta, datetime as Datetime
 
