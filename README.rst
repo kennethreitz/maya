@@ -77,6 +77,10 @@ Behold, datetimes for humans!
     >>> m = maya.MayaDT.from_struct(time.gmtime())
     >>> print(m)
     Wed, 20 Sep 2017 17:24:32 GMT
+    
+    >>> m = maya.MayaDT(time.time())
+    >>> print(m)
+    Wed, 20 Sep 2017 17:24:32 GMT
 
     >>> rand_day.day
     7
