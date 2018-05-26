@@ -78,7 +78,10 @@ class MayaDT(object):
 
     def __init__(self, epoch):
         super(MayaDT, self).__init__()
-        self._epoch = epoch
+        # round the given epoch's microseconds to 6 digits
+        # to be compatible with Python's datetime.microseconds.
+        # See: https://docs.python.org/3/library/datetime.html#datetime.datetime.microsecond
+        self._epoch = round(epoch, 6)
 
     def __repr__(self):
         return "<MayaDT epoch={}>".format(self._epoch)
@@ -92,30 +95,30 @@ class MayaDT(object):
 
     @validate_class_type_arguments("==")
     def __eq__(self, maya_dt):
-        return int(self._epoch) == int(maya_dt._epoch)
+        return self._epoch == maya_dt._epoch
 
     @validate_class_type_arguments("!=")
     def __ne__(self, maya_dt):
-        return int(self._epoch) != int(maya_dt._epoch)
+        return self._epoch != maya_dt._epoch
 
     @validate_class_type_arguments("<")
     def __lt__(self, maya_dt):
-        return int(self._epoch) < int(maya_dt._epoch)
+        return self._epoch < maya_dt._epoch
 
     @validate_class_type_arguments("<=")
     def __le__(self, maya_dt):
-        return int(self._epoch) <= int(maya_dt._epoch)
+        return self._epoch <= maya_dt._epoch
 
     @validate_class_type_arguments(">")
     def __gt__(self, maya_dt):
-        return int(self._epoch) > int(maya_dt._epoch)
+        return self._epoch > maya_dt._epoch
 
     @validate_class_type_arguments(">=")
     def __ge__(self, maya_dt):
-        return int(self._epoch) >= int(maya_dt._epoch)
+        return self._epoch >= maya_dt._epoch
 
     def __hash__(self):
-        return hash(int(self.epoch))
+        return hash(self.epoch)
 
     def __add__(self, duration):
         return self.add(seconds=_seconds_or_timedelta(duration).total_seconds())
