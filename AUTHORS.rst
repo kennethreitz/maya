@@ -24,3 +24,4 @@ In chronological order:
 - Evan Mattiza <emattiza@gmail.com> (`@emattiza <https://github.com/emattiza>`_)
 - Dima Spivak <dima@spivak.ch> (`@dimaspivak <https://github.com/dimaspivak>`_)
 - Tom Barron <tusculum@gmail.com> (`@dtbarron <https://github.com/tbarron>`_)
+- Alex Ward <alxwrd@gmail.com> (`@alxwrd <https://github.com/alxwrd>`_)
