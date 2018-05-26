@@ -158,9 +158,19 @@ def test_slang_date():
     assert d.slang_date() == 'tomorrow'
 
 
+def test_slang_date_locale():
+    d = maya.when('tomorrow')
+    assert d.slang_date(locale='fr') == 'demain'
+
+
 def test_slang_time():
     d = maya.when('1 hour ago')
     assert d.slang_time() == '1 hour ago'
+
+
+def test_slang_time_locale():
+    d = maya.when('1 hour ago')
+    assert d.slang_time(locale='de') == 'vor 1 Stunde'
 
 
 @pytest.mark.parametrize("string,kwds,expected", [
