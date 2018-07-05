@@ -739,7 +739,7 @@ def when(string, timezone='UTC', prefer_dates_from='current_period'):
     return MayaDT.from_datetime(dt)
 
 
-def parse(string, timezone='UTC', day_first=False, year_first=True):
+def parse(string, strict=False, timezone='UTC', day_first=False, year_first=True):
     """"Returns a MayaDT instance for the machine-produced moment specified.
 
     Powered by pendulum.
@@ -747,6 +747,8 @@ def parse(string, timezone='UTC', day_first=False, year_first=True):
 
     Keyword Arguments:
         string -- string to be parsed
+        strict -- if false, allow pendulum to fall back on datetime parsing
+                  if pendulum's own parsing fails
         timezone -- timezone referenced from (default: 'UTC')
         day_first -- if true, the first value (e.g. 01/05/2016)
                      is parsed as day.
@@ -756,6 +758,7 @@ def parse(string, timezone='UTC', day_first=False, year_first=True):
                       is parsed as year (default: True)
     """
     options = {}
+    options['strict'] = strict
     options['tz'] = timezone
     options['day_first'] = day_first
     options['year_first'] = year_first
