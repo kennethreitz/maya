@@ -496,7 +496,7 @@ class MayaInterval(object):
 
         try:
             end = parse(end)
-        except pendulum.parsing.exceptions.ParserError as e:
+        except (pendulum.parsing.exceptions.ParserError, TypeError) as e:
             end = cls.parse_iso8601_duration(end, start=start)
 
         return cls(start=start, end=end)
