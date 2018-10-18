@@ -138,7 +138,7 @@ From here, there are a number of methods available to you, which you can use to 
 ☤ What about Delorean, Arrow, & Pendulum?
 -----------------------------------------
 
-All these project complement each other, and are friends. Pendulum, for example, helps power Maya's parsing.
+All these projects complement each other, and are friends. Pendulum, for example, helps power Maya's parsing.
 
 Arrow, for example, is a fantastic library, but isn't what I wanted in a datetime library. In many ways, it's better than Maya for certain things. In some ways, in my opinion, it's not.
 
