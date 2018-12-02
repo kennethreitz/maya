@@ -25,7 +25,7 @@ required = [
     'pytz',
     'dateparser>=0.7.0',
     'tzlocal',
-    'pendulum>=1.0, <=1.5.1',
+    'pendulum>=2.0.2',
     'snaptime'
 ]
 

@@ -346,7 +346,6 @@ class MayaDT(object):
         except KeyError:
             pass
 
-        dt.set_formatter("alternative")
         delta = humanize.time.abs_timedelta(
             timedelta(seconds=(self.epoch - now().epoch)))
 
@@ -497,7 +496,7 @@ class MayaInterval(object):
 
         try:
             end = parse(end)
-        except pendulum.parsing.exceptions.ParserError as e:
+        except (pendulum.parsing.exceptions.ParserError, TypeError) as e:
             end = cls.parse_iso8601_duration(end, start=start)
 
         return cls(start=start, end=end)
@@ -740,7 +739,7 @@ def when(string, timezone='UTC', prefer_dates_from='current_period'):
     return MayaDT.from_datetime(dt)
 
 
-def parse(string, timezone='UTC', day_first=False, year_first=True):
+def parse(string, timezone='UTC', day_first=False, year_first=True, strict=False):
     """"Returns a MayaDT instance for the machine-produced moment specified.
 
     Powered by pendulum.
@@ -755,11 +754,14 @@ def parse(string, timezone='UTC', day_first=False, year_first=True):
                      between YDM and YMD. (default: False)
         year_first -- if true, the first value (e.g. 2016/05/01)
                       is parsed as year (default: True)
+        strict -- if False, allow pendulum to fall back on datetime parsing
+                  if pendulum's own parsing fails
     """
     options = {}
     options['tz'] = timezone
     options['day_first'] = day_first
     options['year_first'] = year_first
+    options['strict'] = strict
 
     dt = pendulum.parse(str(string), **options)
     return MayaDT.from_datetime(dt)
