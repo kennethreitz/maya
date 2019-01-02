@@ -570,3 +570,16 @@ def test_interval_from_iso8601_duration():
 
     assert interval.start == s
     assert interval.end == e
+
+
+def test_issue_168_regression():
+    start = maya.now()
+    end = start.add(weeks=1)
+    gen = maya.intervals(start=start, end=end, interval=60 * 60 * 24)
+    # Since the bug causes the generator to never end, first sanity
+    # check that two results are not the same.
+    assert next(gen) != next(gen)
+    assert (
+        len(list(maya.intervals(start=start, end=end, interval=60 * 60 * 24)))
+        == 7
+    )

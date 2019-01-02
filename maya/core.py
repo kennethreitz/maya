@@ -806,4 +806,6 @@ def intervals(start, end, interval):
     while current_timestamp.epoch < end.epoch:
         yield current_timestamp
 
-        current_timestamp = current_timestamp.add(seconds=interval.seconds)
+        current_timestamp = current_timestamp.add(
+            seconds=interval.total_seconds()
+        )
