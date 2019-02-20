@@ -25,3 +25,4 @@ In chronological order:
 - Dima Spivak <dima@spivak.ch> (`@dimaspivak <https://github.com/dimaspivak>`_)
 - Tom Barron <tusculum@gmail.com> (`@dtbarron <https://github.com/tbarron>`_)
 - Alex Ward <alxwrd@gmail.com> (`@alxwrd <https://github.com/alxwrd>`_)
+- Frank Tobia <frank.tobia@gmail.com> (`@ftobia <https://github.com/ftobia>`_)

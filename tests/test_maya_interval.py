@@ -570,3 +570,60 @@ def test_interval_from_iso8601_duration():
 
     assert interval.start == s
     assert interval.end == e
+
+
+@pytest.mark.parametrize(
+    "start_string,end_string,interval,expected_count",
+    [
+        ("2019-01-03 11:40:00Z", "2019-01-03 11:40:20Z", 2, 10),
+        (
+            "2019-01-03 11:40:00Z",
+            "2019-01-03 11:40:30Z",
+            timedelta(seconds=2),
+            15,
+        ),
+        ("2019-01-03 11:40:00Z", "2019-01-03 11:45:00Z", 2 * 60, 3),
+        (
+            "2019-01-03 11:40:00Z",
+            "2019-01-03 11:51:00Z",
+            timedelta(minutes=1),
+            11,
+        ),
+        ("2019-01-03 11:40:00Z", "2019-01-03 21:40:00Z", 3 * 60 * 60, 4),
+        (
+            "2019-01-03 11:40:00Z",
+            "2019-01-03 13:41:00Z",
+            timedelta(hours=1),
+            3,
+        ),
+        ("2019-01-03 11:40:00Z", "2019-01-09 11:40:00Z", 3 * 60 * 60 * 24, 2),
+        ("2019-01-03 11:40:00Z", "2019-01-05 12:00:00Z", timedelta(days=2), 2),
+    ],
+    ids=(
+        "seconds",
+        "seconds-timedelta",
+        "minutes",
+        "minutes-timedelta",
+        "hours",
+        "hours-timedelta",
+        "days",
+        "days-timedelta",
+    ),
+)
+def test_intervals(start_string, end_string, interval, expected_count):
+    start = maya.parse(start_string)
+    end = maya.parse(end_string)
+    assert len(list(maya.intervals(start, end, interval))) == expected_count
+
+
+def test_issue_168_regression():
+    start = maya.now()
+    end = start.add(weeks=1)
+    gen = maya.intervals(start=start, end=end, interval=60 * 60 * 24)
+    # Since the bug causes the generator to never end, first sanity
+    # check that two results are not the same.
+    assert next(gen) != next(gen)
+    assert (
+        len(list(maya.intervals(start=start, end=end, interval=60 * 60 * 24)))
+        == 7
+    )
