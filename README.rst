@@ -135,7 +135,7 @@ From here, there are a number of methods available to you, which you can use to 
 - Maya never panics, and always carries a towel.
 
 
-☤ What about Delorean, Arrow, & Pendulum?
+☤ What about Delorean_, Arrow_, & Pendulum_?
 -----------------------------------------
 
 All these projects complement each other, and are friends. Pendulum, for example, helps power Maya's parsing.
@@ -145,6 +145,10 @@ Arrow, for example, is a fantastic library, but isn't what I wanted in a datetim
 I simply desire a sane API for datetimes that made sense to me for all the things I'd ever want to do—especially when dealing with timezone algebra. Arrow doesn't do all of the things I need (but it does a lot more!). Maya does do exactly what I need.
 
 I think these projects complement each-other, personally. Maya is great for parsing websites, and dealing with calendar events!
+
+.. _Delorean: https://delorean.readthedocs.io/
+.. _Arrow: https://arrow.readthedocs.io/
+.. _Pendulum: https://pendulum.eustace.io/
 
 
 ☤ Installing Maya
