@@ -4,8 +4,8 @@ Maya: Datetimes for Humans™
 .. image:: https://img.shields.io/pypi/v/maya.svg
     :target: https://pypi.python.org/pypi/maya
 
-.. image:: https://travis-ci.org/kennethreitz/maya.svg?branch=master
-    :target: https://travis-ci.org/kennethreitz/maya
+.. image:: https://travis-ci.org/timofurrer/maya.svg?branch=master
+    :target: https://travis-ci.org/timofurrer/maya
 
 .. image:: https://img.shields.io/badge/SayThanks-!-1EAEDB.svg
     :target: https://saythanks.io/to/kennethreitz
@@ -183,5 +183,5 @@ How to Contribute
 #. Write a test which shows that the bug was fixed or that the feature works as expected.
 #. Send a pull request and bug the maintainer until it gets merged and published. :) Make sure to add yourself to AUTHORS_.
 
-.. _`the repository`: http://github.com/kennethreitz/maya
-.. _AUTHORS: https://github.com/kennethreitz/maya/blob/master/AUTHORS.rst
+.. _`the repository`: http://github.com/timofurrer/maya
+.. _AUTHORS: https://github.com/timofurrer/maya/blob/master/AUTHORS.rst
