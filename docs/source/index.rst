@@ -80,4 +80,3 @@ Table of Contents
 
    user/install
    user/quickstart
-

@@ -1,0 +1,12 @@
+[run]
+branch = True
+source =
+    maya
+
+[paths]
+source =
+   src
+   .tox/*/site-packages
+
+[report]
+show_missing = True

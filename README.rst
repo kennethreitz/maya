@@ -4,11 +4,8 @@ Maya: Datetimes for Humans™
 .. image:: https://img.shields.io/pypi/v/maya.svg
     :target: https://pypi.python.org/pypi/maya
 
-.. image:: https://travis-ci.org/timofurrer/maya.svg?branch=master
-    :target: https://travis-ci.org/timofurrer/maya
-
-.. image:: https://img.shields.io/badge/SayThanks-!-1EAEDB.svg
-    :target: https://saythanks.io/to/kennethreitz
+.. image:: https://github.com/timofurrer/maya/workflows/Continuous%20Integration%20and%20Deployment/badge.svg
+    :target: https://github.com/timofurrer/maya/actions
 
 
 Datetimes are very frustrating to work with in Python, especially when dealing

@@ -26,12 +26,11 @@ def validate_class_type_arguments(operator):
     """
 
     def inner(function):
-
         def wrapper(self, *args, **kwargs):
             for arg in args + tuple(kwargs.values()):
                 if not isinstance(arg, self.__class__):
                     raise TypeError(
-                        'unorderable types: {}() {} {}()'.format(
+                        "unorderable types: {}() {} {}()".format(
                             type(self).__name__, operator, type(arg).__name__
                         )
                     )
@@ -54,20 +53,15 @@ def validate_arguments_type_of_function(param_type=None):
     """
 
     def inner(function):
-
         def wrapper(self, *args, **kwargs):
             type_ = param_type or type(self)
             for arg in args + tuple(kwargs.values()):
                 if not isinstance(arg, type_):
                     raise TypeError(
                         (
-                            'Invalid Type: {}.{}() accepts only the '
+                            "Invalid Type: {}.{}() accepts only the "
                             'arguments of type "<{}>"'
-                        ).format(
-                            type(self).__name__,
-                            function.__name__,
-                            type_.__name__,
-                        )
+                        ).format(type(self).__name__, function.__name__, type_.__name__)
                     )
 
             return function(self, *args, **kwargs)
@@ -79,6 +73,7 @@ def validate_arguments_type_of_function(param_type=None):
 
 class MayaDT(object):
     """The Maya Datetime object."""
+
     __EPOCH_START = (1970, 1, 1)
 
     def __init__(self, epoch):
@@ -86,7 +81,7 @@ class MayaDT(object):
         self._epoch = epoch
 
     def __repr__(self):
-        return '<MayaDT epoch={}>'.format(self._epoch)
+        return "<MayaDT epoch={}>".format(self._epoch)
 
     def __str__(self):
         return self.rfc2822()
@@ -95,27 +90,27 @@ class MayaDT(object):
         """Return's the datetime's format"""
         return format(self.datetime(), *args, **kwargs)
 
-    @validate_class_type_arguments('==')
+    @validate_class_type_arguments("==")
     def __eq__(self, maya_dt):
         return int(self._epoch) == int(maya_dt._epoch)
 
-    @validate_class_type_arguments('!=')
+    @validate_class_type_arguments("!=")
     def __ne__(self, maya_dt):
         return int(self._epoch) != int(maya_dt._epoch)
 
-    @validate_class_type_arguments('<')
+    @validate_class_type_arguments("<")
     def __lt__(self, maya_dt):
         return int(self._epoch) < int(maya_dt._epoch)
 
-    @validate_class_type_arguments('<=')
+    @validate_class_type_arguments("<=")
     def __le__(self, maya_dt):
         return int(self._epoch) <= int(maya_dt._epoch)
 
-    @validate_class_type_arguments('>')
+    @validate_class_type_arguments(">")
     def __gt__(self, maya_dt):
         return int(self._epoch) > int(maya_dt._epoch)
 
-    @validate_class_type_arguments('>=')
+    @validate_class_type_arguments(">=")
     def __ge__(self, maya_dt):
         return int(self._epoch) >= int(maya_dt._epoch)
 
@@ -123,9 +118,7 @@ class MayaDT(object):
         return hash(int(self.epoch))
 
     def __add__(self, duration):
-        return self.add(
-            seconds=_seconds_or_timedelta(duration).total_seconds()
-        )
+        return self.add(seconds=_seconds_or_timedelta(duration).total_seconds())
 
     def __radd__(self, duration):
         return self + duration
@@ -141,19 +134,15 @@ class MayaDT(object):
 
     def add(self, **kwargs):
         """Returns a new MayaDT object with the given offsets."""
-        return self.from_datetime(
-            pendulum.instance(self.datetime()).add(**kwargs)
-        )
+        return self.from_datetime(pendulum.instance(self.datetime()).add(**kwargs))
 
     def subtract(self, **kwargs):
         """Returns a new MayaDT object with the given offsets."""
-        return self.from_datetime(
-            pendulum.instance(self.datetime()).subtract(**kwargs)
-        )
+        return self.from_datetime(pendulum.instance(self.datetime()).subtract(**kwargs))
 
     def subtract_date(self, **kwargs):
         """Returns a timedelta object with the duration between the dates"""
-        return timedelta(seconds=self.epoch - kwargs['dt'].epoch)
+        return timedelta(seconds=self.epoch - kwargs["dt"].epoch)
 
     def snap(self, instruction):
         """
@@ -169,7 +158,7 @@ class MayaDT(object):
     @property
     def timezone(self):
         """Returns the UTC tzinfo name. It's always UTC. Always."""
-        return 'UTC'
+        return "UTC"
 
     @property
     def _tz(self):
@@ -196,7 +185,7 @@ class MayaDT(object):
         # Assume UTC if no datetime is provided.
         if dt.tzinfo is None:
             dt = dt.replace(tzinfo=pytz.utc)
-        epoch_start = Datetime(*MayaDT.__EPOCH_START, tzinfo=pytz.timezone('UTC'))
+        epoch_start = Datetime(*MayaDT.__EPOCH_START, tzinfo=pytz.timezone("UTC"))
         return (dt - epoch_start).total_seconds()
 
     # Importers
@@ -270,7 +259,7 @@ class MayaDT(object):
         """Returns an ISO 8601 representation of the MayaDT."""
         # Get a timezone-naive datetime.
         dt = self.datetime(naive=True)
-        return '{}Z'.format(dt.isoformat())
+        return "{}Z".format(dt.isoformat())
 
     def rfc2822(self):
         """Returns an RFC 2822 representation of the MayaDT."""
@@ -347,7 +336,8 @@ class MayaDT(object):
             pass
 
         delta = humanize.time.abs_timedelta(
-            timedelta(seconds=(self.epoch - now().epoch)))
+            timedelta(seconds=(self.epoch - now().epoch))
+        )
 
         format_string = "DD MMM"
         if delta.days >= 365:
@@ -402,7 +392,7 @@ def to_utc_offset_aware(dt):
 
 
 def to_iso8601(dt):
-    return to_utc_offset_naive(dt).isoformat() + 'Z'
+    return to_utc_offset_naive(dt).isoformat() + "Z"
 
 
 def end_of_day_midnight(dt):
@@ -410,10 +400,7 @@ def end_of_day_midnight(dt):
         return dt
 
     else:
-        return (
-            dt.replace(hour=0, minute=0, second=0, microsecond=0) +
-            timedelta(days=1)
-        )
+        return dt.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
 
 
 @comparable
@@ -435,9 +422,7 @@ class MayaInterval(object):
             )
             assert not all((start, end, duration is not None))
         except AssertionError:
-            raise ValueError(
-                'Exactly 2 of start, end, and duration must be specified'
-            )
+            raise ValueError("Exactly 2 of start, end, and duration must be specified")
 
         # Convert duration to timedelta if seconds were provided.
         if duration:
@@ -447,25 +432,23 @@ class MayaInterval(object):
         if not end:
             end = start + duration
         if start > end:
-            raise ValueError('MayaInterval cannot end before it starts')
+            raise ValueError("MayaInterval cannot end before it starts")
 
         self.start = start
         self.end = end
 
     def __repr__(self):
-        return '<MayaInterval start={0!r} end={1!r}>'.format(
-            self.start, self.end
-        )
+        return "<MayaInterval start={0!r} end={1!r}>".format(self.start, self.end)
 
     def iso8601(self):
         """Returns an ISO 8601 representation of the MayaInterval."""
-        return '{0}/{1}'.format(self.start.iso8601(), self.end.iso8601())
+        return "{0}/{1}".format(self.start.iso8601(), self.end.iso8601())
 
     @classmethod
     def parse_iso8601_duration(cls, duration, start=None, end=None):
         match = re.match(
-            r'(?:P(?P<weeks>\d+)W)|(?:P(?:(?:(?P<years>\d+)Y)?(?:(?P<months>\d+)M)?(?:(?P<days>\d+)D))?(?:T(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?)?)',
-            duration
+            r"(?:P(?P<weeks>\d+)W)|(?:P(?:(?:(?P<years>\d+)Y)?(?:(?P<months>\d+)M)?(?:(?P<days>\d+)D))?(?:T(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?)?)",  # noqa
+            duration,
         )
 
         time_components = {}
@@ -487,7 +470,7 @@ class MayaInterval(object):
     @classmethod
     def from_iso8601(cls, s):
         # # Start and end, such as "2007-03-01T13:00:00Z/2008-05-11T15:30:00Z"
-        start, end = s.split('/')
+        start, end = s.split("/")
         try:
             start = parse(start)
         except pendulum.parsing.exceptions.ParserError:
@@ -496,7 +479,7 @@ class MayaInterval(object):
 
         try:
             end = parse(end)
-        except (pendulum.parsing.exceptions.ParserError, TypeError) as e:
+        except (pendulum.parsing.exceptions.ParserError, TypeError):
             end = cls.parse_iso8601_duration(end, start=start)
 
         return cls(start=start, end=end)
@@ -514,9 +497,7 @@ class MayaInterval(object):
 
     @validate_arguments_type_of_function()
     def __eq__(self, maya_interval):
-        return (
-            self.start == maya_interval.start and self.end == maya_interval.end
-        )
+        return self.start == maya_interval.start and self.end == maya_interval.end
 
     def __hash__(self):
         return hash((self.start, self.end))
@@ -527,10 +508,7 @@ class MayaInterval(object):
 
     @validate_arguments_type_of_function()
     def __cmp__(self, maya_interval):
-        return (
-            cmp(self.start, maya_interval.start)
-            or cmp(self.end, maya_interval.end)
-        )
+        return cmp(self.start, maya_interval.start) or cmp(self.end, maya_interval.end)
 
     @property
     def duration(self):
@@ -585,7 +563,7 @@ class MayaInterval(object):
         # Convert seconds to timedelta, if appropriate.
         duration = _seconds_or_timedelta(duration)
         if duration <= timedelta(seconds=0):
-            raise ValueError('cannot call split with a non-positive timedelta')
+            raise ValueError("cannot call split with a non-positive timedelta")
 
         start = self.start
         while start < self.end:
@@ -597,22 +575,18 @@ class MayaInterval(object):
 
             start += duration
 
-    def quantize(self, duration, snap_out=False, timezone='UTC'):
+    def quantize(self, duration, snap_out=False, timezone="UTC"):
         """Returns a quanitzed interval."""
         # Convert seconds to timedelta, if appropriate.
         duration = _seconds_or_timedelta(duration)
         timezone = pytz.timezone(timezone)
         if duration <= timedelta(seconds=0):
-            raise ValueError('cannot quantize by non-positive timedelta')
+            raise ValueError("cannot quantize by non-positive timedelta")
 
         epoch = timezone.localize(Datetime(1970, 1, 1))
         seconds = int(duration.total_seconds())
-        start_seconds = int(
-            (self.start.datetime(naive=False) - epoch).total_seconds()
-        )
-        end_seconds = int(
-            (self.end.datetime(naive=False) - epoch).total_seconds()
-        )
+        start_seconds = int((self.start.datetime(naive=False) - epoch).total_seconds())
+        end_seconds = int((self.end.datetime(naive=False) - epoch).total_seconds())
         if start_seconds % seconds and not snap_out:
             start_seconds += seconds
         if end_seconds % seconds and snap_out:
@@ -632,15 +606,13 @@ class MayaInterval(object):
         start = max(self.start, maya_interval.start)
         end = min(self.end, maya_interval.end)
         either_instant = self.is_instant or maya_interval.is_instant
-        instant_overlap = (self.start == maya_interval.start or start <= end)
+        instant_overlap = self.start == maya_interval.start or start <= end
         if (either_instant and instant_overlap) or (start < end):
             return MayaInterval(start, end)
 
     @validate_arguments_type_of_function()
     def contains(self, maya_interval):
-        return (
-            self.start <= maya_interval.start and self.end >= maya_interval.end
-        )
+        return self.start <= maya_interval.start and self.end >= maya_interval.end
 
     def __contains__(self, maya_dt):
         if isinstance(maya_dt, MayaDT):
@@ -653,14 +625,13 @@ class MayaInterval(object):
 
     @validate_arguments_type_of_function()
     def is_adjacent(self, maya_interval):
-        return (
-            self.start == maya_interval.end or self.end == maya_interval.start
-        )
+        return self.start == maya_interval.end or self.end == maya_interval.start
 
     @property
     def icalendar(self):
-        ical_dt_format = '%Y%m%dT%H%M%SZ'
-        return """
+        ical_dt_format = "%Y%m%dT%H%M%SZ"
+        return (
+            """
         BEGIN:VCALENDAR
         VERSION:2.0
         BEGIN:VEVENT
@@ -669,26 +640,21 @@ class MayaInterval(object):
         END:VEVENT
         END:VCALENDAR
         """.format(
-            self.start.datetime().strftime(ical_dt_format),
-            self.end.datetime().strftime(ical_dt_format),
-        ).replace(
-            ' ', ''
-        ).strip(
-            '\r\n'
-        ).replace(
-            '\n', '\r\n'
+                self.start.datetime().strftime(ical_dt_format),
+                self.end.datetime().strftime(ical_dt_format),
+            )
+            .replace(" ", "")
+            .strip("\r\n")
+            .replace("\n", "\r\n")
         )
 
     @staticmethod
     def flatten(interval_list):
         return functools.reduce(
-            lambda reduced,
-            maya_interval: (
-                (
-                    reduced[:-1] + maya_interval.combine(reduced[-1])
-                ) if reduced else [
-                    maya_interval
-                ]
+            lambda reduced, maya_interval: (
+                (reduced[:-1] + maya_interval.combine(reduced[-1]))
+                if reduced
+                else [maya_interval]
             ),
             sorted(interval_list),
             [],
@@ -707,7 +673,7 @@ def now():
     return MayaDT(epoch=epoch)
 
 
-def when(string, timezone='UTC', prefer_dates_from='current_period'):
+def when(string, timezone="UTC", prefer_dates_from="current_period"):
     """"Returns a MayaDT instance for the human moment specified.
 
     Powered by dateparser. Useful for scraping websites.
@@ -726,20 +692,20 @@ def when(string, timezone='UTC', prefer_dates_from='current_period'):
         [1] dateparser.readthedocs.io/en/latest/usage.html#handling-incomplete-dates
     """
     settings = {
-        'TIMEZONE': timezone,
-        'RETURN_AS_TIMEZONE_AWARE': True,
-        'TO_TIMEZONE': 'UTC',
-        'PREFER_DATES_FROM': prefer_dates_from,
+        "TIMEZONE": timezone,
+        "RETURN_AS_TIMEZONE_AWARE": True,
+        "TO_TIMEZONE": "UTC",
+        "PREFER_DATES_FROM": prefer_dates_from,
     }
 
     dt = dateparser.parse(string, settings=settings)
     if dt is None:
-        raise ValueError('invalid datetime input specified.')
+        raise ValueError("invalid datetime input specified.")
 
     return MayaDT.from_datetime(dt)
 
 
-def parse(string, timezone='UTC', day_first=False, year_first=True, strict=False):
+def parse(string, timezone="UTC", day_first=False, year_first=True, strict=False):
     """"Returns a MayaDT instance for the machine-produced moment specified.
 
     Powered by pendulum.
@@ -758,10 +724,10 @@ def parse(string, timezone='UTC', day_first=False, year_first=True, strict=False
                   if pendulum's own parsing fails
     """
     options = {}
-    options['tz'] = timezone
-    options['day_first'] = day_first
-    options['year_first'] = year_first
-    options['strict'] = strict
+    options["tz"] = timezone
+    options["day_first"] = day_first
+    options["year_first"] = year_first
+    options["strict"] = strict
 
     dt = pendulum.parse(str(string), **options)
     return MayaDT.from_datetime(dt)
@@ -779,8 +745,8 @@ def _seconds_or_timedelta(duration):
         dt_timedelta = duration
     else:
         raise TypeError(
-            'Expects argument as `datetime.timedelta` object '
-            'or seconds in `int` format'
+            "Expects argument as `datetime.timedelta` object "
+            "or seconds in `int` format"
         )
 
     return dt_timedelta
@@ -806,6 +772,4 @@ def intervals(start, end, interval):
     while current_timestamp.epoch < end.epoch:
         yield current_timestamp
 
-        current_timestamp = current_timestamp.add(
-            seconds=interval.total_seconds()
-        )
+        current_timestamp = current_timestamp.add(seconds=interval.total_seconds())

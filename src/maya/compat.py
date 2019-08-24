@@ -14,14 +14,15 @@ import sys
 # Syntax sugar.
 _ver = sys.version_info
 # : Python 2.x?
-is_py2 = (_ver[0] == 2)
+is_py2 = _ver[0] == 2
 # : Python 3.x?
-is_py3 = (_ver[0] == 3)
+is_py3 = _ver[0] == 3
 # ---------
 # Specifics
 # ---------
 if is_py2:
-    cmp = cmp
+    cmp = cmp  # noqa
+
 elif is_py3:
 
     def cmp(a, b):
