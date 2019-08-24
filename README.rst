@@ -20,11 +20,6 @@ Datetimes should be interacted with via an API written for humans.
 
 Maya is mostly built around the headaches and use-cases around parsing datetime data from websites.
 
-.. image:: https://farm4.staticflickr.com/3702/33288285996_5b69d2b8f7_k_d.jpg
-
-Art by `Sam Flores
-<https://www.instagram.com/samagram12/>`_ (Photo by `Kenneth Reitz
-<https://www.instagram.com/kennethreitz/>`_). 
 
 ☤ Basic Usage of Maya
 ---------------------
@@ -76,7 +71,7 @@ Behold, datetimes for humans!
     >>> m = maya.MayaDT.from_struct(time.gmtime())
     >>> print(m)
     Wed, 20 Sep 2017 17:24:32 GMT
-    
+
     >>> m = maya.MayaDT(time.time())
     >>> print(m)
     Wed, 20 Sep 2017 17:24:32 GMT
@@ -152,11 +147,9 @@ I think these projects complement each-other, personally. Maya is great for pars
 ☤ Installing Maya
 -----------------
 
-Installation is easy, with `pipenv <http://pipenv.org/>`_::
+Installation is easy, with:
 
-    $ pipenv install maya
-
-✨🍰✨
+    $ pip install maya
 
 
 ☤ Demo
@@ -169,19 +162,12 @@ Try ``maya`` interactively using this online demo:
     :alt: Open Live Demo
 
 
-☤ Like it?
-----------
-
-`Say Thanks <https://saythanks.io/to/kennethreitz>`_!
-
-
 How to Contribute
 -----------------
 
 #. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug.
 #. Fork `the repository`_ on GitHub to start making your changes to the **master** branch (or branch off of it).
 #. Write a test which shows that the bug was fixed or that the feature works as expected.
-#. Send a pull request and bug the maintainer until it gets merged and published. :) Make sure to add yourself to AUTHORS_.
+#. Send a pull request and bug the maintainer until it gets merged and published. :)
 
 .. _`the repository`: http://github.com/timofurrer/maya
-.. _AUTHORS: https://github.com/timofurrer/maya/blob/master/AUTHORS.rst
