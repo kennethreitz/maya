@@ -212,6 +212,16 @@ class MayaDT(object):
         """Returns MayaDT instance from iso8601 string."""
         return parse(iso8601_string)
 
+    @classmethod
+    def from_long_count(klass, long_count_string):
+        """Returns MayaDT instance from Maya Long Count string."""
+        days_since_creation = -1856305
+        factors = (144000, 7200, 360, 20, 1)
+        for i, value in enumerate(long_count_string.split('.')):
+            days_since_creation += int(value) * factors[i]
+        days_since_creation *= 3600 * 24
+        return klass(epoch=days_since_creation)
+
     @staticmethod
     def from_rfc2822(rfc2822_string):
         """Returns MayaDT instance from rfc2822 string."""
@@ -268,6 +278,22 @@ class MayaDT(object):
     def rfc3339(self):
         """Returns an RFC 3339 representation of the MayaDT."""
         return self.datetime().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-5] + "Z"
+
+    def long_count(self):
+        """Returns a Mayan Long Count representation of the Maya DT."""
+        # Creation (0.0.0.0.0) occurred on -3114-08-11
+        # 1856305 is distance (in days) between Creation and UNIX epoch
+        days_since_creation = int(1856305 + self._epoch / (3600*24))
+        caps = (0, 20, 20, 18, 20)
+        lc_date = [0, 0, 0, 0, days_since_creation]
+        for i in range(4, 0, -1):
+            if lc_date[i] >= caps[i]:
+                lc_date[i-1] += int(lc_date[i]/caps[i])
+                lc_date[i] %= caps[i]
+            elif lc_date[i] < 0:
+                lc_date[i-1] += int(lc_date[i]/caps[i])
+                lc_date[i] = 0
+        return '.'.join(str(i) for i in lc_date)
 
     # Properties
     # ----------
