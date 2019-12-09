@@ -602,7 +602,7 @@ class MayaInterval(object):
             start += duration
 
     def quantize(self, duration, snap_out=False, timezone="UTC"):
-        """Returns a quanitzed interval."""
+        """Returns a quantized interval."""
         # Convert seconds to timedelta, if appropriate.
         duration = _seconds_or_timedelta(duration)
         timezone = pytz.timezone(timezone)
