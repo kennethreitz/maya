@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        python-version: [2.7, 3.5, 3.6, 3.7]
+        python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
         os: [ubuntu-latest, macOS-latest]
 
     steps:
@@ -47,10 +47,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Set up Python 3.7
+      - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: 3.8
       - name: Setup docs environment
         run: |
           python -m pip install ".[docs]"
@@ -64,11 +64,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Set up Python 3.7
+      - name: Set up Python 3.8
         if: startsWith(github.event.ref, 'refs/tags')
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: 3.8
       - name: Build Package
         if: startsWith(github.event.ref, 'refs/tags')
         run: |
