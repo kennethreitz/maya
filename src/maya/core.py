@@ -283,15 +283,15 @@ class MayaDT(object):
         """Returns a Mayan Long Count representation of the Maya DT."""
         # Creation (0.0.0.0.0) occurred on -3114-08-11
         # 1856305 is distance (in days) between Creation and UNIX epoch
-        days_since_creation = int(1856305 + self._epoch / (3600*24))
+        days_since_creation = int(1856305 + self._epoch / (3600 * 24))
         caps = (0, 20, 20, 18, 20)
         lc_date = [0, 0, 0, 0, days_since_creation]
         for i in range(4, 0, -1):
             if lc_date[i] >= caps[i]:
-                lc_date[i-1] += int(lc_date[i]/caps[i])
+                lc_date[i - 1] += int(lc_date[i] / caps[i])
                 lc_date[i] %= caps[i]
             elif lc_date[i] < 0:
-                lc_date[i-1] += int(lc_date[i]/caps[i])
+                lc_date[i - 1] += int(lc_date[i] / caps[i])
                 lc_date[i] = 0
         return '.'.join(str(i) for i in lc_date)
 
