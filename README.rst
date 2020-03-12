@@ -92,6 +92,11 @@ Behold, datetimes for humans!
     >>> dt.snap('@d+3h').rfc2822()
     'Mon, 21 Feb 1994 03:00:00 GMT'
 
+	# snap modifiers within a timezone
+    >>> dt = maya.when('Mon, 21 Feb 1994 21:21:42 GMT')
+    >>> dt.snap_tz('+3h@d', 'Australia/Perth').rfc2822()
+	'Mon, 21 Feb 1994 16:00:00 GMT'
+
 ☤ Advanced Usage of Maya
 ------------------------
 
