@@ -383,3 +383,23 @@ def test_snaptime(when_str, snap_str, expected_when):
     dt = dt.snap(snap_str)
     # then
     assert dt == maya.when(expected_when)
+
+
+@pytest.mark.parametrize(
+    "when_str,snap_str,timezone,expected_when",
+    [
+        (
+            "Mon, 21 Feb 1994 21:21:42 GMT",
+            "@d",
+            "Australia/Perth",
+            "Mon, 21 Feb 1994 16:00:00 GMT",
+        )
+    ],
+)
+def test_snaptime_tz(when_str, snap_str, timezone, expected_when):
+    # given
+    dt = maya.when(when_str)
+    # when
+    dt = dt.snap_tz(snap_str, timezone)
+    # then
+    assert dt == maya.when(expected_when)

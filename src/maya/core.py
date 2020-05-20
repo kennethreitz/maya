@@ -153,6 +153,17 @@ class MayaDT(object):
         """
         return self.from_datetime(snaptime.snap(self.datetime(), instruction))
 
+    def snap_tz(self, instruction, in_timezone):
+        """
+        Returns a new MayaDT object modified by the given instruction.
+        The modifications happen in the given timezone.
+
+        Powered by snaptime.  See https://github.com/zartstrom/snaptime
+        for a complete documentation about the snaptime instructions.
+        """
+        dt_tz = self.datetime(to_timezone=in_timezone)
+        return self.from_datetime(snaptime.snap_tz(dt_tz, instruction, dt_tz.tzinfo))
+
     # Timezone Crap
     # -------------
     @property
