@@ -217,14 +217,14 @@ def test_slang_time_locale():
         ("01/05/2016", {}, "2016-01-05 00:00:00+00:00"),
         ("01/05/2016", dict(day_first=True), "2016-05-01 00:00:00+00:00"),
         (
-                "2016/05/01",
-                dict(year_first=True, day_first=False),
-                "2016-05-01 00:00:00+00:00",
+            "2016/05/01",
+            dict(year_first=True, day_first=False),
+            "2016-05-01 00:00:00+00:00",
         ),
         (
-                "2016/01/05",
-                dict(year_first=True, day_first=True),
-                "2016-05-01 00:00:00+00:00",
+            "2016/01/05",
+            dict(year_first=True, day_first=True),
+            "2016-05-01 00:00:00+00:00",
         ),
         ("01/05/2016", dict(timezone="UTC"), "2016-01-05 00:00:00+00:00"),
         ("01/05/2016", dict(timezone="US/Central"), "2016-01-05 06:00:00+00:00"),
@@ -425,10 +425,10 @@ def test_snaptime(when_str, snap_str, expected_when):
     "when_str,snap_str,timezone,expected_when",
     [
         (
-                "Mon, 21 Feb 1994 21:21:42 GMT",
-                "@d",
-                "Australia/Perth",
-                "Mon, 21 Feb 1994 16:00:00 GMT",
+            "Mon, 21 Feb 1994 21:21:42 GMT",
+            "@d",
+            "Australia/Perth",
+            "Mon, 21 Feb 1994 16:00:00 GMT",
         )
     ],
 )
