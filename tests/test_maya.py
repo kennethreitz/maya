@@ -93,6 +93,42 @@ def test_human_when():
     assert (r2.day - r1.day) in (1, -30, -29, -28, -27)
 
 
+@pytest.mark.usefixtures("frozen_2020_08_11_in_paris")
+def test_human_when_today_with_timezone_summer_time():
+    d = maya.when("today", timezone='Europe/Paris')
+    assert str(d.datetime(to_timezone="Europe/Paris").date()) == '2020-08-11'
+
+
+@pytest.mark.usefixtures("frozen_2020_02_11_in_paris")
+def test_human_when_today_with_timezone_winter_time():
+    d = maya.when("today", timezone='Europe/Paris')
+    assert str(d.datetime(to_timezone="Europe/Paris").date()) == '2020-02-11'
+
+
+@pytest.mark.usefixtures("frozen_2020_08_11_in_paris")
+def test_human_when_yesterday_with_timezone_summer_time():
+    d = maya.when("yesterday", timezone='Europe/Paris')
+    assert str(d.datetime(to_timezone="Europe/Paris").date()) == '2020-08-10'
+
+
+@pytest.mark.usefixtures("frozen_2020_02_11_in_paris")
+def test_human_when_yesterday_with_timezone_winter_time():
+    d = maya.when("yesterday", timezone='Europe/Paris')
+    assert str(d.datetime(to_timezone="Europe/Paris").date()) == '2020-02-10'
+
+
+@pytest.mark.usefixtures("frozen_2020_08_11_in_paris")
+def test_human_when_midnight_with_timezone_summer_time():
+    d = maya.when("midnight", timezone='Europe/Paris')
+    assert str(d.datetime(to_timezone="Europe/Paris")) == '2020-08-11 00:00:00+02:00'
+
+
+@pytest.mark.usefixtures("frozen_2020_02_11_in_paris")
+def test_human_when_midnight_with_timezone_winter_time():
+    d = maya.when("midnight", timezone='Europe/Paris')
+    assert str(d.datetime(to_timezone="Europe/Paris")) == '2020-02-11 00:00:00+01:00'
+
+
 def test_machine_parse():
     r1 = maya.parse("August 14, 2015")
     assert r1.day == 14
@@ -181,14 +217,14 @@ def test_slang_time_locale():
         ("01/05/2016", {}, "2016-01-05 00:00:00+00:00"),
         ("01/05/2016", dict(day_first=True), "2016-05-01 00:00:00+00:00"),
         (
-            "2016/05/01",
-            dict(year_first=True, day_first=False),
-            "2016-05-01 00:00:00+00:00",
+                "2016/05/01",
+                dict(year_first=True, day_first=False),
+                "2016-05-01 00:00:00+00:00",
         ),
         (
-            "2016/01/05",
-            dict(year_first=True, day_first=True),
-            "2016-05-01 00:00:00+00:00",
+                "2016/01/05",
+                dict(year_first=True, day_first=True),
+                "2016-05-01 00:00:00+00:00",
         ),
         ("01/05/2016", dict(timezone="UTC"), "2016-01-05 00:00:00+00:00"),
         ("01/05/2016", dict(timezone="US/Central"), "2016-01-05 06:00:00+00:00"),
@@ -389,10 +425,10 @@ def test_snaptime(when_str, snap_str, expected_when):
     "when_str,snap_str,timezone,expected_when",
     [
         (
-            "Mon, 21 Feb 1994 21:21:42 GMT",
-            "@d",
-            "Australia/Perth",
-            "Mon, 21 Feb 1994 16:00:00 GMT",
+                "Mon, 21 Feb 1994 21:21:42 GMT",
+                "@d",
+                "Australia/Perth",
+                "Mon, 21 Feb 1994 16:00:00 GMT",
         )
     ],
 )
