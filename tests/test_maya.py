@@ -86,6 +86,28 @@ def test_issue_104():
     t = maya.MayaDT.from_struct(t)
     assert str(t) == "Wed, 11 Oct 2017 21:12:11 GMT"
 
+def test_before_1970():
+    d1 = maya.when("1899-17-11 08:09:10")
+    assert d1.year == 1899
+    assert d1.month == 11
+    assert d1.day == 17
+    assert d1.week == 46
+    assert d1.weekday == 5
+    assert d1.hour == 8
+    assert d1.minute == 9
+    assert d1.second == 10
+    assert d1.microsecond == 0
+    # Test properties for maya.parse()
+    d2 = maya.parse("February 29, 1904 13:12:34")
+    assert d2.year == 1904
+    assert d2.month == 2
+    assert d2.day == 29
+    assert d2.week == 9
+    assert d2.weekday == 1
+    assert d2.hour == 13
+    assert d2.minute == 12
+    assert d2.second == 34
+    assert d2.microsecond == 0
 
 def test_human_when():
     r1 = maya.when("yesterday")

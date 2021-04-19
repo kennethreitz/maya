@@ -257,7 +257,10 @@ class MayaDT(object):
         if to_timezone:
             dt = self.datetime().astimezone(pytz.timezone(to_timezone))
         else:
-            dt = Datetime.utcfromtimestamp(self._epoch)
+            try:
+                dt = Datetime.utcfromtimestamp(self._epoch)
+            except: # Fallback for before year 1970 issue
+                dt = Datetime.utcfromtimestamp(0) + timedelta(microseconds=self._epoch*1000000)
             dt.replace(tzinfo=self._tz)
         # Strip the timezone info if requested to do so.
         if naive:
