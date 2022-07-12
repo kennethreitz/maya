@@ -721,7 +721,7 @@ def when(string, timezone="UTC", prefer_dates_from="current_period"):
     Keyword Arguments:
         string -- string to be parsed
         timezone -- timezone referenced from (default: 'UTC')
-        prefer_dates_from -- what dates are prefered when `string` is ambigous.
+        prefer_dates_from -- what dates are preferred when `string` is ambiguous.
                              options are 'past', 'future', and 'current_period'
                              (default: 'current_period'). see: [1]
 
