@@ -372,7 +372,7 @@ class MayaDT(object):
         except KeyError:
             pass
 
-        delta = humanize.time.abs_timedelta(
+        delta = humanize.time._abs_timedelta(
             timedelta(seconds=(self.epoch - now().epoch))
         )
 
