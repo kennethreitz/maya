@@ -1,6 +1,6 @@
 name: Continuous Integration and Deployment
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
