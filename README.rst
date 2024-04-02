@@ -1,6 +1,3 @@
-🚨 Looking for a new maintainer: https://github.com/timofurrer/maya/issues/197 🚨 
-=========================================================================================
-
 Maya: Datetimes for Humans™
 ===========================
 
