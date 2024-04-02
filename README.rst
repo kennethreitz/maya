@@ -131,7 +131,7 @@ From here, there are a number of methods available to you, which you can use to 
 
 
 ☤ What about Delorean_, Arrow_, & Pendulum_?
------------------------------------------
+--------------------------------------------
 
 All these projects complement each other, and are friends. Pendulum, for example, helps power Maya's parsing.
 
