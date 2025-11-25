@@ -356,6 +356,17 @@ class MayaDT(object):
         return self.datetime().microsecond
 
     @property
+    def quarter(self):
+        """Returns the quarter of the year (1-4) for this datetime.
+        
+        Q1: January, February, March (months 1-3)
+        Q2: April, May, June (months 4-6)
+        Q3: July, August, September (months 7-9)
+        Q4: October, November, December (months 10-12)
+        """
+        return (self.datetime().month - 1) // 3 + 1
+
+    @property
     def epoch(self):
         return int(self._epoch)
 
