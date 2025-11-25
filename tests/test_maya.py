@@ -365,6 +365,77 @@ def test_intervals():
     assert len(list(maya.intervals(now, tomorrow, 60 * 60))) == 24
 
 
+@pytest.mark.parametrize(
+    "date_string,expected_quarter",
+    [
+        ("January 15, 2020", 1),
+        ("February 28, 2020", 1),
+        ("March 31, 2020", 1),
+        ("April 10, 2020", 2),
+        ("May 22, 2020", 2),
+        ("June 30, 2020", 2),
+        ("July 4, 2020", 3),
+        ("August 15, 2020", 3),
+        ("September 30, 2020", 3),
+        ("October 1, 2020", 4),
+        ("November 11, 2020", 4),
+        ("December 25, 2020", 4),
+    ],
+)
+def test_quarter(date_string, expected_quarter):
+    """Test that the quarter property returns correct values for all months."""
+    d = maya.parse(date_string)
+    assert d.quarter == expected_quarter
+
+
+def test_quarter_first_quarter():
+    """Test quarter property for Q1 dates."""
+    jan = maya.parse("January 1, 2020")
+    assert jan.quarter == 1
+    
+    feb = maya.parse("February 15, 2020")
+    assert feb.quarter == 1
+    
+    mar = maya.parse("March 31, 2020")
+    assert mar.quarter == 1
+
+
+def test_quarter_second_quarter():
+    """Test quarter property for Q2 dates."""
+    apr = maya.parse("April 5, 2020")
+    assert apr.quarter == 2
+    
+    may = maya.parse("May 20, 2020")
+    assert may.quarter == 2
+    
+    jun = maya.parse("June 30, 2020")
+    assert jun.quarter == 2
+
+
+def test_quarter_third_quarter():
+    """Test quarter property for Q3 dates."""
+    jul = maya.parse("July 1, 2020")
+    assert jul.quarter == 3
+    
+    aug = maya.parse("August 15, 2020")
+    assert aug.quarter == 3
+    
+    sep = maya.parse("September 30, 2020")
+    assert sep.quarter == 3
+
+
+def test_quarter_fourth_quarter():
+    """Test quarter property for Q4 dates."""
+    oct = maya.parse("October 10, 2020")
+    assert oct.quarter == 4
+    
+    nov = maya.parse("November 20, 2020")
+    assert nov.quarter == 4
+    
+    dec = maya.parse("December 31, 2020")
+    assert dec.quarter == 4
+
+
 @pytest.mark.usefixtures("frozen_now")
 def test_dunder_add():
     now = maya.now()
