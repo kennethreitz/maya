@@ -26,4 +26,4 @@ Or, download the `tarball <https://github.com/kennethreitz/maya/tarball/master>`
 Once you have a copy of the source, you can embed it in your own Python
 package, or install it into your site-packages easily::
 
-    $ python setup.py install
+    $ pip install .

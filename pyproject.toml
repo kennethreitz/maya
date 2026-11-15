@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "maya"
+dynamic = ["version"]
+description = "Datetimes for Humans™"
+readme = "README.rst"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [
+    { name = "Timo Furrer", email = "tuxtimo@gmail.com" },
+]
+maintainers = [
+    { name = "Timo Furrer", email = "tuxtimo@gmail.com" },
+]
+keywords = ["datetime", "timezone", "scrape", "web"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+    "Programming Language :: Python :: Implementation",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "humanize",
+    "pytz",
+    "dateparser>=0.7.0",
+    "tzlocal",
+    "pendulum>=2.0.2",
+    "snaptime",
+]
+
+[project.urls]
+Homepage = "https://github.com/kennethreitz/maya"
+Download = "https://github.com/kennethreitz/maya"
+"Bug Tracker" = "https://github.com/kennethreitz/maya/issues"
+
+[project.optional-dependencies]
+docs = ["sphinx"]
+tests = [
+    "freezegun",
+    "coverage",
+    "pytest",
+    "pytest-mock",
+]
+dev = [
+    "freezegun",
+    "coverage",
+    "pytest",
+    "pytest-mock",
+    "sphinx",
+    "pre-commit",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "maya.__version__" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.isort]
+known_first_party = ["maya"]
+known_third_party = ["humanize", "pytz", "dateparser", "tzlocal", "pendulum", "snaptime"]
+multi_line_output = 3
