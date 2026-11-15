@@ -4,7 +4,7 @@
 import email.utils
 import time
 import functools
-from datetime import timedelta, datetime as Datetime
+from datetime import date as Date, timedelta, datetime as Datetime
 
 import re
 import pytz
@@ -12,6 +12,7 @@ import humanize
 import dateparser
 import pendulum
 import snaptime
+from pendulum.parsing.iso8601 import parse_iso8601 as _parse_iso8601
 from tzlocal import get_localzone
 from dateutil.relativedelta import relativedelta
 from dateparser.languages.loader import default_loader
@@ -179,8 +180,11 @@ class MayaDT(object):
     @property
     def local_timezone(self):
         """Returns the name of the local timezone."""
-        if self._local_tz.zone in pytz.all_timezones:
-            return self._local_tz.zone
+        tz_name = getattr(self._local_tz, "key", None) or getattr(
+            self._local_tz, "zone", None
+        )
+        if tz_name in pytz.all_timezones:
+            return tz_name
 
         return self.timezone
 
@@ -258,17 +262,18 @@ class MayaDT(object):
             dt = self.datetime().astimezone(pytz.timezone(to_timezone))
         else:
             try:
-                dt = Datetime.utcfromtimestamp(self._epoch)
-            except: # Fallback for before year 1970 issue
-                dt = Datetime.utcfromtimestamp(0) + timedelta(microseconds=self._epoch*1000000)
-            dt.replace(tzinfo=self._tz)
+                dt = Datetime.fromtimestamp(self._epoch, self._tz)
+            except (OSError, OverflowError, ValueError):
+                # Fallback for before year 1970 issue
+                dt = Datetime(1970, 1, 1, tzinfo=self._tz) + timedelta(
+                    microseconds=self._epoch * 1000000
+                )
         # Strip the timezone info if requested to do so.
         if naive:
             return dt.replace(tzinfo=None)
 
-        else:
-            if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=self._tz)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=self._tz)
         return dt
 
     def local_datetime(self):
@@ -737,6 +742,12 @@ def when(string, timezone="UTC", prefer_dates_from="current_period"):
         "TO_TIMEZONE": "UTC",
         "PREFER_DATES_FROM": prefer_dates_from,
     }
+    try:
+        settings["RELATIVE_BASE"] = Datetime.now(pytz.timezone(timezone)).replace(
+            tzinfo=None
+        )
+    except (pytz.UnknownTimeZoneError, TypeError, AttributeError):
+        pass
 
     dt = dateparser.parse(string, settings=settings)
     if dt is None:
@@ -769,7 +780,28 @@ def parse(string, timezone="UTC", day_first=False, year_first=True, strict=False
     options["year_first"] = year_first
     options["strict"] = strict
 
-    dt = pendulum.parse(str(string), **options)
+    try:
+        dt = pendulum.parse(str(string), **options)
+    except pendulum.parsing.exceptions.ParserError as exc:
+        try:
+            parsed = _parse_iso8601(str(string))
+        except Exception:
+            raise exc
+        if isinstance(parsed, Datetime):
+            dt = pendulum.datetime(
+                parsed.year,
+                parsed.month,
+                parsed.day,
+                parsed.hour,
+                parsed.minute,
+                parsed.second,
+                parsed.microsecond,
+                tz=parsed.tzinfo or timezone,
+            )
+        elif isinstance(parsed, Date):
+            dt = pendulum.datetime(parsed.year, parsed.month, parsed.day, tz=timezone)
+        else:
+            raise exc
     return MayaDT.from_datetime(dt)
 
 
