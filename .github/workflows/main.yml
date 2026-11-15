@@ -17,9 +17,9 @@ jobs:
             python-version: "3.x"
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        uses: actions/setup-python@v7.1.0
         with:
           python-version: ${{ matrix.python-version }}
       - name: Setup build and test environment
@@ -49,9 +49,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
       - name: Set up Python
-        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        uses: actions/setup-python@v7.1.0
         with:
           python-version: "3.x"
       - name: Setup docs environment
@@ -61,15 +61,29 @@ jobs:
         run: |
           sphinx-build -W -b html -d doctrees docs/source docs/_build/html
 
+  # Fails when .github/workflows/actions.lock is out of sync with the
+  # workflows or a locked pin no longer verifies upstream.
+  lockfile:
+    runs-on: ubuntu-slim
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - run: gh extension install github/gh-actions-lock --pin v0.4.1
+      - run: gh actions-lock --verify
+
   publish:
-    needs: [build, docs]
+    needs: [build, docs, lockfile]
     runs-on: ubuntu-latest
 
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
       - name: Set up Python
-        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        uses: actions/setup-python@v7.1.0
         with:
           python-version: "3.x"
       - name: Build Package
@@ -77,7 +91,7 @@ jobs:
           python -m pip install --upgrade pip build
           python -m build
       - name: Publish Package on PyPI
-        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
+        uses: pypa/gh-action-pypi-publish@v1.14.3
         with:
           user: __token__
           password: ${{ secrets.pypi_token }}
