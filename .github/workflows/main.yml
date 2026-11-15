@@ -4,18 +4,22 @@ on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest]
+        python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]
+        include:
+          - os: macos-latest
+            python-version: "3.x"
+          - os: windows-latest
+            python-version: "3.x"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7.0.1
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v7.1.0
         with:
           python-version: ${{ matrix.python-version }}
       - name: Setup build and test environment
@@ -45,11 +49,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v4.2.0
+      - uses: actions/checkout@v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@v7.1.0
         with:
-          python-version: 3.7
+          python-version: "3.x"
       - name: Setup docs environment
         run: |
           python -m pip install ".[docs]"
@@ -57,23 +61,37 @@ jobs:
         run: |
           sphinx-build -W -b html -d doctrees docs/source docs/_build/html
 
+  # Fails when .github/workflows/actions.lock is out of sync with the
+  # workflows or a locked pin no longer verifies upstream.
+  lockfile:
+    runs-on: ubuntu-slim
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - run: gh extension install github/gh-actions-lock --pin v0.4.1
+      - run: gh actions-lock --verify
+
   publish:
-    needs: [build, docs]
+    needs: [build, docs, lockfile]
     runs-on: ubuntu-latest
 
-    if: startsWith(github.event.ref, 'refs/tags') && github.ref == 'refs/heads/master'
+    if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v4.2.0
+      - uses: actions/checkout@v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@v7.1.0
         with:
-          python-version: 3.7
+          python-version: "3.x"
       - name: Build Package
         run: |
-          python -m pip install --upgrade pip setuptools wheel
-          python setup.py sdist bdist_wheel --universal
+          python -m pip install --upgrade pip build
+          python -m build
       - name: Publish Package on PyPI
-        uses: pypa/gh-action-pypi-publish@master
+        uses: pypa/gh-action-pypi-publish@v1.14.3
         with:
           user: __token__
           password: ${{ secrets.pypi_token }}

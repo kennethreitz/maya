@@ -79,12 +79,13 @@ def test_struct():
 
 def test_issue_104():
     e = 1507756331
-    t = Datetime.utcfromtimestamp(e)
+    t = Datetime.fromtimestamp(e, pytz.UTC).replace(tzinfo=None)
     t = maya.MayaDT.from_datetime(t)
     assert str(t) == "Wed, 11 Oct 2017 21:12:11 GMT"
     t = time.gmtime(e)
     t = maya.MayaDT.from_struct(t)
     assert str(t) == "Wed, 11 Oct 2017 21:12:11 GMT"
+
 
 def test_before_1970():
     d1 = maya.when("1899-17-11 08:09:10")
@@ -108,6 +109,7 @@ def test_before_1970():
     assert d2.minute == 12
     assert d2.second == 34
     assert d2.microsecond == 0
+
 
 def test_human_when():
     r1 = maya.when("yesterday")
@@ -427,6 +429,18 @@ def test_getting_datetime_for_local_timezone(monkeypatch):
 
     dt = pytz.timezone("Europe/Zurich").localize(Datetime(1994, 2, 21, 7, 30))
 
+    assert d.local_datetime() == dt
+
+
+def test_getting_datetime_for_zoneinfo_local_timezone(monkeypatch):
+    from zoneinfo import ZoneInfo
+
+    monkeypatch.setattr(
+        maya.MayaDT, "_local_tz", property(lambda self: ZoneInfo("Europe/Zurich"))
+    )
+    d = maya.parse("1994-02-21T12:00:00+05:30")
+    dt = pytz.timezone("Europe/Zurich").localize(Datetime(1994, 2, 21, 7, 30))
+    assert d.local_timezone == "Europe/Zurich"
     assert d.local_datetime() == dt
 
 
