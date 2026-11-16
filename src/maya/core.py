@@ -4,7 +4,7 @@
 import email.utils
 import time
 import functools
-from datetime import date as Date, timedelta, datetime as Datetime
+import datetime as dt
 
 import re
 import pytz
@@ -143,7 +143,7 @@ class MayaDT(object):
 
     def subtract_date(self, **kwargs):
         """Returns a timedelta object with the duration between the dates"""
-        return timedelta(seconds=self.epoch - kwargs["dt"].epoch)
+        return dt.timedelta(seconds=self.epoch - kwargs["dt"].epoch)
 
     def snap(self, instruction):
         """
@@ -194,19 +194,19 @@ class MayaDT(object):
         return get_localzone()
 
     @staticmethod
-    @validate_arguments_type_of_function(Datetime)
-    def __dt_to_epoch(dt):
+    @validate_arguments_type_of_function(dt.datetime)
+    def __dt_to_epoch(dtime):
         """Converts a datetime into an epoch."""
         # Assume UTC if no datetime is provided.
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=pytz.utc)
-        epoch_start = Datetime(*MayaDT.__EPOCH_START, tzinfo=pytz.timezone("UTC"))
-        return (dt - epoch_start).total_seconds()
+        if dtime.tzinfo is None:
+            dtime = dtime.replace(tzinfo=pytz.utc)
+        epoch_start = dt.datetime(*MayaDT.__EPOCH_START, tzinfo=pytz.timezone("UTC"))
+        return (dtime - epoch_start).total_seconds()
 
     # Importers
     # ---------
     @classmethod
-    @validate_arguments_type_of_function(Datetime)
+    @validate_arguments_type_of_function(dt.datetime)
     def from_datetime(klass, dt):
         """Returns MayaDT instance from datetime."""
         return klass(klass.__dt_to_epoch(dt))
@@ -219,8 +219,8 @@ class MayaDT(object):
         It's assumed to be from gmtime().
         """
         struct_time = time.mktime(struct) - utc_offset(struct)
-        dt = Datetime.fromtimestamp(struct_time, timezone)
-        return klass(klass.__dt_to_epoch(dt))
+        dtime = dt.datetime.fromtimestamp(struct_time, timezone)
+        return klass(klass.__dt_to_epoch(dtime))
 
     @classmethod
     def from_iso8601(klass, iso8601_string):
@@ -259,22 +259,22 @@ class MayaDT(object):
                             the tzinfo is simply dropped (default: False)
         """
         if to_timezone:
-            dt = self.datetime().astimezone(pytz.timezone(to_timezone))
+            dtime = self.datetime().astimezone(pytz.timezone(to_timezone))
         else:
             try:
-                dt = Datetime.fromtimestamp(self._epoch, self._tz)
+                dtime = dt.datetime.fromtimestamp(self._epoch, self._tz)
             except (OSError, OverflowError, ValueError):
                 # Fallback for before year 1970 issue
-                dt = Datetime(1970, 1, 1, tzinfo=self._tz) + timedelta(
+                dtime = dt.datetime(1970, 1, 1, tzinfo=self._tz) + dt.timedelta(
                     microseconds=self._epoch * 1000000
                 )
         # Strip the timezone info if requested to do so.
         if naive:
-            return dt.replace(tzinfo=None)
+            return dtime.replace(tzinfo=None)
 
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=self._tz)
-        return dt
+        if dtime.tzinfo is None:
+            dtime = dtime.replace(tzinfo=self._tz)
+        return dtime
 
     def local_datetime(self):
         """Returns a local timezone-aware datetime object
@@ -287,8 +287,8 @@ class MayaDT(object):
     def iso8601(self):
         """Returns an ISO 8601 representation of the MayaDT."""
         # Get a timezone-naive datetime.
-        dt = self.datetime(naive=True)
-        return "{}Z".format(dt.isoformat())
+        dtime = self.datetime(naive=True)
+        return "{}Z".format(dtime.isoformat())
 
     def rfc2822(self):
         """Returns an RFC 2822 representation of the MayaDT."""
@@ -373,22 +373,22 @@ class MayaDT(object):
             locale -- locale to translate to, e.g. 'fr' for french.
                        (default: 'en' - English)
         """
-        dt = pendulum.instance(self.datetime())
+        pendulum_dt = pendulum.instance(self.datetime())
 
         try:
-            return _translate(dt, locale)
+            return _translate(pendulum_dt, locale)
         except KeyError:
             pass
 
         delta = humanize.time._abs_timedelta(
-            timedelta(seconds=(self.epoch - now().epoch))
+            dt.timedelta(seconds=(self.epoch - now().epoch))
         )
 
         format_string = "DD MMM"
         if delta.days >= 365:
             format_string += " YYYY"
 
-        return dt.format(format_string, locale=locale).title()
+        return pendulum_dt.format(format_string, locale=locale).title()
 
     def slang_time(self, locale="en"):
         """"Returns human slang representation of time.
@@ -397,8 +397,8 @@ class MayaDT(object):
             locale -- locale to translate to, e.g. 'fr' for french.
                        (default: 'en' - English)
         """
-        dt = self.datetime()
-        return pendulum.instance(dt).diff_for_humans(locale=locale)
+        dtime = self.datetime()
+        return pendulum.instance(dtime).diff_for_humans(locale=locale)
 
 
 def utc_offset(time_struct=None):
@@ -440,12 +440,18 @@ def to_iso8601(dt):
     return to_utc_offset_naive(dt).isoformat() + "Z"
 
 
-def end_of_day_midnight(dt):
-    if dt.time() == time.min:
-        return dt
+def _end_of_day_midnight(dtime):
+    if dtime.time() == dt.time.min:
+        return dtime
 
     else:
-        return dt.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+        return dtime.replace(hour=0, minute=0, second=0, microsecond=0) + dt.timedelta(
+            days=1
+        )
+
+
+def end_of_day_midnight(dt):
+    return _end_of_day_midnight(dt)
 
 
 @comparable
@@ -561,11 +567,11 @@ class MayaInterval(object):
 
     @property
     def timedelta(self):
-        return timedelta(seconds=(self.end.epoch - self.start.epoch))
+        return dt.timedelta(seconds=(self.end.epoch - self.start.epoch))
 
     @property
     def is_instant(self):
-        return self.timedelta == timedelta(seconds=0)
+        return self.timedelta == dt.timedelta(seconds=0)
 
     def intersects(self, maya_interval):
         return self & maya_interval is not None
@@ -607,7 +613,7 @@ class MayaInterval(object):
     def split(self, duration, include_remainder=True):
         # Convert seconds to timedelta, if appropriate.
         duration = _seconds_or_timedelta(duration)
-        if duration <= timedelta(seconds=0):
+        if duration <= dt.timedelta(seconds=0):
             raise ValueError("cannot call split with a non-positive timedelta")
 
         start = self.start
@@ -625,10 +631,10 @@ class MayaInterval(object):
         # Convert seconds to timedelta, if appropriate.
         duration = _seconds_or_timedelta(duration)
         timezone = pytz.timezone(timezone)
-        if duration <= timedelta(seconds=0):
+        if duration <= dt.timedelta(seconds=0):
             raise ValueError("cannot quantize by non-positive timedelta")
 
-        epoch = timezone.localize(Datetime(1970, 1, 1))
+        epoch = timezone.localize(dt.datetime(1970, 1, 1))
         seconds = int(duration.total_seconds())
         start_seconds = int((self.start.datetime(naive=False) - epoch).total_seconds())
         end_seconds = int((self.end.datetime(naive=False) - epoch).total_seconds())
@@ -743,17 +749,17 @@ def when(string, timezone="UTC", prefer_dates_from="current_period"):
         "PREFER_DATES_FROM": prefer_dates_from,
     }
     try:
-        settings["RELATIVE_BASE"] = Datetime.now(pytz.timezone(timezone)).replace(
+        settings["RELATIVE_BASE"] = dt.datetime.now(pytz.timezone(timezone)).replace(
             tzinfo=None
         )
     except (pytz.UnknownTimeZoneError, TypeError, AttributeError):
         pass
 
-    dt = dateparser.parse(string, settings=settings)
-    if dt is None:
+    parsed_dt = dateparser.parse(string, settings=settings)
+    if parsed_dt is None:
         raise ValueError("invalid datetime input specified.")
 
-    return MayaDT.from_datetime(dt)
+    return MayaDT.from_datetime(parsed_dt)
 
 
 def parse(string, timezone="UTC", day_first=False, year_first=True, strict=False):
@@ -781,14 +787,14 @@ def parse(string, timezone="UTC", day_first=False, year_first=True, strict=False
     options["strict"] = strict
 
     try:
-        dt = pendulum.parse(str(string), **options)
+        parsed_dt = pendulum.parse(str(string), **options)
     except pendulum.parsing.exceptions.ParserError as exc:
         try:
             parsed = _parse_iso8601(str(string))
         except Exception:
             raise exc
-        if isinstance(parsed, Datetime):
-            dt = pendulum.datetime(
+        if isinstance(parsed, dt.datetime):
+            parsed_dt = pendulum.datetime(
                 parsed.year,
                 parsed.month,
                 parsed.day,
@@ -798,11 +804,11 @@ def parse(string, timezone="UTC", day_first=False, year_first=True, strict=False
                 parsed.microsecond,
                 tz=parsed.tzinfo or timezone,
             )
-        elif isinstance(parsed, Date):
-            dt = pendulum.datetime(parsed.year, parsed.month, parsed.day, tz=timezone)
+        elif isinstance(parsed, dt.date):
+            parsed_dt = pendulum.datetime(parsed.year, parsed.month, parsed.day, tz=timezone)
         else:
             raise exc
-    return MayaDT.from_datetime(dt)
+    return MayaDT.from_datetime(parsed_dt)
 
 
 def _seconds_or_timedelta(duration):
@@ -812,8 +818,8 @@ def _seconds_or_timedelta(duration):
         duration -- `datetime.timedelta` object or seconds in `int` format.
     """
     if isinstance(duration, int):
-        dt_timedelta = timedelta(seconds=duration)
-    elif isinstance(duration, timedelta):
+        dt_timedelta = dt.timedelta(seconds=duration)
+    elif isinstance(duration, dt.timedelta):
         dt_timedelta = duration
     else:
         raise TypeError(
@@ -824,10 +830,10 @@ def _seconds_or_timedelta(duration):
     return dt_timedelta
 
 
-def _translate(dt, target_locale):
+def _translate(dtime, target_locale):
     en = default_loader.get_locale("en")
     target = default_loader.get_locale(target_locale)
-    naturaldate = humanize.naturaldate(dt)
+    naturaldate = humanize.naturaldate(dtime)
 
     base = en.translate(naturaldate, settings=dateparser.conf.settings)
 

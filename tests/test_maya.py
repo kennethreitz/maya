@@ -475,3 +475,36 @@ def test_snaptime_tz(when_str, snap_str, timezone, expected_when):
     dt = dt.snap_tz(snap_str, timezone)
     # then
     assert dt == maya.when(expected_when)
+
+
+def test_dt_keyword_and_positional_public_signatures():
+    naive_dt = Datetime(2026, 11, 15, 14, 30, 0)
+    aware_dt = pytz.timezone("Europe/Paris").localize(naive_dt)
+    midnight_dt = Datetime(2026, 11, 15, 0, 0, 0)
+
+    # MayaDT.from_datetime(dt=...)
+    assert maya.MayaDT.from_datetime(naive_dt) == maya.MayaDT.from_datetime(dt=naive_dt)
+    assert maya.MayaDT.from_datetime(dt=aware_dt).epoch == maya.MayaDT.from_datetime(aware_dt).epoch
+
+    # to_utc_offset_naive / to_utc_offset_aware / to_iso8601
+    assert maya.to_utc_offset_naive(aware_dt) == maya.to_utc_offset_naive(dt=aware_dt)
+    assert maya.to_utc_offset_naive(dt=naive_dt) == naive_dt
+    assert maya.to_utc_offset_aware(naive_dt) == maya.to_utc_offset_aware(dt=naive_dt)
+    assert maya.to_utc_offset_aware(dt=aware_dt) == aware_dt
+    assert maya.to_iso8601(aware_dt) == maya.to_iso8601(dt=aware_dt)
+
+    # end_of_day_midnight positional + keyword (at midnight and non-midnight)
+    assert maya.end_of_day_midnight(midnight_dt) == midnight_dt
+    assert maya.end_of_day_midnight(dt=midnight_dt) == midnight_dt
+    expected_next_day = Datetime(2026, 11, 16, 0, 0, 0)
+    assert maya.end_of_day_midnight(naive_dt) == expected_next_day
+    assert maya.end_of_day_midnight(dt=naive_dt) == expected_next_day
+
+    # MayaInterval.contains_dt(dt=...)
+    start = maya.MayaDT.from_datetime(Datetime(2026, 11, 15, 10, 0, 0))
+    end = maya.MayaDT.from_datetime(Datetime(2026, 11, 15, 18, 0, 0))
+    inside = maya.MayaDT.from_datetime(dt=naive_dt)
+    interval = maya.MayaInterval(start=start, end=end)
+    assert interval.contains_dt(inside) is True
+    assert interval.contains_dt(dt=inside) is True
+    assert interval.contains_dt(dt=end) is False
