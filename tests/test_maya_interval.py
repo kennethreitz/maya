@@ -523,6 +523,21 @@ def test_interval_from_iso8601_duration():
 
 
 @pytest.mark.parametrize(
+    "duration,expected_end",
+    [
+        ("P1Y", "2019-03-18T14:27:18Z"),
+        ("P2M", "2018-05-18T14:27:18Z"),
+        ("P1Y2M", "2019-05-18T14:27:18Z"),
+        ("P1YT2H", "2019-03-18T16:27:18Z"),
+    ],
+)
+def test_interval_from_iso8601_duration_without_days(duration, expected_end):
+    interval = maya.MayaInterval.from_iso8601("2018-03-18T14:27:18Z/" + duration)
+
+    assert interval.end == maya.when(expected_end)
+
+
+@pytest.mark.parametrize(
     "start_string,end_string,interval,expected_count",
     [
         ("2019-01-03 11:40:00Z", "2019-01-03 11:40:20Z", 2, 10),
