@@ -498,7 +498,7 @@ class MayaInterval(object):
     @classmethod
     def parse_iso8601_duration(cls, duration, start=None, end=None):
         match = re.match(
-            r"(?:P(?P<weeks>\d+)W)|(?:P(?:(?:(?P<years>\d+)Y)?(?:(?P<months>\d+)M)?(?:(?P<days>\d+)D))?(?:T(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?)?)",  # noqa
+            r"(?:P(?P<weeks>\d+)W)|(?:P(?:(?P<years>\d+)Y)?(?:(?P<months>\d+)M)?(?:(?P<days>\d+)D)?(?:T(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?)?)",  # noqa
             duration,
         )
 
